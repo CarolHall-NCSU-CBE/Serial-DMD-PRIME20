@@ -26,7 +26,9 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
 1. Specify the peptides for the simulations. If the simulation system is homogeneous, parameters **pep1** and **pep2** are the same. 
 2. Specify the number of beads within a peptide (**nb1** and **nb2**). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
 3. Specify the number of beads in a peptide without glycines (**numbeads1** and **numbead2**). As glycine does not have a sidechain, 
+
 	$$ numbeads1 = {nb1 - {number\ of\ glycines\ in\ that\ peptide}} $$
+	
 Numbeads2 is found as similar.	
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
