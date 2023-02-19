@@ -25,7 +25,7 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
  ![Temp Doc/images/initial_allinone.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/45eb102c71d57b322d413f7297eed412a19df235/Temp%20Doc/images/initial_allinone.png)
 1. Specify the peptides for the simulations. If the simulation system is homogeneous, parameters **pep1** and **pep2** are the same. 
 2. Specify the number of beads within a peptide (**nb1** and **nb2**). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
-3. Specify the number of beads in a peptide without glycines (**numbeads1** and **numbead2**). As glycine does not have a sidechain, $$ {**numbeads1** = **nb1** - number\ of\ glycines\ in\ that\ peptide} $$ . Numbeads2 is found as similar.	
+3. Specify the number of beads in a peptide without glycines (**numbeads1** and **numbead2**). As glycine does not have a sidechain, $$ {numbeads1 = nb1 - {number\ of\ glycines\ in\ that\ peptide}} $$ . Numbeads2 is found as similar.	
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
 6. Specified the length of the simulation box in Angstrom (boxlength)
