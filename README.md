@@ -12,43 +12,43 @@ The package has been developed since 2001 using Fortran90
 The package doesn't require installation on your devide but the whole package must be copied over to a new directory to start a new simulation.
 ## Running simulation
 All files that are required for DMD/PRIME20 simulation are acccesible from the directory **submissionfiles**. The files include:
-	Inputfile.f90
-	Submissionscript.sh
+1. *Inputfile.f90*
+2. *Submissionscript.sh*
 ### I.	Generating initial configuration
 DMD simulation using PRIME20 starts with building initial configuration. The current version is effective for system of less than 31-residue peptides. It is recommended that concentration and number of peptide chains are reduced for longer peptides to avoid overlap due to overcrowded. User should check output file for overlapping error and reduce system size (number of peptides or concentration) if error is reported.
 The inputfile.f90 contains all the parameters that are required for a simulation. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides. 
  ![Temp Doc/images/initial_allinone.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/45eb102c71d57b322d413f7297eed412a19df235/Temp%20Doc/images/initial_allinone.png)
-	Specified the peptides for the simulations. If the simulation system is homogeneous, parameters pep1 and pep2 are the same. 
-	Specified the number of beads within a peptide (nb1 and nb2). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
-	Specified the number of beads in a peptide without glycines (numbeads1 and numbead2). As glycine does not have a sidechain, numbeads1 is equal to nb1 minus the number of glycines in that peptide. Numbeads2 is found as similar.
-	Specified chain length (chnln1 and chnln2)
-	Specified how many peptide chains for each peptide (nc and nc2) 
-	Specified the length of the simulation box in Angstrom (boxlength)
+1. Specified the peptides for the simulations. If the simulation system is homogeneous, parameters pep1 and pep2 are the same. 
+2. Specified the number of beads within a peptide (nb1 and nb2). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
+3. Specified the number of beads in a peptide without glycines (numbeads1 and numbead2). As glycine does not have a sidechain, numbeads1 is equal to nb1 minus the number of glycines in that peptide. Numbeads2 is found as similar.
+4. Specified chain length (chnln1 and chnln2)
+5. Specified how many peptide chains for each peptide (nc and nc2) 
+6. Specified the length of the simulation box in Angstrom (boxlength)
 boxlength=((Total number of peptide chains*1000)/(Avogadro^' s number*Concentration))^(1/3)*10^9
 where: Concentration is in mM
 
-	Specified simulation temperature in Kelvin (simtemp)
-	The two parameters dadjust1 and dadjust2 are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase dadjust1 and dadjust2. An example of the error is as follow.
- 
+7. Specified simulation temperature in Kelvin (simtemp)
+8. The two parameters dadjust1 and dadjust2 are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase dadjust1 and dadjust2. An example of the error is as follow.
+ !https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/ace39b9324962999c9f1ee448907000c8d65d9e1/Temp%20Doc/images/Error.png
 Results of the initial configuration generation step are recorded in different sub_directories
 •	Within genconfig directory:
-o	Compiled file
-o	Output file
-o	chninfo-n1.data
-o	chninfo-n2.data
+	-Compiled file
+	-Output file
+	-chninfo-n1.data
+	-chninfo-n2.data
 Notes: these files need to be deleted before the new system is generated if the entire package is copied over.
 •	Within the sub_directory results:
-o	run0000.lastvel
-o	run0000.energy
-o	run0000.config
-o	run0000.bptnr
+	-run0000.lastvel
+	-run0000.energy
+	-run0000.config
+	-run0000.bptnr
 Notes: These files contain initial configurations and velocities
 •	Within the sub_directory parameters:
-o	identity.inp
-o	hp1.inp
-o	hp2.inp
-o	firstside1.data
-o	firstside2.data
+	-identity.inp
+	-hp1.inp
+	-hp2.inp
+	-firstside1.data
+	-firstside2.data
 Notes: These files contain identity of peptides in the system
 •	the sub_directory check: All files in here are for the users to check configuration, velocities, mass and energy of the initial system.
 
