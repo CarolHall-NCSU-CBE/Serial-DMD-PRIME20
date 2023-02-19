@@ -24,7 +24,7 @@ The inputfile.f90 contains all the parameters that are required for a simulation
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
 6. Specified the length of the simulation box in Angstrom (boxlength)
-boxlength=((Total number of peptide chains*1000)/(Avogadro^' s number*Concentration))^(1/3)*10^9
+$boxlength=((Total number of peptide chains*1000)/(Avogadro^' s number*Concentration))^(1/3)*10^9$
 where: Concentration is in mM
 
 7. Specified simulation temperature in Kelvin (simtemp)
@@ -58,16 +58,20 @@ Notes: These files contain identity of peptides in the system
 ### II. Submit a job:
 To start the simulation, submit the bash script submissionscript.sh using the following command
 	**nonhup ./submissionscript.sh &**
+
 Note: before submit the script, make sure that the script is executable **chmod +x submissionscript.sh**
+
 An example of submissionscipt.sh is as follow. The script is written for linux system.
 
 ![Temp Doc/images/submissionscript.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/5eaa761bcdac4380ae3ee64845596951d801e78b/Temp%20Doc/images/submissionscript.png)
 
-At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. This highlighted section in the below image should not be changed for any simulation.
- 
+At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. This first loop in the script which is shown in the below image should not be changed for any simulation. 
+
+![Temp Doc/images/annealing.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/8ebe9e46a5c20129c74ce8ccb5cc311bd75873a2/Temp%20Doc/images/annealing.png)
+
 The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended. When extend simulation time, resubmit the script with all part of the script commneted out, except the last loop in the script.
 
-
+![Temp Doc/images/simulationloop.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/0b52f15932624b4a49c927d5baba649b843e7876/Temp%20Doc/images/simulationloop.png)
 
 ### III. Results:
 All results are saved in the results directory and can be read for data analysis:
