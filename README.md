@@ -57,10 +57,12 @@ Notes: These files contain identity of peptides in the system
 
 ### II. Submit a job:
 To start the simulation, submit the bash script submissionscript.sh using the following command
-	nonhup ./submissionscript.sh &
-Note: before submit the script, make sure that the script is executable chmod +x submissionscript.sh\
+	**nonhup ./submissionscript.sh &**
+Note: before submit the script, make sure that the script is executable **chmod +x submissionscript.sh**
 An example of submissionscipt.sh is as follow. The script is written for linux system.
- 
+
+![Temp Doc/images/submissionscript.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/5eaa761bcdac4380ae3ee64845596951d801e78b/Temp%20Doc/images/submissionscript.png)
+
 At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. This highlighted section in the below image should not be changed for any simulation.
  
 The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended. When extend simulation time, resubmit the script with all part of the script commneted out, except the last loop in the script.
