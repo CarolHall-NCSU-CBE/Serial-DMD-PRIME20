@@ -3,7 +3,7 @@
 * [Introduction](#introduction)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Running Simulation] (#Running-imulation)
+* [Running Simulation] (#Running-Simulation)
 ## Introduction
 PRIME20 is a coarse-grained (CG) implicit-solvent intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model was designed to be used with discontinous molecular dynamics simulations. PRIME20 contains geometric and energetic parameters that describe the sidechain-sidechain interactions of all 20 natural amino acids. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments, tau protein fragments, Aβ16-22 peptides, and  Aβ17-42 peptides.
 ## Technologies
