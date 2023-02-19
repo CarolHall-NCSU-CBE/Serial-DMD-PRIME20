@@ -33,26 +33,26 @@ where: Concentration is in mM
  ![Temp Doc/images/Error.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/ace39b9324962999c9f1ee448907000c8d65d9e1/Temp%20Doc/images/Error.png)
  
 Results of the initial configuration generation step are recorded in different sub_directories
-•	Within genconfig directory:
-	-Compiled file
-	-Output file
-	-chninfo-n1.data
-	-chninfo-n2.data
+- Within genconfig directory:
+	- Compiled file
+	- Output file
+	- chninfo-n1.data
+	- chninfo-n2.data
 Notes: these files need to be deleted before the new system is generated if the entire package is copied over.
-•	Within the sub_directory results:
-	-run0000.lastvel
-	-run0000.energy
-	-run0000.config
-	-run0000.bptnr
+- Within the sub_directory results:
+	- run0000.lastvel
+	- run0000.energy
+	- run0000.config
+	- run0000.bptnr
 Notes: These files contain initial configurations and velocities
-•	Within the sub_directory parameters:
-	-identity.inp
-	-hp1.inp
-	-hp2.inp
-	-firstside1.data
-	-firstside2.data
+- Within the sub_directory parameters:
+	- identity.inp
+	- hp1.inp
+	- hp2.inp
+	- firstside1.data
+	- firstside2.data
 Notes: These files contain identity of peptides in the system
-•	the sub_directory check: All files in here are for the users to check configuration, velocities, mass and energy of the initial system.
+- the sub_directory check: All files in here are for the users to check configuration, velocities, mass and energy of the initial system.
 
 
 ### II. Submit a job:
