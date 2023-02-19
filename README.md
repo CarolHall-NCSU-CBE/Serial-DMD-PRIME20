@@ -17,6 +17,7 @@ All files that are required for DMD/PRIME20 simulation are acccesible from the d
 ### I.	Generating initial configuration
 DMD simulation using PRIME20 starts with building initial configuration. The current version is effective for system of less than 31-residue peptides. It is recommended that concentration and number of peptide chains are reduced for longer peptides to avoid overlap due to overcrowded. User should check output file for overlapping error and reduce system size (number of peptides or concentration) if error is reported.
 The inputfile.f90 contains all the parameters that are required for a simulation. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides. 
+
  ![Temp Doc/images/initial_allinone.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/45eb102c71d57b322d413f7297eed412a19df235/Temp%20Doc/images/initial_allinone.png)
 1. Specified the peptides for the simulations. If the simulation system is homogeneous, parameters pep1 and pep2 are the same. 
 2. Specified the number of beads within a peptide (nb1 and nb2). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
@@ -24,7 +25,7 @@ The inputfile.f90 contains all the parameters that are required for a simulation
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
 6. Specified the length of the simulation box in Angstrom (boxlength)
-$boxlength=((Total number of peptide chains*1000)/(Avogadro^' s number*Concentration))^(1/3)*10^9$
+$\boxlength=((Total number of peptide chains*1000)/(Avogadro^' s number*Concentration))^(1/3)*10^9$
 where: Concentration is in mM
 
 7. Specified simulation temperature in Kelvin (simtemp)
