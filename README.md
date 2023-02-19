@@ -29,7 +29,7 @@ where: Concentration is in mM
 
 7. Specified simulation temperature in Kelvin (simtemp)
 8. The two parameters dadjust1 and dadjust2 are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase dadjust1 and dadjust2. An example of the error is as follow.
- !https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/ace39b9324962999c9f1ee448907000c8d65d9e1/Temp%20Doc/images/Error.png
+ ![Temp Doc/images/Error.png]
 Results of the initial configuration generation step are recorded in different sub_directories
 •	Within genconfig directory:
 	-Compiled file
