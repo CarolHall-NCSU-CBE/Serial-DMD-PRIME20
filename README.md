@@ -27,9 +27,9 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
 2. Specify the number of beads within a peptide (**nb1** and **nb2**). As PRIME20 is a 4 beads coarse-grained model, the number of beads is equal to the chain length multiplied by 4.
 3. Specify the number of beads in a peptide without glycines (**numbeads1** and **numbead2**). As glycine does not have a sidechain, 
 
-	$$ numbeads1 = {nb1 - {number\ of\ glycines\ in\ that\ peptide}} $$
+	$$ **numbeads1** = {**nb1** - {number\ of\ glycines\ in\ that\ peptide}} $$
 	
-	Numbeads2 is found as similar.	
+	$$**Numbeads2** = {**nb2** - {number\ of\ glycines\ in\ that\ peptide}} $$	
 
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
@@ -37,7 +37,7 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
 
 $$ boxlength = \left\lbrack{\\frac{{Total\ number\ of\ peptide\ chains} * {1000}}{{Avogadro's\ number} * {Concentration}} }\right\rbrack^{1/3} * 10^9 $$
 
-where: Concentration is in mM
+	where: Concentration is in mM
 
 7. Specified simulation temperature in Kelvin (simtemp)
 8. The two parameters dadjust1 and dadjust2 are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase dadjust1 and dadjust2. An example of the error is as follow.
