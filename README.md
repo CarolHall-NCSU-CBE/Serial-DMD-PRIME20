@@ -29,7 +29,7 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
 
 	$$ numbeads1 = {nb1 - {number\ of\ glycines\ in\ that\ peptide}} $$
 	
-Numbeads2 is found as similar.	
+	Numbeads2 is found as similar.	
 
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
