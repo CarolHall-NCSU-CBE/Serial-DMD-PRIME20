@@ -25,7 +25,9 @@ The inputfile.f90 contains all the parameters that are required for a simulation
 4. Specified chain length (chnln1 and chnln2)
 5. Specified how many peptide chains for each peptide (nc and nc2) 
 6. Specified the length of the simulation box in Angstrom (boxlength)
+
 $$ boxlength = {\\frac{Total number of peptide chains*1000}{Avogadro^'s number*Concentration} }$$
+
 where: Concentration is in mM
 
 7. Specified simulation temperature in Kelvin (simtemp)
