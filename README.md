@@ -35,7 +35,7 @@ Numbeads2 is found as similar.
 5. Specified how many peptide chains for each peptide (nc and nc2) 
 6. Specified the length of the simulation box in Angstrom (boxlength)
 
-	$$ boxlength = \left\lbrack{\\frac{{Total\ number\ of\ peptide\ chains} * {1000}}{{Avogadro's\ number} * {Concentration}} }\right\rbrack^{1/3} * 10^9 $$
+$$ boxlength = \left\lbrack{\\frac{{Total\ number\ of\ peptide\ chains} * {1000}}{{Avogadro's\ number} * {Concentration}} }\right\rbrack^{1/3} * 10^9 $$
 
 where: Concentration is in mM
 
