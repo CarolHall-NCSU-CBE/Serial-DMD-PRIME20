@@ -67,6 +67,7 @@ Notes: These files contain identity of peptides in the system
 
 ### II. Submit a job:
 *The following submission steps are writen for submitting job in Linux system. The command **nohup** submit the job to run in the background and still run the simulations when the user logs out. If using different system, the user will need to modify the script and use different submission command corresponding to their system.* 
+
 To start the simulation, submit the bash script submissionscript.sh using the following command
 	**nohup ./submissionscript.sh &**
 
