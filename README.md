@@ -29,18 +29,18 @@ The file *inputfile.f90* contains all the parameters that are required for a sim
 
 	$$ **numbeads1** = {**nb1** - {number\ of\ glycines\ in\ that\ peptide}} $$
 	
-	$$**Numbeads2** = {**nb2** - {number\ of\ glycines\ in\ that\ peptide}} $$	
+	$$ **numbeads2** = {**nb2** - {number\ of\ glycines\ in\ that\ peptide}} $$	
 
-4. Specified chain length (chnln1 and chnln2)
-5. Specified how many peptide chains for each peptide (nc and nc2) 
-6. Specified the length of the simulation box in Angstrom (boxlength)
+4. Specify chain length (**chnln1** and **chnln2**)
+5. Specify numbers of peptide chains for each peptide (**nc** and **nc2**) 
+6. Specify the length of the simulation box in Angstrom (**boxlength**)
 
 $$ boxlength = \left\lbrack{\\frac{{Total\ number\ of\ peptide\ chains} * {1000}}{{Avogadro's\ number} * {Concentration}} }\right\rbrack^{1/3} * 10^9 $$
 
 	where: Concentration is in mM
 
-7. Specified simulation temperature in Kelvin (simtemp)
-8. The two parameters dadjust1 and dadjust2 are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase dadjust1 and dadjust2. An example of the error is as follow.
+7. Specify simulation temperature in Kelvin (**simtemp**)
+8. The two parameters **dadjust1** and **dadjust2** are not recommended to be changed unless an error is returned and the simulation is terminated during the generating of initital configuration. If seeing error, slightly increase **dadjust1** and **dadjust2** by *0.5 at a time*. An example of the error is as follow.
 
  ![Temp Doc/images/Error.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/ace39b9324962999c9f1ee448907000c8d65d9e1/Temp%20Doc/images/Error.png)
  
@@ -50,7 +50,6 @@ Results of the initial configuration generation step are recorded in different s
 	- Output file
 	- chninfo-n1.data
 	- chninfo-n2.data
-Notes: these files need to be deleted before the new system is generated if the entire package is copied over.
 - Within the sub_directory results:
 	- run0000.lastvel
 	- run0000.energy
@@ -66,14 +65,16 @@ Notes: These files contain initial configurations and velocities
 Notes: These files contain identity of peptides in the system
 - the sub_directory check: All files in here are for the users to check configuration, velocities, mass and energy of the initial system.
 
-
 ### II. Submit a job:
+*The following submission steps are writen for submitting job in Linux system. The command **nohup** submit the job to run in the background and still run the simulations when the user logs out. If using different system, the user will need to modify the script and use different submission command corresponding to their system.* 
 To start the simulation, submit the bash script submissionscript.sh using the following command
-	**nonhup ./submissionscript.sh &**
+	**nohup ./submissionscript.sh &**
 
-Note: before submit the script, make sure that the script is executable **chmod +x submissionscript.sh**
+Note: before submit the script, make sure that 
+1. Old file nohup.out is deleted
+2. The script is executable by using the command **chmod +x submissionscript.sh**
 
-An example of submissionscipt.sh is as follow. The script is written for linux system.
+An example of submissionscipt.sh is as follow. The script is written for Linux system.
 
 ![Temp Doc/images/submissionscript.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/5eaa761bcdac4380ae3ee64845596951d801e78b/Temp%20Doc/images/submissionscript.png)
 
