@@ -1,26 +1,36 @@
 # PRIME20 - Coarsed-grained force field with discontinuous molecular dynamics simulations for peptide self-assembly modelling 
 ## Table of contents
 * [Introduction](#introduction)
-* [Technologies](#technologies)
+* [Requirement](#requirement)
 * [Setup](#setup)
 * [Running Simulation](#running-simulation)
+* [Developing Status](#developing-status)
 ## Introduction
 PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model was designed to be used with discontinuous molecular dynamics simulations (DMD) to investigate self-assembly of short peptides from their random denatured states. PRIME20 contains geometric and energetic parameters that describe the sidechain-sidechain interactions of all 20 natural amino acids. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/RPIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments, tau protein fragments, Aβ16-22 peptides, and  Aβ17-42 peptides.
 
-## Technologies
-The package has been developed since 2001 using Fortran90
+## Requirement
+- The package has been developed since 2001 using Fortran90
+- Fortran Intel compiler ifort is required.
+- Submission script is writen for Linux and will require modification if running on different system.
 
 ## Setup
-The package doesn't require installation on your devide but the whole package must be copied over to a new directory to start a new simulation.
+- For every new simulation, the whole package must be downloaded, cloned, or copied over to the local machine where the simulation is run.
 
 ## Running simulation
-All files that are required for DMD/PRIME20 simulation are acccesible from the directory **submissionfiles**. The files include:
+Notes: Currently, the user need to access the source codes to specify parameters for simulation as well as to analyse data. Newer version will be soon updated. 
+- For current version, all files that are required for DMD/PRIME20 simulation are acccesible from the directory **submissionfiles**. The files include:
 1. *Inputfile.f90*
 2. *Submissionscript.sh*
+- All results are saved in the results directory and can be read for data analysis:
+1. *.config: collision, time, particle coordinates
+2. *.lastvel: collision, velocities 
+3. *.bptnr: collision, bond partner of each particle
+4. *.energy: collision, time, kinetic energy, total energy, etc.
+5. *.pdb
 
 ### I.	Generating initial configuration
 DMD simulation using PRIME20 starts with building initial configuration. The current version is effective for system of no more than 31-residue peptides. It is recommended that concentration and number of peptide chains are reduced for longer peptides to avoid overlap due to overcrowded. User should check output file for overlapping error and reduce system size (number of peptides or concentration) if error is reported.
-The file *inputfile.f90* contains all the parameters that are required for a simulation. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides. The following image shows *inputfile.f90* file.
+The file *inputfile.f90* contains all the parameters that are required for a simulation. Users must enter all required input parameters corresponding to the system they want to simulate. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides. The following image shows *inputfile.f90* file.
 
  ![Temp Doc/images/initial_allinone.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/45eb102c71d57b322d413f7297eed412a19df235/Temp%20Doc/images/initial_allinone.png)
 1. Specify the peptides for the simulations. If the simulation system is homogeneous, parameters **pep1** and **pep2** are the same. 
@@ -87,11 +97,5 @@ The numbers of collisions are defined by users. Larger system will need longer s
 
 ![Temp Doc/images/simulationloop.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/0b52f15932624b4a49c927d5baba649b843e7876/Temp%20Doc/images/simulationloop.png)
 
-### III. Results:
-All results are saved in the results directory and can be read for data analysis:
-	*.config: collision, time, particle coordinates
-	*.lastvel: collision, velocities 
-	*.bptnr: collision, bond partner of each particle
-	*.energy: collision, time, kinetic energy, total energy, etc.
-	*.pdb
-
+## Developing Status
+The software is being developed and updated.  
