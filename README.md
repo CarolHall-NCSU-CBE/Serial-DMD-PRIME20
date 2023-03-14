@@ -48,6 +48,10 @@ Users must specify all required input parameters below corresponding to the syst
 5. **nc** and **nc2**: number of peptide chains for each peptide. If the system is homogeneous, it's recommended that nc = nc2 = total peptide chains divides by 2.
 6. **boxlength**: length of the simulation box in Angstrom
 
+
+```
+code
+```
 $$ boxlength = \left\lbrack{\\frac{{Total\ number\ of\ peptide\ chains} * {1000}}{{Avogadro's\ number} * {Concentration}} }\right\rbrack^{1/3} * 10^9 $$
 
 	where: Concentration is in mM
