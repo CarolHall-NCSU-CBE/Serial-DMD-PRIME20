@@ -567,9 +567,9 @@ subroutine genconfig
 	  
 	!this makes a pdb to show the structure of one of each species
       !open(7,file='checks/configone2.pdb')
-      write(checkcf1,*) numbeads2
+      write(checkcf2,*) numbeads2
       do i=1,numbeads2
-       write(checkcf1,'(a6,i5,a3,1x,15x,3f8.3)') 'atom  ',i,'n', new_rx2(i), new_ry2(i), new_rz2(i)
+       write(checkcf2,'(a6,i5,a3,1x,15x,3f8.3)') 'atom  ',i,'n', new_rx2(i), new_ry2(i), new_rz2(i)
       enddo
       !close(7)
 
