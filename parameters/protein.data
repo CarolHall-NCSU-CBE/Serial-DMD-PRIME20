@@ -1,0 +1,12 @@
+3.3000000000000000	! nitrogen bead diameter       
+3.7000000000000000  ! alpha carbon bead diameter
+2.7080000000000000	! side chain bead diameter
+4.0000000000000000  ! carbonyl carbon bead diameter
+4.5000000000000000  ! NH well diameter
+0.0000000000000000  ! alpha carbon well diameter
+0.0000000000000000  ! R well diameter  
+4.5000000000000000  ! CO well diameter
+12.000000000000000  ! NH well depth
+0.0000000000000000  ! alpha carbon well depth
+1.2000000000000000	! R well depth
+12.000000000000000  ! CO well depth
