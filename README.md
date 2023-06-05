@@ -1,20 +1,19 @@
 # PRIME20 - Coarsed-grained force field with discontinuous molecular dynamics simulations for peptide self-assembly modelling 
 ## Table of contents
 * [Introduction](#introduction)
-* [Requirement](#requirement)
-* [Setup](#setup)
+* [Requirement and Installation](#requirement-and-installation)
+* [Getting Started](#getting-started)
 * [Running Simulation](#running-simulation)
 * [Developing Status](#developing-status)
 ## Introduction
 PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model was designed to be used with discontinuous molecular dynamics simulations (DMD) to investigate self-assembly of short peptides from their random denatured states. PRIME20 contains geometric and energetic parameters that describe the sidechain-sidechain interactions of all 20 natural amino acids. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/RPIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments, tau protein fragments, Aβ16-22 peptides, and  Aβ17-42 peptides.
 
-## Requirement
+## Requirement and Installation
 - The package has been developed since 2001 using Fortran90
 - Fortran Intel compiler ifort is required.
-- Submission script is writen for Linux and will require modification if running on different system.
 
-## Setup
-- For every new simulation, the whole package must be downloaded, cloned, or copied over to the local machine where the simulation is run.
+## Getting Started
+- 
 
 ## Running simulation
 Notes: Currently, the user need to access the source codes to specify parameters for simulation as well as to analyse data. Newer version will be soon updated. 
