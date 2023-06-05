@@ -13,7 +13,7 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 - Fortran Intel compiler ifort is required.
 
 ## Getting Started
-- 
+- The source codes are mainly in `/src/`. To compile, got to `/src/` directoy on your local device and hit `make` 
 
 ## Running simulation
 Notes: Currently, the user need to access the source codes to specify parameters for simulation as well as to analyse data. Newer version will be soon updated. 
