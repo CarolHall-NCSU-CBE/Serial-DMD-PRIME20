@@ -10,16 +10,14 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 
 ## Requirement and Installation
 - The package has been developed since 2001 using Fortran90
-- Fortran Intel compiler ifort is required.
-
-## Getting Started
+- Fortran Intel compiler `ifort` is required.
 - The source codes are mainly in `/src/`. To compile, got to `/src/` directoy on your local device and hit `make` 
 
+## Getting Started
+
+
 ## Running simulation
-Notes: Currently, the user need to access the source codes to specify parameters for simulation as well as to analyse data. Newer version will be soon updated. 
-- For current version, all files that are required for DMD/PRIME20 simulation are acccesible from the directory **submissionfiles**. The files include:
-1. *Inputfile.f90*
-2. *Submissionscript.sh*
+
 - All results are saved in the results directory and can be read for data analysis:
 1. *.config: collision, time, particle coordinates
 2. *.lastvel: collision, velocities 
