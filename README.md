@@ -20,7 +20,7 @@ Requirements to start a simulation including:
 
 >Note: If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
 >
->	sidechainmove = *value that is larger than 3.0*
+>	*sidechainmove* = value that is larger than 3.0
 >	
 >It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 - 5 directories for data recording must be created before submitting a job. The names of these directories must be exact.
@@ -40,24 +40,14 @@ Requirements to start a simulation including:
 DMD simulation using PRIME20 starts with building initial configuration. The current version is effective for system of no more than 31-residue peptides. It is recommended that concentration and number of peptide chains are reduced for longer peptides to avoid overlap due to overcrowded. User should check output file for overlapping error and reduce system size (number of peptides or concentration) if error is reported. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides.
 
 ### II. Submit a job:
-*The following submission steps are writen for submitting job in Linux system. The command **nohup** submit the job to run in the background and still run the simulations when the user logs out. If using different system, the user will need to modify the script and use different submission command corresponding to their system.* 
-
 Steps to submit a simulation is as follow:
-1. Delete **nohup.out** file before the simulation to prevent new simulation output from appending to old nohup.out file.
-2. Make the submission script excecutable: **chmod +x submissionscript.sh**
-3. Submit job: **nohup ./submissionscript.sh &**
+1. Create an input.txt file following the example
+2. Create 5 subfolders at listed above
+3. Submit job `path_to_executable_file/executable_file`
 
-An example of submissionscipt.sh is as follow.
+An example of submissionscipt.sh is in the example folder.
 
-![Temp Doc/images/submissionscript.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/5eaa761bcdac4380ae3ee64845596951d801e78b/Temp%20Doc/images/submissionscript.png)
-
-At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. This first loop in the script which is shown in the below image should not be changed for any simulation. 
-
-![Temp Doc/images/annealing.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/8ebe9e46a5c20129c74ce8ccb5cc311bd75873a2/Temp%20Doc/images/annealing.png)
-
-The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended. When extend simulation time, resubmit the script with all part of the script commneted out, except the last loop in the script.
-
-![Temp Doc/images/simulationloop.png](https://github.com/CarolHall-NCSU-CBE/Serial-DMD-PRIME20/blob/0b52f15932624b4a49c927d5baba649b843e7876/Temp%20Doc/images/simulationloop.png)
+At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended.
 
 ## Developing Status
-The software is being developed and updated.  
+The software is being developed and updated. An result analysis package is being developed. 
