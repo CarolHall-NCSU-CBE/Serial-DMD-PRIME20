@@ -11,7 +11,8 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 ## Requirement and Installation
 - The package has been developed since 2001 using Fortran90
 - Fortran Intel compiler `ifort` is required.
-- The source codes are mainly in `/src/`. To compile, got to `/src/` directoy on your local device and hit `make` 
+- The installation is through the terminal.
+- The source codes are mainly in `/src/`. To compile, go to `/src/` directoy on your local device and hit `make` 
 
 ## Getting Started
 **/example/**: this directory contains an example for a simulation using DMD/PRIME20.
