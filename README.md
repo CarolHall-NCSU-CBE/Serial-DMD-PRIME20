@@ -27,7 +27,7 @@ Requirements to start a simulation including:
 - 5 directories for data recording must be created before submitting a job. The names of these directories must be exact.
 	- `/checks/`: files for checking if the initial configuration is created correctly
 	- `/inputs/`: files to record residue id and positions for each peptide sequence  
-	- `/outpus/`: output files for each simulation round
+	- `/outputs/`: output files for each simulation round
 	- `/parameters/`: sidechain parameters generated from the inital configuration step that are required for simulation steps
 	- `/results/`:  simulation results for data analysis
 		1. *.bptnr: collision, bond partner of each particle
