@@ -19,10 +19,10 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 Requirements to start a simulation including:
 - **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 
->Note: If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
->
->	*sidechainmove* = value that is larger than 3.0
->	
+>Note 1: The current version only allows annealing simulation with a fixed set of temperatures. Please do not change the value of 'annealing'. Upcoming version will allow user to define annealing temperatures and time to run annealing simulation.
+
+>Note 2: If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
+>	*sidechainmove* = value that is larger than 3.0	
 >It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 - 5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
 	- `/checks/`: files for checking if the initial configuration is created correctly
@@ -41,14 +41,18 @@ Requirements to start a simulation including:
 DMD simulation using PRIME20 starts with building initial configuration. The current version is effective for system of no more than 31-residue peptides. It is recommended that concentration and number of peptide chains are reduced for longer peptides to avoid overlap due to overcrowding. User should check output file for overlapping error and reduce system size (number of peptides or concentration) if error is reported. PRIME20 allows simulations of a homogenous system or a heterogeneous system of two different peptides.
 
 ### Submit a job:
-Steps to submit a simulation is as follow:
-1. Create an input.txt file following the example
-2. Create 5 subfolders at listed above
-3. Submit job `path_to_executable_file/executable_file`
-
-An example of submissionscipt.sh is in the example folder.
+Steps to submit a simulation is as follow. These steps are after the package is succesfully installed on your device and *the path to executable file is obtained*.
+1. Make a directory to run simulation
+2. In this directory, make an 'input.txt' file following the example. You can copy over this file and change the parameters correspoding to your system.
+3. In this directory, make 5 empty subdirectories at listed above if running a new simulation, or copy over these subdirectories with all data in them for a continuing simulation. 
+4. Submit job. It is not recommended to run DMD/PRIME20 on terminal as a job can take days to finish. A simple bash script (.sh) to submit job is attached in '/example/'. The format is as follow. The bold line will need to be changed to the path to your executable file 'DMDPRIME20'. 
+> #!/bin/bash
+> /**path_to_executive_file_DMDPRIME20**/DMDPRIME20
+For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
+> #!/bin/bash
+> **/home/user/Serial-DMD-PRIME20/src/**/DMDPRIME20
 
 At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended.
 
 ## Developing Status
-The software is being developed and updated. An result analysis package is being developed. 
+The software is being developed and updated. An result analysis package is being developed.
