@@ -47,10 +47,12 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 3. In this directory, make 5 empty subdirectories at listed above if running a new simulation, or copy over these subdirectories with all data in them for a continuing simulation. 
 4. Submit job. It is not recommended to run DMD/PRIME20 on terminal as a job can take days to finish. A simple bash script (.sh) to submit job is attached in '/example/'. The format is as follow. The bold line will need to be changed to the path to your executable file 'DMDPRIME20'. 
 > #!/bin/bash
+> 
 > /**path_to_executive_file_DMDPRIME20**/DMDPRIME20
 
 For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
 > #!/bin/bash
+> 
 > **/home/user/Serial-DMD-PRIME20/src/**/DMDPRIME20
 
 At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended.
