@@ -48,6 +48,7 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 4. Submit job. It is not recommended to run DMD/PRIME20 on terminal as a job can take days to finish. A simple bash script (.sh) to submit job is attached in '/example/'. The format is as follow. The bold line will need to be changed to the path to your executable file 'DMDPRIME20'. 
 > #!/bin/bash
 > /**path_to_executive_file_DMDPRIME20**/DMDPRIME20
+
 For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
 > #!/bin/bash
 > **/home/user/Serial-DMD-PRIME20/src/**/DMDPRIME20
