@@ -14,14 +14,16 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 - The installation is through the terminal.
 - The source codes are in `/src/`. To compile, go to `/src/` directoy on your local device and hit `make` 
 
-## Getting Started
+## Getting Started   
 **/example/**: this directory contains an example of required file and subdirectories for a simulation using DMD/PRIME20.
 Requirements to start a simulation including:
 - **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 
->Note 1: The current version only allows annealing simulation with a fixed set of temperatures. Please do not change the value of 'annealing'. Upcoming version will allow user to define annealing temperatures and time to run annealing simulation.
+>**Note 1:** The current version can run simulations for system with 1 or 2 peptide sequences; each with maximum length of 30 residues. If system contains only 1 peptide sequence, then sequence 1 and 2 should be the same in the 'input.txt'
 
->Note 2: If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
+>**Note 2:** The current version only allows annealing simulation with a fixed set of temperatures. Please do not change the value of 'annealing'. Upcoming version will allow user to define annealing temperatures and time to run annealing simulation.
+
+>**Note 3:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
 >
 >	*sidechainmove* = value that is larger than 3.0	
 >	
