@@ -55,7 +55,7 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
 > #!/bin/bash
 > 
-> **/home/user/Serial-DMD-PRIME20/src/**DMDPRIME20
+> **/home/user/Serial-DMD-PRIME20/src**/DMDPRIME20
 
 At the beginning of DMD simulation, the system will be heated to a high temperature and then be slowly annealed to the desired temperature. This step is to make sure that all peptide chains are denatured and that the DMD simulation starts with all random coils. The numbers of collisions are defined by users. Larger system will need longer simulation times. It is recommended to start the simulation with no longer than 100 billion collisions. If the system has not aggregated after 100 billion collision, the simulations can be extended.
 
