@@ -22,7 +22,9 @@ Requirements to start a simulation including:
 >Note 1: The current version only allows annealing simulation with a fixed set of temperatures. Please do not change the value of 'annealing'. Upcoming version will allow user to define annealing temperatures and time to run annealing simulation.
 
 >Note 2: If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the end of **input.txt**: 
+>
 >	*sidechainmove* = value that is larger than 3.0	
+>	
 >It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 - 5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
 	- `/checks/`: files for checking if the initial configuration is created correctly
