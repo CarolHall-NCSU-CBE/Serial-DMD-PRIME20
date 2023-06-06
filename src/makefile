@@ -16,7 +16,7 @@ OPFLAGS = -Os -xAVX -no-prec-div -r8 -arch host -align dcommons -g -traceback -D
 ## Define executable file
 OPEXEC = DMDPRIME20
 all:
-	$(CC) $(CCFLAGS) $(CCEXEC) $(MODULE) $(SOURCE) 
+	$(CC) $(OPFLAGS) $(OPEXEC) $(MODULE) $(SOURCE) 
 clean:
 	rm -rf code/*.mod
 	rm -rf *.o
