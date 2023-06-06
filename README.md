@@ -44,15 +44,15 @@ DMD simulation using PRIME20 starts with building initial configuration. The cur
 
 ### Submit a job:
 Steps to submit a simulation is as follow. These steps are after the package is succesfully installed on your device and *the path to executable file is obtained*.
-1. Make a directory to run simulation
+1. Make a directory to run simulation or copy over the /'example/' directory, rename and then delete all files within subdirectories. If making new directory, follow the next steps. 
 2. In this directory, make an 'input.txt' file following the example. You can copy over this file and change the parameters correspoding to your system.
 3. In this directory, make 5 empty subdirectories at listed above if running a new simulation, or copy over these subdirectories with all data in them for a continuing simulation. 
-4. Submit job. It is not recommended to run DMD/PRIME20 on terminal as a job can take days to finish. A simple bash script (.sh) to submit job is attached in '/example/'. The format is as follow. The bold line will need to be changed to the path to your executable file 'DMDPRIME20'. 
+4. Submit job. It is not recommended to run DMD/PRIME20 on terminal as a job can take days to finish. A simple bash script (.sh) to submit job is attached in '/example/'. The format is as follow.  
 > #!/bin/bash
 > 
 > /**path_to_executive_file_DMDPRIME20**/DMDPRIME20
 
-For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
+The bold line will need to be changed to the path to your executable file 'DMDPRIME20'. For example: If you save the package to '/home/user/Serial-DMD-PRIME20' then the path to executable file will be '/home/user/Serial-DMD-PRIME20/src/'. Your submission script will be:
 > #!/bin/bash
 > 
 > **/home/user/Serial-DMD-PRIME20/src**/DMDPRIME20
