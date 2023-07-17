@@ -17,56 +17,38 @@ subroutine readinputs
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	pep1 = adjustl(readline((espos+1):len(readline)))
-	!write(fileout,*) 'Peptide sequence 1: ', pep1
+	write(6,'(2A)') 'Peptide sequence 1: ', pep1
 	
-	read(file_input,*) skipline	
-	read(file_input,'(A)') readline
-	espos = index(readline,'=')
-	shortline = adjustl(readline((espos+1):len(readline)))
-	read(shortline,*) chnln1
-	!write(fileout,'(A,i3)') 'Number of residues in peptide 1: ', chnln1
-
-	read(file_input,*) skipline	
-	read(file_input,'(A)') readline
-	espos = index(readline,'=')
-	shortline = adjustl(readline((espos+1):len(readline)))
-	read(shortline,*) numgly1
-	!write(fileout,'(A,i3)') 'Number of Glycines in peptide 1: ', numgly1
+	chnln1 = len(trim(pep1))
+	write(6,'(A,i3)') 'Number of residues in peptide 1: ', chnln1
+	
+	numgly1 = count(transfer(pep1,(/"x"/)).eq.'G')
+	write(6,'(A,i3)') 'Number of Glycines in peptide 1: ', numgly1
 
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	shortline = adjustl(readline((espos+1):len(readline)))
 	read(shortline,*) nc
-	!write(fileout,'(A,i3)') 'Number of peptide 1 chains in the system: ', nc	
+	write(6,'(A,i3)') 'Number of peptide 1 chains in the system: ', nc	
 
 !!!!!!!!!!!!!!!!!
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	pep2 = adjustl(readline((espos+1):len(readline)))
-	!write(fileout,*) 'Peptide sequence 2: ', pep2
-	
-	read(file_input,*) skipline	
-	read(file_input,'(A)') readline
-	espos = index(readline,'=')
-	shortline = adjustl(readline((espos+1):len(readline)))
-	read(shortline,*) chnln2
-	!write(fileout,'(A,i3)') 'Number of residues in peptide 2: ', chnln2
-
-	read(file_input,*) skipline	
-	read(file_input,'(A)') readline
-	espos = index(readline,'=')
-	shortline = adjustl(readline((espos+1):len(readline)))
-	read(shortline,*) numgly2
-	!write(fileout,'(A,i3)') 'Number of Glycines in peptide 2: ', numgly2
+	write(6,'(2A)') 'Peptide sequence 2: ', pep2
+	chnln2 = len(trim(pep2))
+	write(6,'(A,i3)') 'Number of residues in peptide 2: ', chnln2
+	numgly2 = count(transfer(pep2,(/"x"/)).eq.'G')
+	write(6,'(A,i3)') 'Number of Glycines in peptide 2: ', numgly2
 
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	shortline = adjustl(readline((espos+1):len(readline)))
 	read(shortline,*) nc2
-	!write(fileout,'(A,i3)') 'Number of peptide 2 chains in the system: ', nc2	
+	write(6,'(A,i3)') 'Number of peptide 2 chains in the system: ', nc2	
 
 !!!!!!!!!!!!!!!!
 	read(file_input,*) skipline	
@@ -74,23 +56,23 @@ subroutine readinputs
 	espos = index(readline,'=')
 	shortline = adjustl(readline((espos+1):len(readline)))
 	read(shortline,*) boxlength
-	!write(fileout,'(A,f7.1)') 'Box length in Angstrom: ', boxlength
+	write(6,'(A,f7.1)') 'Box length in Angstrom: ', boxlength
 	
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	shortline = adjustl(readline((espos+1):len(readline)))
 	read(shortline,*) simtemp
-	!write(fileout,'(A,f7.1)') 'Simulation temperature in Kelvin: ', simtemp
+	write(6,'(A,f7.1)') 'Simulation temperature in Kelvin: ', simtemp
 	simtemp = (simtemp+115.79)/2288.46 
-	!write(fileout,'(A,f7.3)') 'Simulation temperature in reduced unit: ', simtemp
+	write(6,'(A,f7.3)') 'Simulation temperature in reduced unit: ', simtemp
 
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
 	espos = index(readline,'=')
 	shortline = adjustl(readline((espos+1):len(readline)))
 	read(shortline,*) simcoll
-	!write(fileout,'(A,i17)') 'Result recording frequency in collisions: ', simcoll
+	write(6,'(A,i17)') 'Result recording frequency in collisions: ', simcoll
 	
 	read(file_input,*) skipline	
 	read(file_input,'(A)') readline
@@ -136,6 +118,7 @@ subroutine readinputs
 			read(shortline,*) d1d2d3
 			dadjust1=d1d2d3
 			dadjust2=d1d2d3
+			write(6,'(A,f7.4)') 'Giving sidechain more space to find the correct location:', d1d2d3
 			close(file_input)
 		elseif ((error .ne. 0) .or.(len(trim(readline)) ==0) ) then  
 			dadjust1=3.0

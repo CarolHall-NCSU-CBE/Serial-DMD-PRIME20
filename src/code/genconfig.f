@@ -129,7 +129,7 @@ subroutine genconfig
 		write(iden2inp,*) 4
 	enddo
 	do i = 3*peplength2+1, 4*peplength2
-		write(iden2inp,*) maxloc(scan(residue,pep1((i-3*peplength1):(i-3*peplength1))),1)
+		write(iden2inp,*) maxloc(scan(residue,pep2((i-3*peplength2):(i-3*peplength2))),1)
 	enddo
 
 !read in identities
