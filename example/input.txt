@@ -1,17 +1,17 @@
 Peptide sequence 1
-pep1=AEAAGKTKEGVLYVGSKTKEGVVHGVATVAE
+pep1=GVLYVGS
 Number of peptide 1 chains in the system
-chain1=12
+chain1=24
 Peptide sequence 2
-pep2=GVLYVGSKTKEGVVHGVATVAE
+pep2=GVLYVGS
 Number of peptide 2 chains in the system
-chains=12
+chains=24
 Box length in Angstrom
-boxlength=200.0D0
+boxlength=159.0D0
 Simulation temperature in Kelvin
 T=310.0D0
 Result recording frequency in collisions
-coll=10000000
+coll=1000000000
 Number of simulation rounds
 numsim = 1
 Start a new simulation (0) or continue a simulation (1)?
