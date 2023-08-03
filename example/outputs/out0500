@@ -5,7 +5,7 @@
  
  avegtime is   2.041241452319315E-005
  
- iflag=  1058472402
+ iflag=  1691015122
   
  starting from a previous run
            2          22
@@ -206,43 +206,43 @@
  at start, avg number of nbors per particle=   4.84935897435897     
  
   
- the final total energy of system (e) is    11172.6784808983     
- the final potential energy of system is   -6.40799999999945     
- the final kinetic energy of system is    11179.0864808983     
- the final temperature of system (kt) is    5.97173423124908     
+ the final total energy of system (e) is    11645.7986969186     
+ the final potential energy of system is   -4.12800000000061     
+ the final kinetic energy of system is    11649.9266969186     
+ the final temperature of system (kt) is    6.22325144066163     
  
  the final number of alpha-helical hb           0
  the final number of hydrogen bonds           0
- the final number of hydrophobic interactions   14.6160000000000     
+ the final number of hydrophobic interactions   9.69600000000000     
   
   
  scaling, boxl was=   1.00000000000000     
  done scaling, boxl=   159.000000000000     
- t=   8.58064862761446     
- total simulation time is    8.58064862761446     
- dimensionless time is    6.36915478780854     
- collision rate is    15700670.3921554     
+ t=   8.59730889333689     
+ total simulation time is    8.59730889333689     
+ dimensionless time is    6.38152119689919     
+ collision rate is    15670244.9015746     
  
- event           1   2.59236300000000      %
- event           2   46.6147570000000      %
- event           3   49.9245890000000      %
- event          14  1.526000000000000E-003 %
- event          15  3.354000000000000E-003 %
- event          16  1.514000000000000E-003 %
- event          20  5.323000000000000E-003 %
- event          21  5.326000000000000E-003 %
- event          22  4.952000000000000E-003 %
- event          23  1.736000000000000E-003 %
- event          24  3.290000000000000E-004 %
- event          25  3.180000000000000E-004 %
- event          26  2.189000000000000E-003 %
+ event           1   2.59211800000000      %
+ event           2   46.6202970000000      %
+ event           3   49.9187640000000      %
+ event          14  1.328000000000000E-003 %
+ event          15  3.294000000000000E-003 %
+ event          16  1.332000000000000E-003 %
+ event          20  5.595999999999999E-003 %
+ event          21  5.586000000000000E-003 %
+ event          22  4.401000000000000E-003 %
+ event          23  1.539000000000000E-003 %
+ event          24  2.950000000000000E-004 %
+ event          25  2.990000000000000E-004 %
+ event          26  1.938000000000000E-003 %
  
- number of ghost events =                 420939
-     =   0.420939000000000      %
- number of  neighbor list updates=                  59616
+ number of ghost events =                 421611
+     =   0.421611000000000      %
+ number of  neighbor list updates=                  59766
  number of  forced neighbor list updates=                      0
  
  
  details on the time in the main loop ...
- execution time (cpu hours)           0.0953
- millions of coll/cpu hour          1049.106
+ execution time (cpu hours)           0.0818
+ millions of coll/cpu hour          1223.055

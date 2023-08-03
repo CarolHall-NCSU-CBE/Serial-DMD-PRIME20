@@ -5,7 +5,7 @@
  
  avegtime is   2.946278254943948E-005
  
- iflag=  1058472402
+ iflag=  1691017490
   
  starting from a previous run
            2          22
@@ -35,7 +35,7 @@
  read parameters/sqz6to10.data
  read parameters/mass.data
  read results/.rca file
- initial temperature =    3.19208889010729     
+ initial temperature =    3.11114808755499     
  desired temperature =    2.88000000000000     
  
  ***********************************************
@@ -191,58 +191,58 @@
  implementing canon code
  
  no overlap/underlap in initial configuration
- the initial total energy of system is    5858.73440228084     
- the initial internal energy of system is   -116.856000000000     
- the initial kinetic energy of system is    5975.59040228084     
- the initial temperature of system is    3.19208889010729     
+ the initial total energy of system is    5683.76521990294     
+ the initial internal energy of system is   -140.304000000000     
+ the initial kinetic energy of system is    5824.06921990294     
+ the initial temperature of system is    3.11114808755499     
   
- the initial number of alpha-helical hb           1
- the initial number of hydrogen bonds           8
- the initial number of hydrophobic interactions   20.8560000000000     
+ the initial number of alpha-helical hb           2
+ the initial number of hydrogen bonds           9
+ the initial number of hydrophobic interactions   32.3040000000000     
   
  rl_const =   1.2000  sig_max_all =   6.9530
  
  at start, number of cells =          42
- at start, avg number of nbors per particle=   5.03846153846154     
+ at start, avg number of nbors per particle=   5.17628205128205     
  
   
- the final total energy of system (e) is    5301.53536695420     
- the final potential energy of system is   -142.200000000000     
- the final kinetic energy of system is    5443.73536695420     
- the final temperature of system (kt) is    2.90797829431314     
+ the final total energy of system (e) is    5150.68448282812     
+ the final potential energy of system is   -71.3879999999999     
+ the final kinetic energy of system is    5222.07248282812     
+ the final temperature of system (kt) is    2.78956863398938     
  
- the final number of alpha-helical hb           2
- the final number of hydrogen bonds          10
- the final number of hydrophobic interactions   47.2800000000000     
+ the final number of alpha-helical hb           1
+ the final number of hydrogen bonds           4
+ the final number of hydrophobic interactions   48.2160000000000     
   
   
  scaling, boxl was=   1.00000000000000     
  done scaling, boxl=   159.000000000000     
- t=   24.7637530488898     
- total simulation time is    24.7637530488898     
- dimensionless time is    12.7349946970902     
- collision rate is    15704757.2266126     
+ t=   24.7800296747211     
+ total simulation time is    24.7800296747211     
+ dimensionless time is    12.7433651061812     
+ collision rate is    15694441.6434392     
  
- event           1   13.0523000000000      %
- event           2   232.960901500000      %
- event           3   249.445002500000      %
- event          14  1.024650000000000E-002 %
- event          15  2.232150000000000E-002 %
- event          16  1.023500000000000E-002 %
- event          20  3.152550000000000E-002 %
- event          21  3.152200000000000E-002 %
- event          22  0.132982000000000      %
- event          23  1.891250000000000E-002 %
- event          24  2.019000000000000E-003 %
- event          25  2.007500000000000E-003 %
- event          26  7.072600000000000E-002 %
+ event           1   13.0444165000000      %
+ event           2   232.956785500000      %
+ event           3   249.446198500000      %
+ event          14  1.023150000000000E-002 %
+ event          15  2.208050000000000E-002 %
+ event          16  1.020950000000000E-002 %
+ event          20  3.280350000000000E-002 %
+ event          21  3.281650000000000E-002 %
+ event          22  0.137586000000000      %
+ event          23  1.879850000000000E-002 %
+ event          24  2.069500000000000E-003 %
+ event          25  2.047500000000000E-003 %
+ event          26  7.359900000000000E-002 %
  
- number of ghost events =                 840623
-     =   0.420311500000000      %
- number of  neighbor list updates=                 119117
+ number of ghost events =                 840093
+     =   0.420046500000000      %
+ number of  neighbor list updates=                 119172
  number of  forced neighbor list updates=                      0
  
  
  details on the time in the main loop ...
- execution time (cpu hours)           0.1933
- millions of coll/cpu hour          1034.733
+ execution time (cpu hours)           0.1673
+ millions of coll/cpu hour          1195.383
