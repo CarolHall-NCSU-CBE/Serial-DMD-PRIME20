@@ -2,7 +2,6 @@ subroutine genconfig
 	use inputreadin
 	use global
      	implicit none
-      	!integer, parameter :: k12=selected_int_kind(12)
         integer nb1p,nb21p,chnln1p
 
       parameter(nb1p=124)       ! number of beads 124, we don't change lines 6-8
@@ -10,14 +9,9 @@ subroutine genconfig
       parameter(chnln1p=31)     ! chain length  31
 
 	integer aa(nb1),identity1(nopwg1),bptnr1(nop1)  
-      !integer(kind=k12) coll
-      real*8 xr	!drandm
-      !integer iflag
-      !external drandm,srand
-
 	integer aa2(nb2),identity2(nopwg2),bptnr2(nop2)	  
       integer i,j,k,l,iii,iiii,numbeads,jjjj,ii
-
+	real*8 xr
       real*8 old_rxgenpep(nb1p), old_rygenpep(nb1p), old_rzgenpep(nb1p)     
       real*8 dave_rx(124), dave_ry(124), dave_rz(124)     	  
       real*8 new_rx(numbeads1), new_ry(numbeads1), new_rz(numbeads1)
@@ -25,7 +19,7 @@ subroutine genconfig
       real*8 new_rxf(numbeads1), new_ryf(numbeads1), new_rzf(numbeads1) 	  
       real*8 new_rxf2(numbeads2), new_ryf2(numbeads2), new_rzf2(numbeads2)
       real*8 xtmp(nop1+nop2),ytmp(nop1+nop2),ztmp(nop1+nop2)            
-      real*8 svgcf(6,nopwg1+nopwg2),boxlorig !boxl,t
+      real*8 svgcf(6,nopwg1+nopwg2),boxlorig
       real*8 xmin,xmax,ymin,ymax,zmin,zmax
       real*8 dislocx(numbeads1),dislocy(numbeads1),dislocz(numbeads1)
       real*8 dislocx2(numbeads2),dislocy2(numbeads2),dislocz2(numbeads2)
@@ -37,7 +31,7 @@ subroutine genconfig
       real*8 drca(20),drnh(20),drco(20)
       real*8 del_rca(20),del_rnh(20),del_rco(20)
       real*8 bdln1(chnln1),bl_rn1(chnln1),bl_rc1(chnln1),del_bdln1(chnln1),del_blrn1(chnln1),del_blrc1(chnln1)
-      real*8 bdln2(chnln1),bl_rn2(chnln1),bl_rc2(chnln1),del_bdln2(chnln1),del_blrn2(chnln1),del_blrc2(chnln1)
+      real*8 bdln2(chnln2),bl_rn2(chnln2),bl_rc2(chnln2),del_bdln2(chnln2),del_blrn2(chnln2),del_blrc2(chnln2)
       real*8 scalerca,rx2,ry2,rz2
       real*8 d1,d2,d3,d1min,d2min,d3min,move(chnln1),move2(chnln2)
       real*8 rxij,ryij,rzij,rijsq
@@ -580,8 +574,7 @@ subroutine genconfig
 	rewind(inpinfon1)
       do i=1,numbeads1
 	      read(inpinfon1,*) new_rxf(i),new_ryf(i),new_rzf(i)
-      enddo
-        !CLOSE(7)	  
+      enddo	  
 		
 	 j = 0
           do i = 1,numbeads1
@@ -612,38 +605,37 @@ subroutine genconfig
       do i=1,numbeads2
 	      read(inpinfon2,*) new_rxf2(i),new_ryf2(i),new_rzf2(i)
       enddo
-        !CLOSE(7)
 	 j = 0
           do i = 1,numbeads2
      			if ((i.ge.1) .and.(i.le.chnln2)) then
-					     j = j + 1
-			       new_rx2(j)=new_rxf2(i)
-				   new_ry2(j)=new_ryf2(i)
-				   new_rz2(j)=new_rzf2(i)
-				   elseif ((i.ge.(1+chnln2)) .and.(i.le.(chnln2+chnln2))) then 
-				   	     j = j + 1
-			       new_rx2(j)=new_rxf2(i)
-				   new_ry2(j)=new_ryf2(i)
-				   new_rz2(j)=new_rzf2(i)
-   				   elseif ((i.ge.(1+chnln2*2)) .and.(i.le.(chnln2+chnln2*2))) then 
-				   	     j = j + 1
-			       new_rx2(j)=new_rxf2(i)
-				   new_ry2(j)=new_ryf2(i)
-				   new_rz2(j)=new_rzf2(i)
-   				   elseif ((i.ge.(1+chnln2*3)) .and.(i.le.(chnln2+chnln2*3))) then 
-				   	     j = j + 1
-			       new_rx2(j)=new_rxf2(i)
-				   new_ry2(j)=new_ryf2(i)
-				   new_rz2(j)=new_rzf2(i)
-               endif
-             enddo	  
+				j = j + 1
+			       	new_rx2(j)=new_rxf2(i)
+				new_ry2(j)=new_ryf2(i)
+				new_rz2(j)=new_rzf2(i)
+			elseif ((i.ge.(1+chnln2)) .and.(i.le.(chnln2+chnln2))) then 
+				j = j + 1
+			        new_rx2(j)=new_rxf2(i)
+				new_ry2(j)=new_ryf2(i)
+				new_rz2(j)=new_rzf2(i)
+   			elseif ((i.ge.(1+chnln2*2)) .and.(i.le.(chnln2+chnln2*2))) then 
+				j = j + 1
+			       	new_rx2(j)=new_rxf2(i)
+				new_ry2(j)=new_ryf2(i)
+				new_rz2(j)=new_rzf2(i)
+   			elseif ((i.ge.(1+chnln2*3)) .and.(i.le.(chnln2+chnln2*3))) then 
+				j = j + 1
+			       	new_rx2(j)=new_rxf2(i)
+				new_ry2(j)=new_ryf2(i)
+				new_rz2(j)=new_rzf2(i)
+               		endif
+	enddo	  
 	!this gets the cooridantes for the peptide relative to the first bead
       do i=1, numbeads1-1
-      do j=i+1, numbeads1
+      	do j=i+1, numbeads1
 		dislocx(j) = new_rx(j) - new_rx(i)
 		dislocy(j) = new_ry(j) - new_ry(i)
 		dislocz(j) = new_rz(j) - new_rz(i)
-      enddo
+      	enddo
       enddo
       do i=1,numbeads1
 		xtmp(i)=new_rx(i)
@@ -651,26 +643,24 @@ subroutine genconfig
 		ztmp(i)=new_rz(i)
       enddo
       do i=1, numbeads2-1
-      do j=i+1, numbeads2
+      	do j=i+1, numbeads2
 		dislocx2(j) = new_rx2(j) - new_rx2(i)
 		dislocy2(j) = new_ry2(j) - new_ry2(i)
 		dislocz2(j) = new_rz2(j) - new_rz2(i)
-      enddo
+      	enddo
       enddo
       do i=1,numbeads2
-		xtmp(nop2+i)=new_rx2(i)
-		ytmp(nop2+i)=new_ry2(i)
-		ztmp(nop2+i)=new_rz2(i)
+		xtmp(nop1+i)=new_rx2(i)
+		ytmp(nop1+i)=new_ry2(i)
+		ztmp(nop1+i)=new_rz2(i)
       enddo
-	!call chdir(mydir)
-      	!open(7,file='genconfig/inputs/beadwell_ha55a.data',status='unknown')
+      	!Read well width and well depth for all 20aa from the forcefield
       	do i=1,400
       		read(ffha55a,711) iiii,jjjj,bdtemp,wltemp
 711  		format(2(2x,i2,2x),2(f6.3,2x))
        		bdsgencf(iiii,jjjj)=bdtemp
        		welcf(iiii,jjjj)=wltemp
       	end do
-      !close(7)
 
       if(bdsgencf(29,29)/2 .gt. 2.000) then
 		sig_max=2.000+bdsgencf(29,29)/2
@@ -691,14 +681,13 @@ subroutine genconfig
 	!this selects a random position, build the peptide in that location, and checks for overlaps
 	!if there is an overlap it repeats
       do i=1,nc
-		!write(6,*)'Peptide 1',i
 993		xtmp((i-1)*numbeads1+1)=(drandm(0))*boxl
 		xtmp((i-1)*numbeads1+1)=xtmp((i-1)*numbeads1+1)-boxl*ANINT(xtmp((i-1)*numbeads1+1)/boxl)
 		ytmp((i-1)*numbeads1+1)=(drandm(0))*boxl
 		ytmp((i-1)*numbeads1+1)=ytmp((i-1)*numbeads1+1)-boxl*ANINT(ytmp((i-1)*numbeads1+1)/boxl)
 		ztmp((i-1)*numbeads1+1)=(drandm(0))*boxl
 		ztmp((i-1)*numbeads1+1)=ztmp((i-1)*numbeads1+1)-boxl*ANINT(ztmp((i-1)*numbeads1+1)/boxl)
-       do j=2,numbeads1
+       		do j=2,numbeads1
 			xtmp((i-1)*numbeads1+j)=xtmp((i-1)*numbeads1+j-1)+dislocx(j)
 			xtmp((i-1)*numbeads1+j)=xtmp((i-1)*numbeads1+j)-boxl*ANINT(xtmp((i-1)*numbeads1+j)/boxl)
 			ytmp((i-1)*numbeads1+j)=ytmp((i-1)*numbeads1+j-1)+dislocy(j)
@@ -721,25 +710,25 @@ subroutine genconfig
        enddo
       enddo
       do i=1,nc2
-9993	xtmp(nop2+(i-1)*numbeads2+1)=(drandm(0))*boxl
-		xtmp(nop2+(i-1)*numbeads2+1)=xtmp(nop2+(i-1)*numbeads2+1)-boxl*ANINT(xtmp(nop2+(i-1)*numbeads2+1)/boxl)
-		ytmp(nop2+(i-1)*numbeads2+1)=(drandm(0))*boxl
-		ytmp(nop2+(i-1)*numbeads2+1)=ytmp(nop2+(i-1)*numbeads2+1)-boxl*ANINT(ytmp(nop2+(i-1)*numbeads2+1)/boxl)
-		ztmp(nop2+(i-1)*numbeads2+1)=(drandm(0))*boxl
-		ztmp(nop2+(i-1)*numbeads2+1)=ztmp(nop2+(i-1)*numbeads2+1)-boxl*ANINT(ztmp(nop2+(i-1)*numbeads2+1)/boxl)
-       do j=2,numbeads2
-			xtmp(nop2+(i-1)*numbeads2+j)=xtmp(nop2+(i-1)*numbeads2+j-1)+dislocx2(j)
-			xtmp(nop2+(i-1)*numbeads2+j)=xtmp(nop2+(i-1)*numbeads2+j)-boxl*ANINT(xtmp(nop2+(i-1)*numbeads2+j)/boxl)
-			ytmp(nop2+(i-1)*numbeads2+j)=ytmp(nop2+(i-1)*numbeads2+j-1)+dislocy2(j)
-			ytmp(nop2+(i-1)*numbeads2+j)=ytmp(nop2+(i-1)*numbeads2+j)-boxl*ANINT(ytmp(nop2+(i-1)*numbeads2+j)/boxl)
-			ztmp(nop2+(i-1)*numbeads2+j)=ztmp(nop2+(i-1)*numbeads2+j-1)+dislocz2(j)
-			ztmp(nop2+(i-1)*numbeads2+j)=ztmp(nop2+(i-1)*numbeads2+j)-boxl*ANINT(ztmp(nop2+(i-1)*numbeads2+j)/boxl)
+9993		xtmp(nop1+(i-1)*numbeads2+1)=(drandm(0))*boxl
+		xtmp(nop1+(i-1)*numbeads2+1)=xtmp(nop1+(i-1)*numbeads2+1)-boxl*ANINT(xtmp(nop1+(i-1)*numbeads2+1)/boxl)
+		ytmp(nop1+(i-1)*numbeads2+1)=(drandm(0))*boxl
+		ytmp(nop1+(i-1)*numbeads2+1)=ytmp(nop1+(i-1)*numbeads2+1)-boxl*ANINT(ytmp(nop1+(i-1)*numbeads2+1)/boxl)
+		ztmp(nop1+(i-1)*numbeads2+1)=(drandm(0))*boxl
+		ztmp(nop1+(i-1)*numbeads2+1)=ztmp(nop1+(i-1)*numbeads2+1)-boxl*ANINT(ztmp(nop1+(i-1)*numbeads2+1)/boxl)
+       		do j=2,numbeads2
+			xtmp(nop1+(i-1)*numbeads2+j)=xtmp(nop1+(i-1)*numbeads2+j-1)+dislocx2(j)
+			xtmp(nop1+(i-1)*numbeads2+j)=xtmp(nop1+(i-1)*numbeads2+j)-boxl*ANINT(xtmp(nop1+(i-1)*numbeads2+j)/boxl)
+			ytmp(nop1+(i-1)*numbeads2+j)=ytmp(nop1+(i-1)*numbeads2+j-1)+dislocy2(j)
+			ytmp(nop1+(i-1)*numbeads2+j)=ytmp(nop1+(i-1)*numbeads2+j)-boxl*ANINT(ytmp(nop1+(i-1)*numbeads2+j)/boxl)
+			ztmp(nop1+(i-1)*numbeads2+j)=ztmp(nop1+(i-1)*numbeads2+j-1)+dislocz2(j)
+			ztmp(nop1+(i-1)*numbeads2+j)=ztmp(nop1+(i-1)*numbeads2+j)-boxl*ANINT(ztmp(nop1+(i-1)*numbeads2+j)/boxl)
        enddo
         do k=(i-1)*numbeads2+1,i*numbeads2
 	      		do l=1,(i-1)*numbeads2
-                       		rxij=xtmp(nop2+k)-xtmp(nop2+l)
-                       		ryij=ytmp(nop2+k)-ytmp(nop2+l) 
-                       		rzij=ztmp(nop2+k)-ztmp(nop2+l)
+                       		rxij=xtmp(nop1+k)-xtmp(nop1+l)
+                       		ryij=ytmp(nop1+k)-ytmp(nop1+l) 
+                       		rzij=ztmp(nop1+k)-ztmp(nop1+l)
                       	 	rxij=rxij-boxl*aint((rxij/boxl)+.5)
                        		ryij=ryij-boxl*aint((ryij/boxl)+.5)
                        		rzij=rzij-boxl*aint((rzij/boxl)+.5)
@@ -750,8 +739,6 @@ subroutine genconfig
        enddo
       enddo
 	!write full pdb file to verify configuration
-	!call chdir(rundir)
-      !open(7,file='checks/config.pdb')
       do i=1,nop1+nop2
        write(checkcf,'(a6,i5,a3,1x,15x,3f8.3)') 'ATOM  ',i,'N', xtmp(i), ytmp(i), ztmp(i)
       enddo
@@ -787,13 +774,11 @@ subroutine genconfig
       write(6,*) 'Z-direction',abs(zmin)+abs(zmax)
 
 	!write a config check
-      !open(7,file='checks/configcheck.out')
       write(checkcfout,*) coll,t
       write(checkcfout,*)xtmp/boxl,ytmp/boxl,ztmp/boxl
       !close(7)	
 	
 	!this writes the actual config input
-      !open(7,file='results/run0000.config',status='unknown',form='unformatted')
         write(runcf) coll,t,xtmp/boxl,ytmp/boxl,ztmp/boxl
       !close(7)
 	
@@ -954,48 +939,37 @@ subroutine genconfig
         endif
       enddo
       write(runlasvel) coll,xtmp,ytmp,ztmp
-      !close(7)
-
-	!these are the two blank files needed to start
-      !open(7,file='results/run0000.bptnr',status='unknown',form='unformatted')
-      !close(7)
-      !open(7,file='results/run0000.energy',status='unknown',form='unformatted')
-      !close(7)
 
 	!check velocities
-      !open(7,file='checks/velocitycheck.out')
 	l=0
        do k=1,nopwg1  
-       if(identity1(k).ne.9) then
-         	l=l+1
-         	xtmp(l)=svgcf(4,k)
-         	ytmp(l)=svgcf(5,k)
-         	ztmp(l)=svgcf(6,k)
-        write(checkvel,*) k,identity1(k),xtmp(k),ytmp(k),ztmp(k)
+       		if(identity1(k).ne.9) then
+         		l=l+1
+         		xtmp(l)=svgcf(4,k)
+         		ytmp(l)=svgcf(5,k)
+         		ztmp(l)=svgcf(6,k)
+        		write(checkvel,*) k,identity1(k),xtmp(k),ytmp(k),ztmp(k)
     		endif
       enddo
        do k=1,nopwg2   
-       if(identity2(k).ne.9) then
-         	l=l+1
-         	xtmp(l)=svgcf(4,nopwg1+k)
-         	ytmp(l)=svgcf(5,nopwg1+k)
-         	ztmp(l)=svgcf(6,nopwg1+k)
-        write(checkvel,*) nopwg1+k,identity2(k),xtmp(nopwg1+k),ytmp(nopwg1+k),ztmp(nopwg1+k)
+       		if(identity2(k).ne.9) then
+         		l=l+1
+         		xtmp(l)=svgcf(4,nopwg1+k)
+         		ytmp(l)=svgcf(5,nopwg1+k)
+         		ztmp(l)=svgcf(6,nopwg1+k)
+        		write(checkvel,*) nopwg1+k,identity2(k),xtmp(nopwg1+k),ytmp(nopwg1+k),ztmp(nopwg1+k)
     		endif
       enddo
-      !close(7)
+      
 
 	!check HB parnters
-      !open(7,file='checks/hbcheck.out')
       do i=1,numbeads1
 		write(checkhb,*)i,bptnr1(i)
       enddo
       do i=1,numbeads2
 		write(checkhb,*)nopwg1+i,bptnr2(i)
       enddo	  
-      !close(7)
 	call gencf_filecloser()
-      !stop
       end
 #include "files_opn_gencf.f"
 #include "files_close_gencf.f"
