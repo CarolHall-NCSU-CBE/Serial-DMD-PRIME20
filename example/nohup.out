@@ -1,0 +1,39 @@
+Peptide sequence 1: GVLYVGS                        
+Number of residues in peptide 1:   7
+Number of Glycines in peptide 1:   2
+Number of peptide 1 chains in the system:  24
+Peptide sequence 2: GVLYVGS                        
+Number of residues in peptide 2:   7
+Number of Glycines in peptide 2:   2
+Number of peptide 2 chains in the system:  24
+Box length in Angstrom:   159.0
+Simulation temperature in Kelvin:   310.0
+Simulation temperature in reduced unit:   0.186
+Result recording frequency in collisions:        1000000000
+ 
+first value should be less than the 0.01 tolerance
+if not, adjust d1 d2 d3 values in sidechain adjustment section
+  1  0.0022  -0.1400  -0.1950  -0.7100   0.6537   1.9093   1.9676
+  2  0.0020   0.1100  -0.1200   0.0050   2.0029   2.7751   2.9601
+  3  0.0019   0.2750   0.0100   0.1200   2.6246   3.2888   3.4996
+  4  0.0012   1.5800  -0.4050   2.3300   3.8499   4.1504   5.2507
+  5  0.0020   0.1500  -0.0500   0.0350   2.0030   2.7741   2.9588
+  6  0.0015   0.0150   0.1750   0.3750   0.6535   1.9071   1.9671
+  7  0.0012   0.2750   0.2150   0.3300   1.9678   2.6501   2.8003
+ 
+first value should be less than the 0.01 tolerance
+if not, adjust d1 d2 d3 values in sidechain adjustment section
+  1  0.0022  -0.1400  -0.1950  -0.7100   0.6537   1.9093   1.9676
+  2  0.0020   0.1100  -0.1200   0.0050   2.0029   2.7751   2.9601
+  3  0.0019   0.2750   0.0100   0.1200   2.6246   3.2888   3.4996
+  4  0.0012   1.5800  -0.4050   2.3300   3.8499   4.1504   5.2507
+  5  0.0020   0.1500  -0.0500   0.0350   2.0030   2.7741   2.9588
+  6  0.0015   0.0150   0.1750   0.3750   0.6535   1.9071   1.9671
+  7  0.0012   0.2750   0.2150   0.3300   1.9678   2.6501   2.8003
+ Maximum Sigma   4.00000000000000     
+ These should be less than   159.000000000000     
+ X-direction   158.782297777224     
+ Y-direction   158.755522246179     
+ Z-direction   158.645957265924     
+ Desired reduced temperature  0.500000000000000     
+ New reduced temperature  0.499999999999999     
