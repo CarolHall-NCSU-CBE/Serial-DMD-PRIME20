@@ -30,7 +30,9 @@ Requirements to start a simulation including:
 >It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 >
 >**Note4:** Box length calculation
-> $$ boxlength = \((number of peptides)/(Avogadro's number)*/(Concentration in mM))^(1/3)*10^9 $$
+> $$
+>\boxlength = \frac{number of peptides*1000}{Avogadro's number}{Concentration in mM}^(1/3)*10^9
+>$$
 - **submissionscript.sh** is an example of bash script that is used to submit a job. This file is in the most basic format and will need to be modified according to your computer system.
 - **nohup.out** shows an example of successful initial configuration generation. If your screen-written output look like this and no error showed, the initial configuration is successulffy generated. *nohup.out* must be deleted before any simulation if it exists to avoid being confused by old data.  
 - 5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
