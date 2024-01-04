@@ -10,8 +10,8 @@
       	integer k
 
 !     	scale positions, bead sizes, and well sizes back to original
-      	write(fileout,*)' '
-      	write(fileout,*)'scaling, boxl was=',boxl
+      	write(6,*)' '
+      	write(6,*)'scaling, boxl was=',boxl
       	boxl=boxl_orig
 
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable
@@ -38,7 +38,7 @@
          	bl_rc(chnln1+k)=bl_rc(chnln1+k)*boxl_orig
       	enddo
 
-      	write(fileout,*)'done scaling, boxl=',boxl
+      	write(6,*)'done scaling, boxl=',boxl
          
       	return
 

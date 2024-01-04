@@ -59,6 +59,8 @@
 	open(runpartner,file='results/run'//fname_digits//'.bptnr',status='unknown',form='unformatted')
 	open(rune,file='results/run'//fname_digits//'.energy',status='unknown',form='unformatted')
 
+	open(psfile,file=results/run'//fname_digits//'.psf',status='unknown')
+
 
 !VN: Files that are stored in source code package:
 	call chdir(mydir)

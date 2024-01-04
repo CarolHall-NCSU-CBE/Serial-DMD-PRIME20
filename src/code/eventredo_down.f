@@ -40,10 +40,10 @@
 	elseif (evcode.ge.40) then
            	call sqshlder(i,j,evcode,tij,type)
 	else 
-	   	write(fileout,*)'error in ev_code matrix (events)'
-	   	write(fileout,*)'ev_code(i,j)=',evcode
-	   	write(fileout,*)'i=',i
-	   	write(fileout,*)'j=',j
+	   	write(6,*)'error in ev_code matrix (events)'
+	   	write(6,*)'ev_code(i,j)=',evcode
+	   	write(6,*)'i=',i
+	   	write(6,*)'j=',j
 	endif
 
 !       at this point, have found event time for a given i,j pair.  
@@ -53,16 +53,16 @@
 #ifdef debugging
 
 	if ((tij.lt.0.0) .and. (abs(tij) .gt. 1.0e-10)) then
-	   	write(fileout,*)'in eventredo_down'
-	   	write(fileout,*)'coll=',coll
-	   	write(fileout,*)'boxl=',boxl
-	   	write(fileout,*)'factor=',ev_param(1,evcode)
-	   	write(fileout,*)'i =',i
-	   	write(fileout,*)'j =',j
-	   	write(fileout,*)'tij=',tij
-	   	write(fileout,*)'coltype=',type
-	  	write(fileout,*)'ev_code=',evcode
-	   	write(fileout,*)'stop in eventredo_down, tij is less than 0'
+	   	write(6,*)'in eventredo_down'
+	   	write(6,*)'coll=',coll
+	   	write(6,*)'boxl=',boxl
+	   	write(6,*)'factor=',ev_param(1,evcode)
+	   	write(6,*)'i =',i
+	   	write(6,*)'j =',j
+	   	write(6,*)'tij=',tij
+	   	write(6,*)'coltype=',type
+	  	write(6,*)'ev_code=',evcode
+	   	write(6,*)'stop in eventredo_down, tij is less than 0'
 	   	call exit(-1)
 	endif
 

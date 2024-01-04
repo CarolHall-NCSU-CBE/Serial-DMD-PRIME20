@@ -28,12 +28,12 @@
 	rzij=rzij-dnint(rzij)
 	bij=rxij*vxij+ryij*vyij+rzij*vzij
 	rmass=2*bm(i)*bm(j)/(bm(i)+bm(j))
-	if(rmass.le.0) write(fileout,*) "rmass=",rmass
-	if(rmass.le.0) write(fileout,*)  i,j,identity(i),identity(j)
-	if(bm(i).le.0) write(fileout,*) "bm(i)=",bm(i)
-	if(rmass.le.0) write(fileout,*)  i,identity(i)
-	if(bm(j).le.0) write(fileout,*) "bm(j)=",bm(j)
-	if(rmass.le.0) write(fileout,*)  j,identity(j)
+	if(rmass.le.0) write(6,*) "rmass=",rmass
+	if(rmass.le.0) write(6,*)  i,j,identity(i),identity(j)
+	if(bm(i).le.0) write(6,*) "bm(i)=",bm(i)
+	if(rmass.le.0) write(6,*)  i,identity(i)
+	if(bm(j).le.0) write(6,*) "bm(j)=",bm(j)
+	if(rmass.le.0) write(6,*)  j,identity(j)
 
        if (i .le. nop1) then
 		if (coltype(i).eq.2) then

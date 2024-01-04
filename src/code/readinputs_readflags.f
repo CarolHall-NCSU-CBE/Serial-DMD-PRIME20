@@ -14,81 +14,81 @@ subroutine readinputs
 
 	if (readflags(file_input,'Peptide sequence 1')) then
 		read(file_input,*) pep1
-		write(fileout,*) 'Peptide sequence 1: ', pep1
+		write(6,*) 'Peptide sequence 1: ', pep1
 	else
-		write(fileout,*) 'Read input: FAIL TO READ PEPTIDE SEQUENCE 1'
+		write(6,*) 'Read input: FAIL TO READ PEPTIDE SEQUENCE 1'
 		Stop
 	endif
 	if (readflags(file_input,'Number of residues in peptide 1')) then
 		read(file_input,*) chnln1
-		write(fileout,'(A,i7)') 'Number of residues in peptide 1: ', chnln1
+		write(6,'(A,i7)') 'Number of residues in peptide 1: ', chnln1
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF RESIDUES IN PEPTIDE 1'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF RESIDUES IN PEPTIDE 1'
 		Stop
 	endif
 	if (readflags(file_input,'Number of Glycines in peptide 1')) then
 		read(file_input,*) numgly1
-		write(fileout,'(A,i2)') 'Number of Glycines in peptide 1: ', numgly1
+		write(6,'(A,i2)') 'Number of Glycines in peptide 1: ', numgly1
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF GLYCINES IN PEPTIDE 1'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF GLYCINES IN PEPTIDE 1'
 		Stop
 	endif
 	if (readflags(file_input,'Number of peptide 1 chains in the system')) then
 		read(file_input,*) nc
-		write(fileout,'(A,i3)') 'Number of peptide 1 chains in the system: ', nc
+		write(6,'(A,i3)') 'Number of peptide 1 chains in the system: ', nc
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF PEPTIDE 1 CHAINS IN THE SYSTEM'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF PEPTIDE 1 CHAINS IN THE SYSTEM'
 		Stop
 	endif
 !!!!!!!!!!!!!!!!!
 	if (readflags(file_input,'Peptide sequence 2')) then
 		read(file_input,*) pep2
-		write(fileout,*) 'Peptide sequence 2: ', pep2
+		write(6,*) 'Peptide sequence 2: ', pep2
 	else
-		write(fileout,*) 'Read input: FAIL TO READ PEPTIDE SEQUENCE 2'
+		write(6,*) 'Read input: FAIL TO READ PEPTIDE SEQUENCE 2'
 		Stop
 	endif
 	if (readflags(file_input,'Number of residues in peptide 2')) then
 		read(file_input,*) chnln2
-		write(fileout,'(A,i2)') 'Number of residues in peptide 2: ', chnln2
+		write(6,'(A,i2)') 'Number of residues in peptide 2: ', chnln2
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF RESIDUES IN PEPTIDE 2'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF RESIDUES IN PEPTIDE 2'
 		Stop
 	endif
 	if (readflags(file_input,'Number of Glycines in peptide 2')) then
 		read(file_input,*) numgly2
-		write(fileout,'(A,i2)') 'Number of Glycines in peptide 2: ', numgly2
+		write(6,'(A,i2)') 'Number of Glycines in peptide 2: ', numgly2
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF GLYCINES IN PEPTIDE 2'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF GLYCINES IN PEPTIDE 2'
 		Stop
 	endif
 	if (readflags(file_input,'Number of peptide 2 chains in the system')) then
 		read(file_input,*) nc2
-		write(fileout,'(A,i3)') 'Number of peptide 2 chains in the system: ', nc2
+		write(6,'(A,i3)') 'Number of peptide 2 chains in the system: ', nc2
 	else
-		write(fileout,*) 'Read input: FAIL TO READ NUMBER OF PEPTIDE 2 CHAINS IN THE SYSTEM'
+		write(6,*) 'Read input: FAIL TO READ NUMBER OF PEPTIDE 2 CHAINS IN THE SYSTEM'
 		Stop
 	endif
 !!!!!!!!!!!!!!!!
 	if (readflags(file_input,'Box length in Angstrom')) then
 		read(file_input,*) boxlength
-		write(fileout,'(A,f7.1)') 'Box length in Angstrom: ', boxlength
+		write(6,'(A,f7.1)') 'Box length in Angstrom: ', boxlength
 	else
-		write(fileout,*) 'Read input: FAIL TO READ BOX LENGTH'
+		write(6,*) 'Read input: FAIL TO READ BOX LENGTH'
 		Stop
 	endif
 	if (readflags(file_input,'Simulation temperature in Kelvin')) then
 		read(file_input,*) simtemp
-		write(fileout,'(A,f7.1)') 'Simulation temperature in Kelvin: ', simtemp
+		write(6,'(A,f7.1)') 'Simulation temperature in Kelvin: ', simtemp
 	else
-		write(fileout,*) 'Read input: FAIL TO READ SIMULATION TEMPERATURE'
+		write(6,*) 'Read input: FAIL TO READ SIMULATION TEMPERATURE'
 		Stop
 	endif
 	if (readflags(file_input,'Result recording frequency in collisions')) then
 		read(file_input,*) simcoll
-		write(fileout,'(A,i17)') 'Result recording frequency in collisions: ', simcoll
+		write(6,'(A,i17)') 'Result recording frequency in collisions: ', simcoll
 	else
-		write(fileout,*) 'Read input: FAIL TO READ SIMULATION COLLISIONS'
+		write(6,*) 'Read input: FAIL TO READ SIMULATION COLLISIONS'
 		Stop
 	endif
 	!read(file_input,*) maxtemp

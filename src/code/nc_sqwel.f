@@ -95,16 +95,16 @@
 	      		type=8
 
 !if (coll .ge. 1500183) then
-!write(fileout,*)
-!write(fileout,*)'This is where my Negative collision occurs'
-!write(fileout,*)'Collision:',coll
-!write(fileout,*)'Time',tij
-!write(fileout,*)'HB Partners:',i,bptnr(i)
-!write(fileout,*)'I and J:',i,j
-!write(fileout,*)'IDs:',identity(i),identity(j)
-!write(fileout,*)'Chains:',chnnum(i),chnnum(j)
-!write(fileout,*)'EV_CODE',ev_code(i,j)
-!write(fileout,*)'Coltype',type
+!write(6,*)
+!write(6,*)'This is where my Negative collision occurs'
+!write(6,*)'Collision:',coll
+!write(6,*)'Time',tij
+!write(6,*)'HB Partners:',i,bptnr(i)
+!write(6,*)'I and J:',i,j
+!write(6,*)'IDs:',identity(i),identity(j)
+!write(6,*)'Chains:',chnnum(i),chnnum(j)
+!write(6,*)'EV_CODE',ev_code(i,j)
+!write(6,*)'Coltype',type
 !endif
 	   	endif
 	else

@@ -27,7 +27,7 @@
 		nnabdn(l)=npt_dn(l)
 	enddo
 	
-!write(fileout,*)'update!',coll
+!write(6,*)'update!',coll
 !	calculate distance between each pair of mcs and check to see if
 !	each j mc is within the cutoff distance for i mc 
 	

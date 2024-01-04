@@ -41,10 +41,10 @@
 	      		elseif (evcode.ge.40) then
                  		call sqshlder(i,j,evcode,tij,type)
 	      		else 
-		 		write(fileout,*)'error in ev_code matrix (events)'
-		 		write(fileout,*)'ev_code(i,j)=',evcode
-		 		write(fileout,*)'i=',i
-		 		write(fileout,*)'j=',j
+		 		write(6,*)'error in ev_code matrix (events)'
+		 		write(6,*)'ev_code(i,j)=',evcode
+		 		write(6,*)'i=',i
+		 		write(6,*)'j=',j
 		 		call exit(-1)
 	      		endif
 
@@ -59,16 +59,16 @@
 
 #ifdef debugging
 	      		if ((tij.lt.0.0) .and. (abs(tij) .gt. 1.0e-10)) then
-		 		write(fileout,*)'in events'
-		 		write(fileout,*)'coll=',coll
-		 		write(fileout,*)'boxl=',boxl
-		 		write(fileout,*)'factor=',ev_param(1,evcode)
-		 		write(fileout,*)'i =',i
-		 		write(fileout,*)'j =',j
-		 		write(fileout,*)'tij=',tij
-		 		write(fileout,*)'coltype=',type
-		 		write(fileout,*)'evcode=',evcode
-                 		write(fileout,*)'stop, tij is less than 0'
+		 		write(6,*)'in events'
+		 		write(6,*)'coll=',coll
+		 		write(6,*)'boxl=',boxl
+		 		write(6,*)'factor=',ev_param(1,evcode)
+		 		write(6,*)'i =',i
+		 		write(6,*)'j =',j
+		 		write(6,*)'tij=',tij
+		 		write(6,*)'coltype=',type
+		 		write(6,*)'evcode=',evcode
+                 		write(6,*)'stop, tij is less than 0'
 		 		call exit(-1)
 	      		endif
 #endif
@@ -85,15 +85,15 @@
 	         		end if
 #ifdef debugging
 				if ((tij.lt.0.0) .and. (abs(tij) .gt. 1.0e-10)) then
-                    			write(fileout,*)'in events'
-                    			write(fileout,*)'coll=',coll
-                    			write(fileout,*)'boxl=',boxl
-                    			write(fileout,*)'factor=',ev_param(1,evcode)
-                    			write(fileout,*)'i =',i
-                    			write(fileout,*)'j =',j
-                    			write(fileout,*)'tij=',tij
-                    			write(fileout,*)'coltype=',type   
-                    			write(fileout,*)'stop, tij is less than 0 in events, extra_repulse', k
+                    			write(6,*)'in events'
+                    			write(6,*)'coll=',coll
+                    			write(6,*)'boxl=',boxl
+                    			write(6,*)'factor=',ev_param(1,evcode)
+                    			write(6,*)'i =',i
+                    			write(6,*)'j =',j
+                    			write(6,*)'tij=',tij
+                    			write(6,*)'coltype=',type   
+                    			write(6,*)'stop, tij is less than 0 in events, extra_repulse', k
                     			call exit(-1)
                  		endif
 #endif
@@ -106,7 +106,7 @@
               	endif
 	   	enddo
 	enddo
-!write(fileout,*)i,j,chnnum(i),chnnum(j),identity(i),identity(j),tij
+!write(6,*)i,j,chnnum(i),chnnum(j),identity(i),identity(j),tij
 	do i = 1, numbin+1
 		bin(i)=0
 	end do
@@ -116,9 +116,9 @@
 		tlinks(i) = 0
 		tlinks2(i) = 0
 if (coll .eq. 2131749) then
-write(fileout,*)i,nptnr(i)
-write(fileout,*)identity(i),identity(nptnr(i))
-write(fileout,*)tim(i)
+write(6,*)i,nptnr(i)
+write(6,*)identity(i),identity(nptnr(i))
+write(6,*)tim(i)
 endif
 		if (tim(i) .lt. interval_max) call add_tbin(i)
 	end do

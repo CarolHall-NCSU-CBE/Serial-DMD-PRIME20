@@ -169,7 +169,7 @@
         ENDDO	
 	
 #else
-        write(fileout,*)'****   no hydrogen bonding in this run ****'
+        write(6,*)'****   no hydrogen bonding in this run ****'
 #endif
 
 	do ll=1,(nop1/numbeads1)

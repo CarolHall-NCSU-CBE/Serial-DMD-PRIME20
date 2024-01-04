@@ -12,8 +12,8 @@
 !     	scale positions, bond lengths, bead sizes, and well sizes 
 !     	so that boxl=1
 
-    	write(fileout,*)' '
-   	write(fileout,*)'scaling, original boxl=',boxl
+    	write(6,*)' '
+   	write(6,*)'scaling, original boxl=',boxl
    	boxl_orig=boxl
 
 #ifndef runr
@@ -80,7 +80,7 @@
       	enddo
 
       	boxl=1.d0
-      	write(fileout,*)'done scaling, boxl=',boxl
+      	write(6,*)'done scaling, boxl=',boxl
       	half=boxl/2.d0
 
       	return

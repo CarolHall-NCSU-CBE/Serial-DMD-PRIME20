@@ -76,8 +76,8 @@
 	 	per_hh = 0.0
       	endif
 	
-      	write(fileout,*) 'av_hb', av_hb(2), av_hb(3), av_hb(4), per_hb
-      	write(fileout,*) 'av_hh', av_hh(2), av_hh(3), av_hh(4), per_hh
+      	write(6,*) 'av_hb', av_hb(2), av_hb(3), av_hb(4), per_hb
+      	write(6,*) 'av_hh', av_hh(2), av_hh(3), av_hh(4), per_hh
 
       	if (av_hb(4) .le. 10.0) per_hb = 0.0
       	if (av_hh(4) .le. 10.0) per_hh = 0.0

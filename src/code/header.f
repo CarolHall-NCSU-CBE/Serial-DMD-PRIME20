@@ -2,7 +2,7 @@
       module GLOBAL
 	use inputreadin
 
-      integer, parameter :: k12=selected_int_kind(12)
+	integer, parameter :: k16=selected_int_kind(16)
       integer, parameter :: k1=selected_int_kind(1)
       real drandm,dtime
       integer iflag,time
@@ -45,7 +45,7 @@
       integer(kind=k12) quarter, hb_sum(4),hh_sum(4)
       integer qt_count(4)
 #endif
-      integer(kind=k12) coll,ncoll
+      integer(kind=k16) coll,ncoll
 !      integer*8 coll,ncoll     
       logical success
 !LR: Added a third species chnln variable. I could not replace these with noptotal variables due to FORTRAN limitations

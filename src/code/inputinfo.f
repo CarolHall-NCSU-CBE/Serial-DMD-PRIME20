@@ -24,18 +24,18 @@
       	character*64 filename
 
 !     	read in starting positions and velocities
-      	write(fileout,*)' '
+      	write(6,*)' '
 
 #ifndef runr
-	write(fileout,*)'starting from an ideal conformation'
+	write(6,*)'starting from an ideal conformation'
 #ifdef runh
 !     	accessing ideal helix as starting configuration 
       	open(unit=7,file='parameters/helix.inp',status='unknown')
-      	write(fileout,*)'starting in parameters/helix.inp conformation'
+      	write(6,*)'starting in parameters/helix.inp conformation'
 #elif runb
 !     	accessing ideal helix as starting configuration (eight 16mer)
 !      	open(unit=7,file='parameters/bundles.inp',status='unknown')
-      	write(fileout,*)'starting in parameters/bundles.inp conformation'
+      	write(6,*)'starting in parameters/bundles.inp conformation'
 #endif
 
 	read (parabundles,*) nn
@@ -43,10 +43,10 @@
       	
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable
       	if (nn.ne.(noptotal)) then
-		write(fileout,*)'nop error in reading starting pos and vel '
+		write(6,*)'nop error in reading starting pos and vel '
 		!LR: Changed a hardcoded 2-species variable reference to a noptotal variable
-         	write(fileout,*)'nop = ',(noptotal)
-         	write(fileout,*)'nn = ',nn
+         	write(6,*)'nop = ',(noptotal)
+         	write(6,*)'nn = ',nn
          	call exit(-1)
       	endif
 
@@ -73,7 +73,7 @@
       	enddo
       
 #else
-      	write(fileout,*)'starting from a previous run'
+      	write(6,*)'starting from a previous run'
       	!LR: I changed the box size to 200 for my chosen concentration. This is only valid for 10mM A16
       	boxl = boxlength
       	!open(unit=7,file='results/run'//fname_digits_pre//'.config',status='unknown',form='unformatted') 
@@ -109,12 +109,12 @@
       	do k=1,chnln1 
          	if (fside1(k) .ne. 0) then
 	    		fside1(k)=3*chnln1+l
-	    		write(fileout,*) k, fside1(k)
+	    		write(6,*) k, fside1(k)
 	    		l=l+1
 	 	endif
       	enddo
 
-      	write(fileout,*)' '
+      	write(6,*)' '
 
 	if (chaptype .eq. 1) then
       		!open(unit=7,file='parameters/firstside2.data',status='unknown')
@@ -124,13 +124,13 @@
       		do k=1,chnln2 
          		if (fside2(k) .ne. 0) then
 	    			fside2(k)=nop1+3*chnln2+l
-	    			write(fileout,*) k, fside2(k)
+	    			write(6,*) k, fside2(k)
 	    			l=l+1
 	 		endif
       		enddo
 	endif
 
-      	write(fileout,*)' '
+      	write(6,*)' '
       	!open(unit=7,file='parameters/rn.data',status='unknown')
 
       	if (chaptype .eq. 1) then
@@ -212,7 +212,7 @@
       	read (paraid,*) aa
 !      	close(unit=7)
 
-		write(fileout,*)'!!!!!!!!!!!aa: ',aa		
+		write(6,*)'!!!!!!!!!!!aa: ',aa		
 		
       	do l=1,nop1,numbeads1
 		do k=1,numbeads1
@@ -278,7 +278,7 @@
 #endif
 
 !      	open(unit=7,file='parametersep/ep19p_ha55a_weakhp.data',status='unknown')
-      	write(fileout,*)'read parametersep/ep19p_ha55a_weakhp.data'
+      	write(6,*)'read parametersep/ep19p_ha55a_weakhp.data'
 
       	do i=1,400
       		read(ep19ha55weak,"(2(2x,i2,2x),f8.3)") iiii,jjjj,eptemp
@@ -287,7 +287,7 @@
 	
 !	close(unit=7)
 !      	open(unit=7,file='parameters/rcarnrco.data',status='unknown')
-         write(fileout,*)'read parameters/rcarnrco.data'
+         write(6,*)'read parameters/rcarnrco.data'
 
       	do i=1,20
       		read(simrtoall,"(6(f6.3,2x))") drca(i),drnh(i),drco(i),del_rca(i),del_rnh(i),del_rco(i)
@@ -357,7 +357,7 @@
 	endif
 
 !      	open(unit=7,file='parameters/beadwell_ha55a.data',status='unknown')
-          write(fileout,*)'read parameters/beadwell_ha55a.data'
+          write(6,*)'read parameters/beadwell_ha55a.data'
 
       	do i=1,400
       		read(simwellha55a,711) iiii,jjjj,bdtemp,wltemp
@@ -375,7 +375,7 @@
 
 	sigma(9) = 1.00d0*bds(9,9)-1.2d0
 !	open(unit=7,file='parameters/sqz6to10.data',status='old')
-         write(fileout,*)'read parameters/sqz6to10.data'
+         write(6,*)'read parameters/sqz6to10.data'
 
 	do i=1,20
 		read(simsqz,'(5(f6.3,2x))') sz8,sz6,sz7,sz9,sz10
@@ -388,7 +388,7 @@
 
 !      	close(unit=7)
 !      	open(unit=7,file='parameters/mass.data',status='unknown')
-          write(fileout,*)'read parameters/mass.data'
+          write(6,*)'read parameters/mass.data'
 
 	do i=1,23
        	read(simmass,'(4x,i2,2x,f8.3)') iiii,bmass_temp
@@ -409,7 +409,7 @@
 	end do
 
 !	open(unit=73,file='results/run'//fname_digits_pre//'.rca',status='unknown')
-         write(fileout,*)'read results/.rca file'
+         write(6,*)'read results/.rca file'
 
 	do l=1,nop1,numbeads1
 		do k=1,chnln1
@@ -511,8 +511,8 @@
 
 		!LR: Changed a hardcoded 2-species variable reference to a noptotal variable
       	tred=sumvel/3.d0/dble(noptotal)
-      	write(fileout,*)'initial temperature = ',tred
-      	write(fileout,*)'desired temperature = ',setemp
+      	write(6,*)'initial temperature = ',tred
+      	write(6,*)'desired temperature = ',setemp
 
 #ifdef ctemp
 
@@ -574,91 +574,91 @@
 
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable
       	tred=sumvel/3.d0/dble((noptotal))
-      	write(fileout,*)'new scaled temperature = ',tred
+      	write(6,*)'new scaled temperature = ',tred
 
 #endif
 
-      	write(fileout,*)
-      	write(fileout,*)'***********************************************'
-     	write(fileout,*)
+      	write(6,*)
+      	write(6,*)'***********************************************'
+     	write(6,*)
      	!LR: Changed a hardcoded 2-species variable reference to a noptotal variable
-     	write(fileout,*)'number of particles = ',(noptotal)
-     	write(fileout,*)'set temperature = ',setemp
-      	write(fileout,*)'time interval of false steps = ', interval
-      	write(fileout,*)'chnln1 and chnln2 = ',chnln1,chnln2 
-      	write(fileout,*)'numbeads1 and numbeads1 = ',numbeads1,numbeads2
-      	write(fileout,*)
-      	write(fileout,*)'n_b_hbond=',n_b_hbond
-      	write(fileout,*)'n_b_hydro=',n_b_hydro
-      	write(fileout,*)
-      	write(fileout,*)
-      	write(fileout,*)'nitrogen bead diameter = ',sigma(1)
-      	write(fileout,*)'alpha carbon bead diameter = ',sigma(2)
-      	write(fileout,*)'carbonyl carbon bead diameter = ',sigma(4) 
-      	write(fileout,*)
-      	write(fileout,*)'nitrogen well diameter = ',welldia(1)
-      	write(fileout,*)'alpha carbon well  diameter = ',welldia(2)
-      	write(fileout,*)'carbonyl carbon well  diameter = ',welldia(4)
-      	write(fileout,*)
-      	write(fileout,*)'nitrogen well depth = ',epsilon(1)
-      	write(fileout,*)'alpha carbon well depth = ',epsilon(2)
-      	write(fileout,*)'side chain well depth = ',epsilon(3)
-      	write(fileout,*)'carbonyl carbon well depth = ',epsilon(4)
-      	write(fileout,*)
-      	write(fileout,*)'n - c alpha bond length = ',dnc
-      	write(fileout,*)'c alpha - c bond length = ',dcc
-      	write(fileout,*)'c alpha - n bond length = ',dcn
-      	write(fileout,*)'c alpha - side chain bond length = (variable)'
-      	write(fileout,*)
+     	write(6,*)'number of particles = ',(noptotal)
+     	write(6,*)'set temperature = ',setemp
+      	write(6,*)'time interval of false steps = ', interval
+      	write(6,*)'chnln1 and chnln2 = ',chnln1,chnln2 
+      	write(6,*)'numbeads1 and numbeads1 = ',numbeads1,numbeads2
+      	write(6,*)
+      	write(6,*)'n_b_hbond=',n_b_hbond
+      	write(6,*)'n_b_hydro=',n_b_hydro
+      	write(6,*)
+      	write(6,*)
+      	write(6,*)'nitrogen bead diameter = ',sigma(1)
+      	write(6,*)'alpha carbon bead diameter = ',sigma(2)
+      	write(6,*)'carbonyl carbon bead diameter = ',sigma(4) 
+      	write(6,*)
+      	write(6,*)'nitrogen well diameter = ',welldia(1)
+      	write(6,*)'alpha carbon well  diameter = ',welldia(2)
+      	write(6,*)'carbonyl carbon well  diameter = ',welldia(4)
+      	write(6,*)
+      	write(6,*)'nitrogen well depth = ',epsilon(1)
+      	write(6,*)'alpha carbon well depth = ',epsilon(2)
+      	write(6,*)'side chain well depth = ',epsilon(3)
+      	write(6,*)'carbonyl carbon well depth = ',epsilon(4)
+      	write(6,*)
+      	write(6,*)'n - c alpha bond length = ',dnc
+      	write(6,*)'c alpha - c bond length = ',dcc
+      	write(6,*)'c alpha - n bond length = ',dcn
+      	write(6,*)'c alpha - side chain bond length = (variable)'
+      	write(6,*)
 88   	format(i5,2f8.5)
-      	write(fileout,*)'amino acid sequence is:'
-      	write(fileout,*)aa
-      	write(fileout,*) 
-      	write(fileout,*)'***********************************************'
-      	write(fileout,*)   
-      	write(fileout,*)'sc idents, sizes,? well widths for chain 1:'
+      	write(6,*)'amino acid sequence is:'
+      	write(6,*)aa
+      	write(6,*) 
+      	write(6,*)'***********************************************'
+      	write(6,*)   
+      	write(6,*)'sc idents, sizes,? well widths for chain 1:'
 
       	do k=3*chnln1+1,numbeads1
-		write(fileout,88)identity(k),sigma(identity(k)), &
+		write(6,88)identity(k),sigma(identity(k)), &
 &		welldia(identity(k))
       	enddo
 
-      	write(fileout,*)
-      	write(fileout,*)'sc idents, sizes,? well widths for chain 2:'
+      	write(6,*)
+      	write(6,*)'sc idents, sizes,? well widths for chain 2:'
 
       	do k=nop1+3*chnln2+1,nop1+numbeads2
-		write(fileout,88)identity(k),sigma(identity(k)), &
+		write(6,88)identity(k),sigma(identity(k)), &
 &		welldia(identity(k))
       	enddo
 
-      	write(fileout,*)
-      	write(fileout,*)'***********************************************'
-      	write(fileout,*)
+      	write(6,*)
+      	write(6,*)'***********************************************'
+      	write(6,*)
 
       	do k=1,numbeads1
-		write(fileout,89) k,identity(k),bm(k)   ! by mookyung
+		write(6,89) k,identity(k),bm(k)   ! by mookyung
       	end do
 
       	do k=nop1+1,nop1+numbeads2
-		write(fileout,89) k,identity(k),bm(k)   ! by mookyung
+		write(6,89) k,identity(k),bm(k)   ! by mookyung
       	end do
       	
       	!LR: Prints the identity of the 3rd species bead
 
 89	format(i6,2x,i5,2f8.5)
-      	write(fileout,*)
-      	write(fileout,*)'***********************************************'
-      	write(fileout,*)   
-      	write(fileout,*)'hp sequence is:'
-      	write(fileout,*) hp
-      	write(fileout,*)   
-      	write(fileout,*)'***********************************************'
+      	write(6,*)
+      	write(6,*)'***********************************************'
+      	write(6,*)   
+      	write(6,*)'hp sequence is:'
+      	write(6,*) hp
+      	write(6,*)   
+      	write(6,*)'***********************************************'
 
       	do i=9,28
-      		write(fileout,'(5(f6.3,2x))') (sqz610(k,i),k=1,5)
+      		write(6,'(5(f6.3,2x))') (sqz610(k,i),k=1,5)
       	end do
 
-      	write(fileout,*)   
+      	write(6,*)   
 
       	call scale_down()
 

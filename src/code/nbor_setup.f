@@ -124,9 +124,9 @@
       	end do
 #endif
 
-      	write(fileout,*)' '
+      	write(6,*)' '
 76    	format(' rl_const = ',f8.4,'  sig_max_all = ',f8.4)
-      	write(fileout,76)rl_const,sig_max_all*boxl_orig
+      	write(6,76)rl_const,sig_max_all*boxl_orig
 
       	return
 

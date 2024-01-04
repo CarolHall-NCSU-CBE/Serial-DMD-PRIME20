@@ -54,15 +54,15 @@
 	               	rijsq=rijsq*1.0000000001d0
 	               	if (rijsq.le.sigsq) then		
 	                  		over=.true.
-	                  		write(fileout,*)'particles ',i,' and ',j,' overlap'
-	                  		write(fileout,*)'ev_code(i,j)=',evcode
-	                  		write(fileout,*)'identity(i)',identity(i)
-	                  		write(fileout,*)'identity(j)',identity(j)
-	                  		write(fileout,*)'factor=',ev_param(1,evcode)
-	                  		write(fileout,*)'rijsq=',rijsq*boxl_orig*boxl_orig
-	                  		write(fileout,*)'rij=',dsqrt(rijsq)*boxl_orig
-	                  		write(fileout,*)'sigsq=',sigsq*boxl_orig*boxl_orig
-	                  		write(fileout,*)'sig=',dsqrt(sigsq)*boxl_orig
+	                  		write(6,*)'particles ',i,' and ',j,' overlap'
+	                  		write(6,*)'ev_code(i,j)=',evcode
+	                  		write(6,*)'identity(i)',identity(i)
+	                  		write(6,*)'identity(j)',identity(j)
+	                  		write(6,*)'factor=',ev_param(1,evcode)
+	                  		write(6,*)'rijsq=',rijsq*boxl_orig*boxl_orig
+	                  		write(6,*)'rij=',dsqrt(rijsq)*boxl_orig
+	                  		write(6,*)'sigsq=',sigsq*boxl_orig*boxl_orig
+	                  		write(6,*)'sig=',dsqrt(sigsq)*boxl_orig
 	               	endif
 		    	elseif ((evcode.ge.4).and.(evcode.le.12)) then
 				if (chaptype .eq. 1) then
@@ -109,22 +109,22 @@
 	
 		       		if (rijsq_max .gt. blmax) then 
 						over=.true.
-                          			write(fileout,*)'bond between particles ',i,' and ',j,' are too long'
-                          			write(fileout,*)'ev_code(i,j)=',evcode
-                          			write(fileout,*)'identity(i)',identity(i)
-                          			write(fileout,*)'identity(j)',identity(j)
-                          			write(fileout,*)'bond=',dsqrt(blmax)*boxl_orig
-                          			write(fileout,*)'rij=',dsqrt(rijsq)*boxl_orig
+                          			write(6,*)'bond between particles ',i,' and ',j,' are too long'
+                          			write(6,*)'ev_code(i,j)=',evcode
+                          			write(6,*)'identity(i)',identity(i)
+                          			write(6,*)'identity(j)',identity(j)
+                          			write(6,*)'bond=',dsqrt(blmax)*boxl_orig
+                          			write(6,*)'rij=',dsqrt(rijsq)*boxl_orig
 		       		end if
 
 					if (rijsq_min .lt. blmin) then
                           			over=.true.
-                          			write(fileout,*)'bond between particles ',i,' and ',j,' are too short'
-                          			write(fileout,*)'ev_code(i,j)=',evcode
-                          			write(fileout,*)'identity(i)',identity(i)
-                         			write(fileout,*)'identity(j)',identity(j)
-                          			write(fileout,*)'bond=',dsqrt(blmin)*boxl_orig
-                          			write(fileout,*)'rij=',dsqrt(rijsq)*boxl_orig
+                          			write(6,*)'bond between particles ',i,' and ',j,' are too short'
+                          			write(6,*)'ev_code(i,j)=',evcode
+                          			write(6,*)'identity(i)',identity(i)
+                         			write(6,*)'identity(j)',identity(j)
+                          			write(6,*)'bond=',dsqrt(blmin)*boxl_orig
+                          			write(6,*)'rij=',dsqrt(rijsq)*boxl_orig
 					end if
 				endif
 			endif	

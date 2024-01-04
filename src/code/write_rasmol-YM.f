@@ -15,6 +15,12 @@
 		!real*8 newrx(noptotal), newry(noptotal), newrz(noptotal)
      
 7       format(A4,3X,I4,1X,A4,1X,A3,1X,A1,I4,4X,3F8.3)
+722	format(A6,3F9.3,3F7.2,X,A11,I4)
+	if ((nop1/numbeads1).ge. (nop2/numbeads2)) then
+		write(runpdb,722) 'CRYST1',boxl,boxl,boxl,90.00,90.00,90.00,'P 1',nop1/numbeads1
+	else
+		write(runpdb,722) 'CRYST1',boxl,boxl,boxl,90.00,90.00,90.00,'P 1',nop2/numbeads2
+	endif
           k = 0
                 col(1)='A'   
                 col(2)='B'   

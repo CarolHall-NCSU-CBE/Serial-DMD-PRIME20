@@ -76,7 +76,7 @@
       	real*8 tgho,xr,rating,avegtime,ered,tred,sumvel,e_int
       	real*8 old_tfalse,w,v1,v2,v3,r,fact,ran_non,ran_brk,tstar,start,finish 
       	real*8 rxij,ryij,rzij,vxij,vyij,vzij,bij,vijsq,rijsq,diff,rg_avg,e2e_avg
-	integer totalsteps
+	integer totalsteps, updatedcd
 
 #ifdef equil
       	real per_hb,per_hh
@@ -115,34 +115,38 @@
 	call readinputs()
 	noptotal = nop1+nop2
 	call allocatearrays()
-if (newold == 0) then
-	totalsteps = annealingsteps+numsim
-else
-	totalsteps = numsim
-endif	
-do stepcount = 1,totalsteps
-	if (newold == 0) then
-	if (stepcount .le. annealingsteps) then
-      		setemp = temps(stepcount)
-      		setemp =  setemp*12.d0
-      		ncoll = collset(stepcount)
-	else
-		setemp = simtemp
-		setemp =  setemp*12.d0
-		ncoll = simcoll
-	endif
-	if (stepcount == 1) then		
-		call genconfig()
-	endif
-	else
-		setemp = simtemp
-		setemp =  setemp*12.d0
-		ncoll = simcoll
-	endif
+	read(5,*) setemp
+      	setemp =  setemp*12.d0
+      	read(5,*) ncoll
+	close(5)
+!if (newold == 0) then
+!	totalsteps = annealingsteps+numsim
+!else
+!	totalsteps = numsim
+!endif	
+!do stepcount = 1,totalsteps
+!	if (newold == 0) then
+!	if (stepcount .le. annealingsteps) then
+!      		setemp = temps(stepcount)
+!      		setemp =  setemp*12.d0
+!      		ncoll = collset(stepcount)
+!	else
+!		setemp = simtemp
+!		setemp =  setemp*12.d0
+!		ncoll = simcoll
+!	endif
+!	if (stepcount == 1) then		
+!		call genconfig()
+!	endif
+!	else
+!		setemp = simtemp
+!		setemp =  setemp*12.d0
+!		ncoll = simcoll
+!	endif
       	filename = 'results/run'//'1000.lastvel'
       	inquire(file=filename, exist = success)
 	call file_opener()
-      	write(fileout,*)'number of collisions requested', ncoll
+      	write(6,*)'number of collisions requested', ncoll
 
 #ifdef equil
       	ncoll_max=ncoll*4
@@ -160,15 +164,15 @@ do stepcount = 1,totalsteps
       	interval = t_fact/dsqrt(setemp)
       	interval_max = n_forced*interval
       	sortsize = interval_max/dble(numbin)
-      	write(fileout,*) 't_fact=',t_fact
-      	write(fileout,*) 'n_forced=',n_forced
-      	write(fileout,*) 'n_interval=',n_interval
+      	write(6,*) 't_fact=',t_fact
+      	write(6,*) 'n_forced=',n_forced
+      	write(6,*) 'n_interval=',n_interval
 
 #ifdef canon
-      	write(fileout,*)
+      	write(6,*)
       	avegtime=0.00005d0/dsqrt(setemp)
-      	write(fileout,*)'avegtime is ',avegtime
-      	write(fileout,*)
+      	write(6,*)'avegtime is ',avegtime
+      	write(6,*)
 #endif
 
 !     	to have different random numbers each time, use iflag = time()
@@ -183,7 +187,7 @@ do stepcount = 1,totalsteps
 
 !     	to have the same random numbers each time, use iflag = constant
 !     	iflag = 1058472402
-      	write(fileout,*)'iflag=',iflag
+      	write(6,*)'iflag=',iflag
       	xr=drandm(iflag)
       	call srand(iflag)
 !     	each successive drandm call should be of the form drandm(0)
@@ -192,9 +196,9 @@ do stepcount = 1,totalsteps
       	call make_code() 
 
 #ifdef canon
-      	write(fileout,*)'implementing canon code'
+      	write(6,*)'implementing canon code'
 #else
-      	write(fileout,*)'leave out canon code to check for energy conservation'
+      	write(6,*)'leave out canon code to check for energy conservation'
 #endif
 
 #ifdef write_phipsi
@@ -213,6 +217,8 @@ do stepcount = 1,totalsteps
       	tfalse=0.d0
       	nbin = 1
       	tbin_off=0.d0
+	updatedcd = 0
+	numframe = 0
 
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable
       	do k=1,(noptotal)
@@ -248,7 +254,7 @@ do stepcount = 1,totalsteps
 
 65   	format(f24.16,i4,i5,i5)
 66   	format(f24.16,i6,i5,i5)
-      	write(fileout,*)
+      	write(6,*)
 
 #ifdef runr
       	!open(unit=7,file='results/run'//fname_digits_pre//'.bptnr',status='old',form='unformatted')
@@ -334,8 +340,8 @@ do stepcount = 1,totalsteps
       	enddo
 
 #else
-      	write(fileout,*)' '
-      	write(fileout,*)'reassigning for helical h-bonds'
+      	write(6,*)' '
+      	write(6,*)'reassigning for helical h-bonds'
       	do m=1,nop/numbeads
          	do k=(m-1)*numbeads+chnln+5,(m-1)*numbeads+2*chnln
             		k_j=k+chnln-4
@@ -360,10 +366,10 @@ do stepcount = 1,totalsteps
       	call checkover(over)
 
       	if (over) then
-         	write(fileout,*)'found overlap/underlap in initial configuration'
+         	write(6,*)'found overlap/underlap in initial configuration'
 !        	call exit(-1)
       	else
-         	write(fileout,*)'no overlap/underlap in initial configuration'
+         	write(6,*)'no overlap/underlap in initial configuration'
       	endif
       
 !     	calculate energy with subroutine
@@ -378,16 +384,16 @@ do stepcount = 1,totalsteps
             
       	call radgyr(rg_avg)
       	call end_to_end(e2e_avg)
-      	write(fileout,*)'the initial total energy of system is ',ered
-      	write(fileout,*)'the initial internal energy of system is ',e_int
-      	write(fileout,*)'the initial kinetic energy of system is ',ered-e_int
-      	write(fileout,*)'the initial temperature of system is ',tred
-      	write(fileout,*)' '
-      	write(fileout,*)'the initial number of alpha-helical hb',hb_alpha
-      	write(fileout,*)'the initial number of hydrogen bonds',hb_ii+hb_ij
-      	write(fileout,*)'the initial number of hydrophobic interactions',ehh_ii+ehh_ij
+      	write(6,*)'the initial total energy of system is ',ered
+      	write(6,*)'the initial internal energy of system is ',e_int
+      	write(6,*)'the initial kinetic energy of system is ',ered-e_int
+      	write(6,*)'the initial temperature of system is ',tred
+      	write(6,*)' '
+      	write(6,*)'the initial number of alpha-helical hb',hb_alpha
+      	write(6,*)'the initial number of hydrogen bonds',hb_ii+hb_ij
+      	write(6,*)'the initial number of hydrophobic interactions',ehh_ii+ehh_ij
       	call flush(6)
-      	write(rune,22223) 0,(t+tfalse)*dsqrt(setemp)/(sigma(1)*boxl_orig),ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+      	write(rune,22223) 0,(t+tfalse)*dsqrt(setemp)/(sigma(1)*boxl_orig),setemp/12.0,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
       	call flush(rune)
 
 #ifdef write_phipsi
@@ -401,8 +407,8 @@ do stepcount = 1,totalsteps
 !     	set up neighbor list and pointer with subroutine 
       	call nbor_setup()
       	num_cell=int(boxl/(sig_max_all*rl_const)*n_wrap)+2*n_wrap
-      	write(fileout,*)
-      	write(fileout,*)'at start, number of cells =',num_cell
+      	write(6,*)
+      	write(6,*)'at start, number of cells =',num_cell
       	allocate(cell(num_cell**3+1))
       	allocate(wrap_map(num_cell**3))
       	width = boxl/dble(num_cell-2*n_wrap)
@@ -415,8 +421,8 @@ do stepcount = 1,totalsteps
          	nbrsum=nbrsum+na_npt(k)
       	enddo
       	!LR: Changed a hardcoded 2-species variable reference to a noptotal variable
-      	write(fileout,*)'at start, avg number of nbors per particle=',dble(nbrsum)/dble(noptotal)
-      	write(fileout,*)
+      	write(6,*)'at start, avg number of nbors per particle=',dble(nbrsum)/dble(noptotal)
+      	write(6,*)
       
 #ifdef canon
       	tgho=0.d0
@@ -458,8 +464,17 @@ do stepcount = 1,totalsteps
 #else
       	do while (coll .le. ncoll)
 #endif
-
+	!if (coll .eq. 0) then
+	!	call writesf_xyz()
+	!endif
+	if (coll.eq.updatedcd) then
+		call write_traj()
+		!call write_ufxyz()
+		updatedcd = updatedcd+trajcoll
+		!numframe = numframe + 1
+	endif
 	coll = coll + 1
+
 
 	xpulse_del=.false.
 !    	finding first collision without tree:
@@ -484,14 +499,14 @@ do stepcount = 1,totalsteps
 #ifdef debugging    
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable     
 	if (i .gt. (noptotal)+3) then
-	    	write(fileout,*) 'greater than (noptotal)+3', coll, i
+	    	write(6,*) 'greater than (noptotal)+3', coll, i
 	    	call exit(-1)
 	end if
 #endif
 
      	if (tfalse .lt. old_tfalse-ltstep) then
 75         	format('event ',i10,' btwn ',i4,' and ', i4 ,' (event type ',i2,') is',f19.16, ' less then', f19.16)
-            	write(fileout,75) coll,i,nptnr(i),coltype(i), tfalse, old_tfalse
+            	write(6,75) coll,i,nptnr(i),coltype(i), tfalse, old_tfalse
     	endif
 
 	vxij=sv(4,742)-sv(4,745)
@@ -509,15 +524,15 @@ do stepcount = 1,totalsteps
 	diff=rijsq-welldia_sq(identity(742),identity(745))
 !j=nptnr(i)
 !if ((coll .ge. 1262911)) then
-!write(fileout,*)
-!write(fileout,*)coll
-!write(fileout,*)'I and J:',i,j
-!write(fileout,*)'HB Partners',i,bptnr(i)
-!write(fileout,*)'IDs:',identity(i),identity(j)
-!write(fileout,*)'Chains:',chnnum(i),chnnum(j)
-!write(fileout,*)'EV_CODE',ev_code(i,j)
-!write(fileout,*)'Coltype',coltype(i)
-!write(fileout,*)'Difference', diff
+!write(6,*)
+!write(6,*)coll
+!write(6,*)'I and J:',i,j
+!write(6,*)'HB Partners',i,bptnr(i)
+!write(6,*)'IDs:',identity(i),identity(j)
+!write(6,*)'Chains:',chnnum(i),chnnum(j)
+!write(6,*)'EV_CODE',ev_code(i,j)
+!write(6,*)'Coltype',coltype(i)
+!write(6,*)'Difference', diff
 !endif
 
 !LR: Changed a hardcoded 2-species variable reference to a noptotal variable
@@ -1065,7 +1080,7 @@ do stepcount = 1,totalsteps
 #ifdef debugging
 		call checkover(over)
             	if (over) then
-               	write(fileout,*)'found overlap/underlap at coll', coll
+               	write(6,*)'found overlap/underlap at coll', coll
                	call exit(-1)
             	endif
             	call check_nc_int(boundbad, unboundbad)
@@ -1080,7 +1095,7 @@ do stepcount = 1,totalsteps
             	call energy(ered,tred,sumvel,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij)
 	    	call radgyr(rg_avg)
 	    	call end_to_end(e2e_avg)
-	    	write(rune,22223) coll,(t+tfalse)*dsqrt(setemp)/(sigma(1)*boxl_orig),ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+	    	write(rune,22223) coll,(t+tfalse)*dsqrt(setemp)/(sigma(1)*boxl_orig),setemp/12.0,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
             	call flush(rune)
 
 #ifndef canon
@@ -1120,8 +1135,8 @@ do stepcount = 1,totalsteps
 #ifdef equil
 !     	check for equilibrium
       	if (coll-1 .eq. ncoll) then
-	 	write(fileout,*) ' '
-	 	write(fileout,*) 'at coll', ncoll
+	 	write(6,*) ' '
+	 	write(6,*) 'at coll', ncoll
 	 	call average(per_hb,per_hh)
 	 	call flush(6)
 	 	if ((per_hb .gt. 5.0) .or. (per_hh .gt. 5.0)) then
@@ -1162,17 +1177,17 @@ do stepcount = 1,totalsteps
       	e_int=ered-0.5d0*sumvel
       	call radgyr(rg_avg)
       	call end_to_end(e2e_avg)
-      	write(rune,22223) coll,t*dsqrt(setemp)/(sigma(1)*boxl_orig),ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
-      	write(fileout,*)' '
-      	write(fileout,*)'the final total energy of system (e) is ',ered
-     	write(fileout,*)'the final potential energy of system is ',e_int
-      	write(fileout,*)'the final kinetic energy of system is ',ered-e_int
-      	write(fileout,*)'the final temperature of system (kt) is ',tred
-      	write(fileout,*)
-      	write(fileout,*)'the final number of alpha-helical hb',hb_alpha
-      	write(fileout,*)'the final number of hydrogen bonds',hb_ii+hb_ij
-      	write(fileout,*)'the final number of hydrophobic interactions',ehh_ij+ehh_ij
-      	write(fileout,*)' '
+      	write(rune,22223) coll,t*dsqrt(setemp)/(sigma(1)*boxl_orig),setemp/12.0,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+      	write(6,*)' '
+      	write(6,*)'the final total energy of system (e) is ',ered
+     	write(6,*)'the final potential energy of system is ',e_int
+      	write(6,*)'the final kinetic energy of system is ',ered-e_int
+      	write(6,*)'the final temperature of system (kt) is ',tred
+      	write(6,*)
+      	write(6,*)'the final number of alpha-helical hb',hb_alpha
+      	write(6,*)'the final number of hydrogen bonds',hb_ii+hb_ij
+      	write(6,*)'the final number of hydrophobic interactions',ehh_ij+ehh_ij
+      	write(6,*)' '
 
 #ifdef write_phipsi
       	call phipsi()
@@ -1206,41 +1221,41 @@ do stepcount = 1,totalsteps
       	call write_rasmol
      
 !     	********** time ********** 
-      	write(fileout,*)'t=',t + tfalse
+      	write(6,*)'t=',t + tfalse
       	tstar=(t+tfalse)*dsqrt(setemp)/sigma(1)
 !     	this is gulati's calculation:  tdl=t*dsqrt(tred)/sigma(2)
-      	write(fileout,*)'total simulation time is ',t+tfalse
-      	write(fileout,*)'dimensionless time is ',tstar
-      	write(fileout,*)'collision rate is ',ncoll/tstar
-      	write(fileout,*)
+      	write(6,*)'total simulation time is ',t+tfalse
+      	write(6,*)'dimensionless time is ',tstar
+      	write(6,*)'collision rate is ',ncoll/tstar
+      	write(6,*)
 !     	********** event tally ********** 
       	do k = 1, 30
-	 	if (nevents(k) .ne. 0) write(fileout,*)'event', k, nevents(k)/dble(ncoll)*100.0,'%'
+	 	if (nevents(k) .ne. 0) write(6,*)'event', k, nevents(k)/dble(ncoll)*100.0,'%'
       	enddo
-      	write(fileout,*)  
-     	write(fileout,*)'number of ghost events = ',numghosts
-      	write(fileout,*)'    = ',dble(numghosts)/dble(ncoll)*100.,'%'
-      	write(fileout,*)'number of  neighbor list updates= ',nupdates - nforcedupdate
-      	write(fileout,*)'number of  forced neighbor list updates= ',nforcedupdate
-      	write(fileout,*)
+      	write(6,*)  
+     	write(6,*)'number of ghost events = ',numghosts
+      	write(6,*)'    = ',dble(numghosts)/dble(ncoll)*100.,'%'
+      	write(6,*)'number of  neighbor list updates= ',nupdates - nforcedupdate
+      	write(6,*)'number of  forced neighbor list updates= ',nforcedupdate
+      	write(6,*)
      
 #ifdef debugging
       	write(*,*) 'number of times hbing particles caught w/ bad angle', boundbad
       	write(*,*) 'number of times non-hbing particles should have been hbing', unboundbad
 #endif
 
-      	write(fileout,*)
-     	write(fileout,*)'details on the time in the main loop ...'
-      	write(fileout,'('' execution time (cpu hours)  '',f15.4)') extime_nv
-      	write(fileout,'('' millions of coll/cpu hour   '',f15.3)') colrat_nv
+      	write(6,*)
+     	write(6,*)'details on the time in the main loop ...'
+      	write(6,'('' execution time (cpu hours)  '',f15.4)') extime_nv
+      	write(6,'('' millions of coll/cpu hour   '',f15.3)') colrat_nv
 
       	deallocate(cell)
       	deallocate(wrap_map)
 
 22222 	format(i15,3f12.4,5i8,6f12.4)
-22223 	format(i15,3f12.4,3i8,4f12.4)
+22223 	format(i15,4f12.4,3i8,4f12.4)
 	call fileclose()
-enddo
+!enddo
       	end
 #include "readinputs.f"
 #include "allocatearrays.f"
@@ -1280,6 +1295,9 @@ enddo
 #include "scale_up.f"
 #include "sqwel.f"
 #include "files_close.f"
+#include "write_xyz.f"
+#include "writesf_xyz.f"
+#include "write_traj.f"
 !LR: I separated the analysis code out of the main code.
 #include "radgyr.f"  
 #include "end2end.f"

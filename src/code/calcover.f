@@ -35,15 +35,15 @@
 
 	if (rijsq.le.sigsq) then		
 		over=.true.
-		write(fileout,*)'particles ',i,' and ',j,' overlap'
-		write(fileout,*)'ev_code(i,j)=',evcode
-		write(fileout,*)identity(i)
-		write(fileout,*)identity(j)
-		write(fileout,*)'factor=',ev_param(1,evcode)
-		write(fileout,*)'rijsq=',rijsq*boxl_orig*boxl_orig
-		write(fileout,*)'rij=',dsqrt(rijsq)*boxl_orig
-		write(fileout,*)'sigsq=',sigsq*boxl_orig*boxl_orig
-		write(fileout,*)'sig=',dsqrt(sigsq)*boxl_orig
+		write(6,*)'particles ',i,' and ',j,' overlap'
+		write(6,*)'ev_code(i,j)=',evcode
+		write(6,*)identity(i)
+		write(6,*)identity(j)
+		write(6,*)'factor=',ev_param(1,evcode)
+		write(6,*)'rijsq=',rijsq*boxl_orig*boxl_orig
+		write(6,*)'rij=',dsqrt(rijsq)*boxl_orig
+		write(6,*)'sigsq=',sigsq*boxl_orig*boxl_orig
+		write(6,*)'sig=',dsqrt(sigsq)*boxl_orig
 	endif
 
 	return

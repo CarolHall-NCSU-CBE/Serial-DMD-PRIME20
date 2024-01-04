@@ -1,5 +1,11 @@
+! =========================================================================
+! This module defines global parameters and variables used for generating initial configuration
+! This is a serial job
+! Last modified on 10/12/2023 by Van Nguyen
+! =========================================================================
 module inputreadin
 	implicit none
+	integer, parameter :: k12=selected_int_kind(12)
 !	If any value on the second column of output.out is larger than the 0.01 tolerance, adjust
 !	d1 d2 d3 values in sidechain adjustment section by increasing the two parameters below
 	real*8 dadjust1, dadjust2
@@ -44,6 +50,10 @@ module inputreadin
 	integer, parameter :: prelasvel = 51
 	integer, parameter :: prepartner = 52
 	integer, parameter :: prerca = 54
+	integer, parameter :: traj = 323
+	integer, parameter :: psfile = 773
+	integer, parameter :: sf = 73
+	integer, parameter :: unformatted = 836
 
 ! Outputs:
 	integer, parameter :: fileout = 55
@@ -90,17 +100,20 @@ module inputreadin
 	character(len=31) pep1, pep2
 	integer nb1,numbeads1,nopwg1,nop1
 	integer nb2,numbeads2,nopwg2,nop2
-	!integer nb1p,nb21p,chnln1p
 	integer chnln1,nc,numgly1
 	integer chnln2,nc2,numgly2
-	integer simcoll, numsim
+	integer(kind=k12) simcoll
+	integer numsim, annealcheck,annealcoll, trajcoll
 	real*8 boxlength
-	real simtemp
+	real simtemp, maxannealing, minannealing, incrannealing
 	real maxtemp, mintemp
-	character*517 ::  path, mydir, rundir
+	character(len=:), allocatable :: mydir
+	character*1000 :: path, rundir
 	integer realpath, annealingsteps, simsteps, stepcount, newold, constep
 	logical :: back=.true.
 	real, allocatable :: temps(:)
 	integer, allocatable :: collset(:)
+	integer :: numframe
+	real*4, allocatable :: readposx(:),readposz(:),readposy(:)
 
 end module inputreadin
