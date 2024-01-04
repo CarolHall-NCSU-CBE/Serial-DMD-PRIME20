@@ -29,7 +29,7 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 >
 	make -f dmd_analysis.mk
 
-- If there is no error return, check if `initconfig` and `DMDPRIME20` are succesfully created in *src*
+- If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalysis` are succesfully created in *src*
 - Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
