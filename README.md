@@ -26,11 +26,7 @@ PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein m
 >
 	make -f dmd.mk
 
-3. To create `DMDanalysis` to obtain results in readable format for data analysis
->
-	make -f dmd_analysis.mk
-
-- If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalysis` are succesfully created in *src*
+- If there is no error return, check if `initconfig` andand `DMDPRIME20` are succesfully created in *src*
 - Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
@@ -164,6 +160,23 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 4. Submit job. It is not recommended to run DMD/PRIME20 on a login node as a job can take days to finish. A simple tcsh script (.csh) to submit job is attached in `/example/`.
 
 ## Analysis Package
+DMD-PRIME20 allows running simulations for hundred of microseconds. A simulation can take a month to complete and generates a big set of data as results. Therefore, most of data is written in binary and require extra step to extract data for specific analysis. The analysis package is included implemented to allow user to allow user access data of their choices. It's currently developed, new functions will be added based on user feedback.
+
+To create `DMDanalysis` to obtain results in readable format for data analysis, on your terminal, navigate to the DMD/PRIME20 source code and then execute the following command.
+>
+	make -f dmd_analysis.mk
+
+After executable `DMDAnalysis` is created, the package can be used from running directory in the same location at input.txt file. Although analysis package can be run on the interactive termital, it is recommended to submit analysis job in the background or using a queuing system. It's can take from few seconds to few minutes to complete the task depending on how big result data set is. For a long simulation that take approximatly a month, result data set can be very big and required extra time for the analysis package to extract requested data.
+
+### Using analysis package:
+Directory `analysis` must be created in the running directory (same location as the `results` and `output` directories) to store result files. Except the trajectory file that is in `.xyz` format (`.xtc` in future), all other data will be imported in `.txt` files and can be read by any tools of your choice. 
+### Energy vs time:
+>
+	path_to_DMDanalysis/DMDanalysis evst start_file end_file
+
+### Hydrogen bonding vs time:
+>
+	path_to_DMDanalysis/DMDanalysis hbvst start_file end_file
 
 ## Developing Status
 The software is being developed and updated. An result analysis package will be updated soon.
