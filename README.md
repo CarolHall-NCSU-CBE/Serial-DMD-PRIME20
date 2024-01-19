@@ -12,6 +12,16 @@
 ## Introduction
 PRIME20 is a coarse-grained, implicit-solvent, intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model was designed to be used with discontinuous molecular dynamics simulations (DMD) to investigate self-assembly of short peptides from their random denatured states. We are developing the parallel version of DMD/PRIME20 to reduce the computational cost for DMD simulations. PRIME20 contains geometric and energetic parameters that describe the sidechain-sidechain interactions of all 20 natural amino acids. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/PRIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments[1][2], tau protein fragments[3], Aβ16-22 peptides[4][5][6], and  Aβ17-36 peptides[7]. DMD/PRIME20 is also used with PepAD - a peptide design software, to discover amyloid-forming peptides [8].
 
+## Units:
+Table 1: Units that are used in `input.txt` and result analysis  
+|Quantity   |Unit                                                      |
+|-----------|----------------------------------------------------------|
+|boxlength  |Angstrom                                                  |
+|collision  | collision in `input.txt` or billion collisions in results|
+|energy     | kJ/mol                                                   |
+|temperature|K                                                         |
+|time       | microsecond                                              |
+
 ## Requirement and Installation
 - The package has been developed since 2001 using Fortran90
 - Parallelizing is done using Message Passing Interface (MPI)
@@ -45,7 +55,8 @@ $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro
 * where *Concentration* is in *mM* and *boxlength* is in *Angstrom*
 
 	- **T** is simulation temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.
- 	- **coll** which is the number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run, complete and record in many rounds to avoid large result files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package (underdevelopment and will be updated soon). There is not a fix value in real time for a collision.    
+ 	- **coll** which is the number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run, complete and record in many rounds to avoid large result files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package (underdevelopment and will be updated soon). There is not a fix value in real time for a collision.
+  	- **trajrecord** which is the number of collisions for DMD/PRIME20 to record a frame of trajectory 	
 
 	- **Annealing**: The current version allows annealing simulation with a default set of temperatures (annealing = 0) or a user-defined temperatures (annealing = 1). If using user-defined temperature, include addtional parameters below the annealing line:
  		- **startingtemp**: starting temperature for the annealing process (in *Kelvin*)
@@ -88,6 +99,10 @@ $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro
  	Result recording frequency in collisions
 	
  	coll=1000000000
+
+   	Trajectory recording frequency
+
+    	trajrecord = 100000
 	
  	Annealing process only for new simulation: 0 is the default, 1 is the specified temperatures in Kelvin
 	
@@ -101,7 +116,7 @@ $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro
 	
  	annealingcoll = 100000000
   
-2. **parallelscript.csh** is an example of the tcsh script that is used to submit a job on an HPC system. This file will need to be modified according to users' computer system. Main content of the script is the three steps of a simulation.
+2. **submitscript.csh** is an example of the tcsh script that is used to submit a job on an HPC system. This file will need to be modified according to users' computer system. Main content of the script is the three steps of a simulation.
 >
 	#Generate initial configuration for new simulation:
 
@@ -148,6 +163,7 @@ $$ \text{annealingrounds} = \frac{\text{startingtemp - endingtemp}}{\text{tempst
 		c. .energy: collision, time, kinetic energy, total energy, etc.
 		d. .lastvel: collision, velocities 
 		e. .pdb: pdb file
+		g. .xyz: trajectory files
 		f. .rca: distance from sidechain to each particle in the backbone of a residue
 
 >Note: These subdirectories in the **/example/** directory contains results from a short simulation for your reference. When running a new simulation, these subdirectories must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. The **.out** file shows an example of successful initial configuration generation. If your screen-written output look like this and no error showed, the initial configuration is successulffy generated. This *.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
