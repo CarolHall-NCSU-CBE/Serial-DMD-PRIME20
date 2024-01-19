@@ -190,9 +190,20 @@ Directory `analysis` must be created in the running directory (same location as 
 >
 	path_to_DMDanalysis/DMDanalysis evst start_file end_file
 
+A file that is named in the format of `evst//start_file//to//end_file//.txt` is created in the `analysis` directory. The file has 6 collumns in the order of: collisions, time, temperature, total energy (Etotal), kinectic energy (KE) and interaction potential enerrgy (PE). As PRIME20 simulation process includes 2 steps - anneanling and simulation, users have choice to include or exclude the annealing process in the report. In the bash script used for job submition, users have defined the number of annealing rounds so they can choose the value for start_file the analysis from `0001` to include annealing or from `annealinground+1` to exclude the annealing process. The end_file can be anyfile that user wish to stop the analysis at. 
+
+
 ### Hydrogen bonding vs time:
 >
 	path_to_DMDanalysis/DMDanalysis hbvst start_file end_file
+
+A file that is named in the format of `hbvst//start_file//to//end_file//.txt` is created in the `analysis` directory. The file has 4 columns in the order of: collisions, time, total hydrogen bonds and interpeptide hydrogen bonds formed during the simulations. Choice of start_file and end_file is similar to energy vs time.
+
+### Pdb file at any recorded time:
+>
+	path_to_DMDanalysis/DMDanalysis pdb number_of_collisions_in_billions
+
+DMD/PRIME20 allows simulation of hundered of microseconds, therfore, the results would be very large if we recorded data at every steps. In addition, bond vibrations happen more often than the main events, therefore, there is not much to observed if recorded too often. PRIME20 records coordinate of the whole system corresponding to the recording of energy and hydrogen bonding. Therefore, it is required that the input of `number_of_collisions_in_billions` must be exactly the same as the collision that is recorded in either `evst` or `hbvst` 
 
 ## Developing Status
 The software is being developed and updated. An result analysis package will be updated soon.
