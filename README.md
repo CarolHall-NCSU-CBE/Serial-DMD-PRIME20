@@ -24,8 +24,6 @@ Table 1: Units that are used in `input.txt` and result analysis
 
 ## Requirement and Installation
 - The package has been developed since 2001 using Fortran90
-- Parallelizing is done using Message Passing Interface (MPI)
-- OpenMPI compiler for Fortran `mpif90` is required. OpenMPI Fortran Compiler must be installed on your device or the module that contains the compiler must be loaded before compiling. 
 - The installation is through the terminal.
 - The source codes are in `/src/`. To compile, open a terminal and then navigate to the `/src/` directory on your local device. Once in `/src/` directory, create the executed files by enter the commands below.
 1. To create `initconfig` for generating initial configuration
