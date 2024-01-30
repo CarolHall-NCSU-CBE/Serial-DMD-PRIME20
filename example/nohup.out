@@ -1,15 +1,17 @@
-Peptide sequence 1: GVLYVGS                        
-Number of residues in peptide 1:   7
-Number of Glycines in peptide 1:   2
-Number of peptide 1 chains in the system:  24
-Peptide sequence 2: GVLYVGS                        
-Number of residues in peptide 2:   7
-Number of Glycines in peptide 2:   2
-Number of peptide 2 chains in the system:  24
-Box length in Angstrom:   159.0
-Simulation temperature in Kelvin:   310.0
-Simulation temperature in reduced unit:   0.186
-Result recording frequency in collisions:        1000000000
+ Peptide sequence 1: GVLYVGS                        
+ Number of residues in peptide 1:   7
+ Number of Glycines in peptide 1:   2
+ Number of peptide 1 chains in the system:  24
+ Peptide sequence 2: GVLYVGS                        
+ Number of residues in peptide 2:   7
+ Number of Glycines in peptide 2:   2
+ Number of peptide 2 chains in the system:  24
+ Box length in Angstrom:   159.0
+ Simulation temperature in Kelvin:   310.0
+ Simulation temperature in reduced unit:   0.186
+ Result recording frequency in collisions:         100000000
+ Result recording frequency in collisions:            100000
+ Annealing process is run with default temperature from 1028K to 388K.
  
 first value should be less than the 0.01 tolerance
 if not, adjust d1 d2 d3 values in sidechain adjustment section
