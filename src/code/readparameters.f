@@ -54,60 +54,6 @@ subroutine readparameters
 	 		endif
       		enddo
 	endif
-	call chdir(mydir) 
-	open(unit=parapro,file='parameters/protein.data',status='unknown')
-!     	read in sigma, welldia, and epsilon arrays
-!     	read in nitrogen bead diameter
-      	read(parapro,*)sigma(1)
-!     	read in alpha carbon bead diameter 
-      	read(parapro,*)sigma(2)
-!     	read in side chain bead diameter
-      	read(parapro,*)sigma(3)
-!     	read in carbonyl carbon bead diameter
-      	read(parapro,*)sigma(4)
-!     	read in nitrogen well diameter
-      	read(parapro,*)welldia(1)
-!     	read in dummy well diameter
-      	read(parapro,*)welldia(2)
-!     	read in side chain well diameter
-      	read(parapro,*)welldia(3)
-!     	read in carbonyl carbon well diameter
-      	read(parapro,*)welldia(4)
-!     	read in nitrogen well depth
-      	read(parapro,*)epsilon(1)
-!     	read in dummy well depth
-      	read(parapro,*)epsilon(2)
-!     	read in side chain well depth
-     	read(parapro,*)epsilon(3)
-!     	read in carbonyl carbon well depth
-      	read(parapro,*)epsilon(4)
-	close(parapro)
-!     	5 through 8 are if bonded, 1 through 4 if not bonded
-      	sigma(5)=sigma(1)
-      	sigma(6)=sigma(2)
-      	sigma(7)=sigma(3)
-      	sigma(8)=sigma(4)
-      	epsilon(5)=epsilon(1)
-      	epsilon(6)=epsilon(2)
-      	epsilon(7)=epsilon(3)
-      	epsilon(8)=epsilon(4)
-      	welldia(5)=welldia(1)
-      	welldia(6)=welldia(2)
-      	welldia(7)=welldia(3)
-      	welldia(8)=welldia(4)
-!     	residues in order: grndqehkpstacilmfwyv
-	open(unit=simwellha55a,file='parameters/beadwell_ha55a.data',status='unknown')
-      	do i=1,400
-      		read(simwellha55a,711) iiii,jjjj,bdtemp,wltemp
-711  		format(2(2x,i2,2x),2(f6.3,2x))
-       		bds(iiii,jjjj)=bdtemp
-       		wel(iiii,jjjj)=wltemp
-      	end do
-	close(simwellha55a)
-      	do k=9,28
-		sigma(i) = 1.00d0*bds(i,i)
-        	welldia(i) = 1.5d0*sigma(i)
-         	epsilon(k)=0.0d0
-      	end do
+
     	
 end subroutine
