@@ -47,9 +47,9 @@ subroutine readconfig
 
 	open(runpdb, file = 'analysis/'//collnum//'billioncollisions'//'.pdb',status = 'unknown')
 	do k=1,(noptotal)
-		sv(1,k) = readposx(k)*boxl
-		sv(2,k) = readposy(k)*boxl
-		sv(3,k) = readposz(k)*boxl
+		sv(1,k) = old_rx(k)*boxl
+		sv(2,k) = old_ry(k)*boxl
+		sv(3,k) = old_rz(k)*boxl
       	enddo
 
 end subroutine
