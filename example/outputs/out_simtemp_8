@@ -1,0 +1,262 @@
+ Peptide sequence 1: GVLYVGS                        
+ Number of residues in peptide 1:   7
+ Number of Glycines in peptide 1:   2
+ Number of peptide 1 chains in the system:  24
+ Peptide sequence 2: GVLYVGS                        
+ Number of residues in peptide 2:   7
+ Number of Glycines in peptide 2:   2
+ Number of peptide 2 chains in the system:  24
+ Box length in Angstrom:   159.0
+ Simulation temperature in Kelvin:   310.0
+ Simulation temperature in reduced unit:   0.186
+ Result recording frequency in collisions:         100000000
+ Result recording frequency in collisions:            100000
+ Annealing process is run with default temperature from 1028K to 388K.
+ number of collisions requested             100000000
+ t_fact=  5.000000000000000E-005
+ n_forced=   150.000000000000     
+ n_interval=        9375
+ 
+ avegtime is   3.346216063274377E-005
+ 
+ iflag=  1704230982
+  
+ starting from a previous run
+           2          22
+           3          23
+           4          24
+           5          25
+           7          26
+  
+           2         646
+           3         647
+           4         648
+           5         649
+           7         650
+  
+ !!!!!!!!!!!aa:            2           2           2           2           2
+           2           2           1           1           1           1
+           1           1           1           4           4           4
+           4           4           4           4          28          23
+          27          28          18           2           2           2
+           2           2           2           2           1           1
+           1           1           1           1           1           4
+           4           4           4           4           4           4
+          28          23          27          28          18
+ read parametersep/ep19p_ha55a_weakhp.data
+ read parameters/rcarnrco.data
+ read parameters/beadwell_ha55a.data
+ read parameters/sqz6to10.data
+ read parameters/mass.data
+ read results/.rca file
+ initial temperature =    2.22891098486824     
+ desired temperature =    2.23270862109875     
+ 
+ ***********************************************
+ 
+ number of particles =         1248
+ set temperature =    2.23270862109875     
+ time interval of false steps =   3.346216063274377E-005
+ chnln1 and chnln2 =            7           7
+ numbeads1 and numbeads1 =           26          26
+ 
+ n_b_hbond=           3
+ n_b_hydro=           3
+ 
+ 
+ nitrogen bead diameter =    3.30000000000000     
+ alpha carbon bead diameter =    3.70000000000000     
+ carbonyl carbon bead diameter =    4.00000000000000     
+ 
+ nitrogen well diameter =    4.50000000000000     
+ alpha carbon well  diameter =   0.000000000000000E+000
+ carbonyl carbon well  diameter =    4.50000000000000     
+ 
+ nitrogen well depth =    12.0000000000000     
+ alpha carbon well depth =   0.000000000000000E+000
+ side chain well depth =    1.20000000000000     
+ carbonyl carbon well depth =    12.0000000000000     
+ 
+ n - c alpha bond length =    1.46000000000000     
+ c alpha - c bond length =    1.51000000000000     
+ c alpha - n bond length =    1.33000000000000     
+ c alpha - side chain bond length = (variable)
+ 
+ amino acid sequence is:
+           2           2           2           2           2           2
+           2           1           1           1           1           1
+           1           1           4           4           4           4
+           4           4           4          28          23          27
+          28          18           2           2           2           2
+           2           2           2           1           1           1
+           1           1           1           1           4           4
+           4           4           4           4           4          28
+          23          27          28          18
+ 
+ ***********************************************
+ 
+ sc idents, sizes,? well widths for chain 1:
+   28 3.30000 4.95000
+   23 3.40000 5.10000
+   27 3.00000 4.50000
+   28 3.30000 4.95000
+   18 2.50000 3.75000
+ 
+ sc idents, sizes,? well widths for chain 2:
+   28 3.30000 4.95000
+   23 3.40000 5.10000
+   27 3.00000 4.50000
+   28 3.30000 4.95000
+   18 2.50000 3.75000
+ 
+ ***********************************************
+ 
+     1      2 0.86600
+     2      2 0.86600
+     3      2 0.86600
+     4      2 0.86600
+     5      2 0.86600
+     6      2 0.86600
+     7      2 0.86600
+     8      1 0.99900
+     9      1 0.99900
+    10      1 0.99900
+    11      1 0.99900
+    12      1 0.99900
+    13      1 0.99900
+    14      1 0.99900
+    15      4 1.86300
+    16      4 1.86300
+    17      4 1.86300
+    18      4 1.86300
+    19      4 1.86300
+    20      4 1.86300
+    21      4 1.86300
+    22     28 2.86600
+    23     23 3.79900
+    24     27 7.12600
+    25     28 2.86600
+    26     18 2.06400
+   625      2 0.86600
+   626      2 0.86600
+   627      2 0.86600
+   628      2 0.86600
+   629      2 0.86600
+   630      2 0.86600
+   631      2 0.86600
+   632      1 0.99900
+   633      1 0.99900
+   634      1 0.99900
+   635      1 0.99900
+   636      1 0.99900
+   637      1 0.99900
+   638      1 0.99900
+   639      4 1.86300
+   640      4 1.86300
+   641      4 1.86300
+   642      4 1.86300
+   643      4 1.86300
+   644      4 1.86300
+   645      4 1.86300
+   646     28 2.86600
+   647     23 3.79900
+   648     27 7.12600
+   649     28 2.86600
+   650     18 2.06400
+ 
+ ***********************************************
+ 
+ hp sequence is:
+           0           0           0           0           0           0
+           0           0           0           0           0           0
+           0           0           0           0           0           0
+           0           0           0           1           1           1
+           1           1           0           0           0           0
+           0           0           0           0           0           0
+           0           0           0           0           0           0
+           0           0           0           0           0           1
+           1           1           1           1
+ 
+ ***********************************************
+ 0.881   1.000   1.451   1.433   1.662
+ 1.341   1.431   1.653   1.604   1.383
+ 0.988   1.080   1.324   1.337   1.313
+ 1.014   1.025   1.348   1.284   1.314
+ 1.089   1.158   1.407   1.387   1.316
+ 1.160   1.230   1.496   1.471   1.388
+ 1.050   1.146   1.343   1.349   1.336
+ 1.169   1.233   1.479   1.434   1.326
+ 0.883   1.031   1.142   1.372   1.345
+ 1.025   1.079   1.454   1.413   1.521
+ 0.999   1.061   1.399   1.386   1.451
+ 0.989   1.000   1.437   1.360   1.492
+ 1.153   1.241   1.572   1.552   1.611
+ 1.025   1.099   1.391   1.391   1.368
+ 1.059   1.112   1.390   1.370   1.352
+ 1.092   1.152   1.407   1.369   1.303
+ 1.093   1.204   1.366   1.379   1.381
+ 1.158   1.196   1.400   1.341   1.295
+ 1.202   1.348   1.462   1.486   1.441
+ 0.978   1.024   1.358   1.324   1.370
+ 
+  
+ scaling, original boxl=   159.000000000000     
+ done scaling, boxl=   1.00000000000000     
+ implementing canon code
+ 
+ no overlap/underlap in initial configuration
+ the initial total energy of system is    2248.95736367334     
+ the initial internal energy of system is   -1923.56400000000     
+ the initial kinetic energy of system is    4172.52136367334     
+ the initial temperature of system is    2.22891098486824     
+  
+ the initial number of alpha-helical hb           1
+ the initial number of hydrogen bonds         108
+ the initial number of hydrophobic interactions   627.563999999999     
+  
+ rl_const =   1.2000  sig_max_all =   6.9530
+ 
+ at start, number of cells =          42
+ at start, avg number of nbors per particle=   6.90384615384615     
+ 
+  
+ the final total energy of system (e) is    1914.71801406386     
+ the final potential energy of system is   -2282.80800000000     
+ the final kinetic energy of system is    4197.52601406386     
+ the final temperature of system (kt) is    2.24226816990591     
+ 
+ the final number of alpha-helical hb           0
+ the final number of hydrogen bonds         126
+ the final number of hydrophobic interactions   1543.05600000000     
+  
+  
+ scaling, boxl was=   1.00000000000000     
+ done scaling, boxl=   159.000000000000     
+ t=   13.9125229071683     
+ total simulation time is    13.9125229071683     
+ dimensionless time is    6.29952751519256     
+ collision rate is    15874206.4002150     
+ 
+ event           1   2.55018600000000      %
+ event           2   45.2672540000000      %
+ event           3   49.2317840000000      %
+ event          14  1.111800000000000E-002 %
+ event          15  3.048500000000000E-002 %
+ event          16  1.112000000000000E-002 %
+ event          20  6.848599999999999E-002 %
+ event          21  6.841000000000000E-002 %
+ event          22   1.02570600000000      %
+ event          23  7.661300000000000E-002 %
+ event          24  3.627000000000000E-003 %
+ event          25  3.630000000000000E-003 %
+ event          26  0.819399000000000      %
+ 
+ number of ghost events =                 415997
+     =   0.415997000000000      %
+ number of  neighbor list updates=                  58578
+ number of  forced neighbor list updates=                      0
+ 
+ 
+ details on the time in the main loop ...
+ execution time (cpu hours)           0.1252
+ millions of coll/cpu hour           798.802
