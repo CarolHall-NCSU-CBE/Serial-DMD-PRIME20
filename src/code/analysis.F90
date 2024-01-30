@@ -12,26 +12,27 @@
 	use inputreadin
 
       	implicit none
-	INTEGER :: i,j,argcount, k,round, io
-  	!CHARACTER(len=32) :: arg()
-	character (len = 5) :: arg(3)	
-	integer izero, start, end
+	INTEGER :: i,j,argcount, k,l,round, io,annealid,count,ii,jj
+	character (len = 7) :: arg(3)	
+	integer izero, start, end, ioerr
 	character*64 filename
 	logical exist_flag
 	character*1 zero
 	character*1 char
-	character*4 initfile, endfile
+	character*4 initfile, endfile,timeorcoll
+	character(len=2) :: itochar
 	integer ichar, len
 	character*64 input1,output1,input2
 	!real*4, allocatable :: readpos(:,:)
 	data zero/'0'/
-	integer numatoms
-	real colltotal
+	integer numatoms,colltmp, collcount, collanneal
+	real colltotal,ttmp, annealtemp, sumanneal,presum
 	real*8 ttotal,ered,tred,redtemp,realtemp
       	real*8 rg_avg,e2e_avg
       	real*8 ehh_ii,ehh_ij
       	integer hb_alpha,hb_ii,hb_ij
-	
+	integer, allocatable :: pepbonduplist(:,:),pepbonddownlist(:,:), cluster(:,:),sheetpartner(:,:),coil(:)
+	real*8 rxij,ryij,rzij,rijsq,wellsq	
 
 !VN: get paths for file openning and creating:
 	call getcwd(rundir)
@@ -39,9 +40,11 @@
 	realpath = scan (path,'/',back)
 	mydir = path(1:realpath)
       	call readinputs()
-	call allocatearrays()
 	noptotal = nop1+nop2
+	boxl = boxlength
+	call allocatearrays()
 	allocate(readposx(noptotal),readposy(noptotal),readposz(noptotal))
+	allocate(pepbonduplist((nc+nc2),(nc+nc2)),pepbonddownlist((nc+nc2),(nc+nc2)),cluster((nc+nc2),(nc+nc2)),sheetpartner((nc+nc2),2),coil(nc+nc2))
 	argcount = 0
   	DO
     		CALL get_command_argument(argcount, arg(argcount))
@@ -52,7 +55,7 @@
   	END DO
 
 8       format(3F12.4)	
-	!do j = 1, (argcount-1)
+
 		if (arg(1) .eq. 'traj') then
 			initfile = arg(2)
 			endfile = arg(3)
@@ -77,7 +80,8 @@
 100				close(traj)
 			enddo
 			close(999)
-		elseif (arg(1) .eq. 'evst') then
+!!!!!!! Energy and temperature vs time:
+		elseif (arg(1) .eq. 'evst') then 
 			call chdir(rundir)
 			initfile = arg(2)
 			endfile = arg(3)
@@ -107,6 +111,7 @@
 				ttotal=ttotal+t
 				colltotal = colltotal+real(coll)/1000000000.0d0
 			enddo
+!!!!!!! Hydrogen bonding vs time: 
 		elseif (arg(1) .eq. 'hbvst') then
 			call chdir(rundir)
 			initfile = arg(2)
@@ -136,10 +141,111 @@
 				ttotal=ttotal+t
 				colltotal = colltotal+real(coll)/1000000000.0d0
 			enddo
-		endif
-	!enddo
+!!!!!!! Create cluster list:
+		elseif (arg(1) .eq. 'cluster') then
+			collnum = arg(2)
+			collnum = arg(2)
+			read(collnum,*) collinbill
+			call readconfig
+			
+			filename = 'results/run0109.bptnr'
+			open(unit=runpartner,file=filename,status='unknown', form='unformatted')
+			read(runpartner) coll, bptnr
+			open(258, file = 'analysis/cluster.txt',status = 'unknown')
+			do k = 1, nop1
+	 			chnnum(k)=(k-1)/numbeads1+1
+      			end do
+      			do k = 1, nop2
+	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
+      			end do
+			do i = 1, (noptotal-1)
+				do j = (i+1), noptotal
+					if ((bptnr(i) .eq. j) .and. (chnnum(i) .ne.chnnum(j))) then
+						pepbonduplist(chnnum(i),chnnum(j)) = pepbonduplist(chnnum(i),chnnum(j)) + 1
+					endif
+				enddo
+
+			enddo
+			do j = 2,noptotal
+				do i = 1,(j-1)
+					if ((bptnr(i) .eq. j) .and. (chnnum(i) .ne.chnnum(j))) then
+						pepbonddownlist(chnnum(j),chnnum(i)) = pepbonddownlist(chnnum(j),chnnum(i)) + 1
+					endif
+				enddo
+			enddo
+		write(258,*) 'uplist'
+		do i = 1,(nc+nc2-1)
+			do j = i+1, (nc+nc2)
+				if (pepbonduplist(i,j) .ge. 2) then
+					write(258,*) i, j, pepbonduplist(i,j)
+				endif
+			enddo
+		enddo
+		write(258,*) 'downlist'
+		do j = 1,(nc+nc2)
+			do i = 1,(j-1)
+				if (pepbonddownlist(j,i) .ge. 2) then
+					write(258,*) j, i, pepbonddownlist(j,i)
+				endif
+			enddo
+		enddo
 		
+		write(258,*) 'partner list'
+		do i = 1,(nc+nc2)
+			count = 1
+			if (i .lt. (nc+nc2)) then
+			do j = (i+1),(nc+nc2)
+				if (pepbonduplist(i,j) .ge. 2) then
+					sheetpartner(i,count) = j
+					count = count+1
+				endif
+			enddo
+			endif
+			if (i.gt. 1) then
+				do jj = 1,(i-1)
+					if (pepbonddownlist(i,jj) .ge. 2) then
+						sheetpartner(i,count) = jj
+						count = count+1
+					endif
+				enddo
+			endif
+			write(258,*) i, sheetpartner(i,1),sheetpartner(i,2)
+		enddo
+			ii = 1
+			jj = 1
+			j = 1	
+		do i = 1,(nc+nc2)
+			if (sheetpartner(i,1) .eq. 0) then
+				coil(ii) = i
+				ii = ii + 1
+			elseif ((sheetpartner(i,1) .ne. 0).and.(sheetpartner(i,2) .eq. 0)) then
+				cluster(j,jj) = i
+				while(sheetpartner(i,1).ne.0)
+				jj = jj+1
+				cluster(j,jj) = sheetpartner(i,1)
+				i = sheetpartner(i,1)
+
+				
+
+		enddo
+		close(258)
+			
+
+		
+!!!!!!! Read time from config to compare with energy file:
+		elseif (arg(1) .eq. 'pdb') then
+			call chdir(rundir)
+			collnum = arg(2)
+			read(collnum,*) collinbill
+			call readparameters
+			call readconfig
+			call write_rasmol
+			
+	endif	
 	end program
 #include "readinputs.f"
 #include "writesf_xyz.f"
 #include "allocatearrays.f"
+#include "write_rasmol-YM.f"
+#include "readconfig.f"
+#include "readparameters.f"

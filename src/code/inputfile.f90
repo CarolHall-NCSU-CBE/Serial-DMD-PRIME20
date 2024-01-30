@@ -106,7 +106,7 @@ module inputreadin
 	integer numsim, annealcheck,annealcoll, trajcoll
 	real*8 boxlength
 	real simtemp, maxannealing, minannealing, incrannealing
-	real maxtemp, mintemp
+	real maxtemp, mintemp, collinbill
 	character(len=:), allocatable :: mydir
 	character*1000 :: path, rundir
 	integer realpath, annealingsteps, simsteps, stepcount, newold, constep
@@ -114,6 +114,7 @@ module inputreadin
 	real, allocatable :: temps(:)
 	integer, allocatable :: collset(:)
 	integer :: numframe
-	real*4, allocatable :: readposx(:),readposz(:),readposy(:)
+	real, allocatable :: readposx(:),readposz(:),readposy(:)
+	character*6 collnum
 
 end module inputreadin

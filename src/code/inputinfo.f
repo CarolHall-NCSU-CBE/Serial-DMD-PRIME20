@@ -158,7 +158,6 @@
 
       	!close(unit=7)
 !     	read in sigma, welldia, and epsilon arrays
-!      	open(unit=7,file='parameters/protein.data',status='unknown')
 !     	read in nitrogen bead diameter
       	read(parapro,*)sigma(1)
 !     	read in alpha carbon bead diameter 
@@ -183,7 +182,7 @@
      	read(parapro,*)epsilon(3)
 !     	read in carbonyl carbon well depth
       	read(parapro,*)epsilon(4)
-!      	close(unit=7)
+
 !     	5 through 8 are if bonded, 1 through 4 if not bonded
       	sigma(5)=sigma(1)
       	sigma(6)=sigma(2)
