@@ -112,9 +112,10 @@ module inputreadin
 	integer realpath, annealingsteps, simsteps, stepcount, newold, constep
 	logical :: back=.true.
 	real, allocatable :: temps(:)
-	integer, allocatable :: collset(:)
+	integer, allocatable :: collset(:),cluster(:,:),layer(:,:)
 	integer :: numframe
-	real, allocatable :: readposx(:),readposz(:),readposy(:)
-	character*6 collnum
+	real*4, allocatable :: readposx(:),readposz(:),readposy(:)
+	character*7 collnum
+	integer coil, dimer, oligomer, fibril
 
 end module inputreadin

@@ -20,6 +20,7 @@
 	allocate (bdln(chnln1+chnln2),bl_rn(chnln1+chnln2),bl_rc(chnln1+chnln2))
 	allocate (tim(noptotal+3), bm(noptotal))
 	allocate (del_bdln(chnln1+chnln2),del_blrn(chnln1+chnln2),del_blrc(chnln1+chnln2))
+	allocate (cluster(nc+nc2,nc+nc2),layer(nc+nc2,nc+nc2))
 	
       	return
 
