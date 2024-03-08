@@ -12,8 +12,8 @@
 	use inputreadin
 
       	implicit none
-	INTEGER :: i,j,argcount, k,l,round, io,annealid,count,ii,jj
-	character (len = 7) :: arg(3)	
+	INTEGER :: i,j,argcount, k,l,round, io,annealid,count,ii,jj,n, sumlist, old,iiii
+	character (len = 20) :: arg(3)	
 	integer izero, start, end, ioerr
 	character*64 filename
 	logical exist_flag
@@ -27,13 +27,16 @@
 	data zero/'0'/
 	integer numatoms,colltmp, collcount, collanneal
 	real colltotal,ttmp, annealtemp, sumanneal,presum
-	real*8 ttotal,ered,tred,redtemp,realtemp
+	real*8 ttotal,ered,tred,redtemp,realtemp,temporary,e_kin
       	real*8 rg_avg,e2e_avg
       	real*8 ehh_ii,ehh_ij
       	integer hb_alpha,hb_ii,hb_ij
-	integer, allocatable :: pepbonduplist(:,:),pepbonddownlist(:,:), cluster(:,:),sheetpartner(:,:),coil(:)
-	real*8 rxij,ryij,rzij,rijsq,wellsq	
-
+	real*8 rxij,ryij,rzij,rijsq,wellsq
+	integer midchain, clusternum
+	integer face(6),center,sign,neighbor(50:100)
+	integer, allocatable :: surface(:,:) 
+	real*8 bmass_temp,bmass(28)
+		
 !VN: get paths for file openning and creating:
 	call getcwd(rundir)
 	call get_command_argument(0,path)
@@ -44,7 +47,6 @@
 	boxl = boxlength
 	call allocatearrays()
 	allocate(readposx(noptotal),readposy(noptotal),readposz(noptotal))
-	allocate(pepbonduplist((nc+nc2),(nc+nc2)),pepbonddownlist((nc+nc2),(nc+nc2)),cluster((nc+nc2),(nc+nc2)),sheetpartner((nc+nc2),2),coil(nc+nc2))
 	argcount = 0
   	DO
     		CALL get_command_argument(argcount, arg(argcount))
@@ -64,16 +66,17 @@
 			read(initfile,*) start
 			read(endfile,*) end
 			round = 1
+			open(999,file = 'analysis/check.txt',status = 'unknown')
 			open(sf, file='analysis/run'//initfile//'to'//endfile//'.xyz',status='unknown',position='append')
 			do i = start, end
 				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
 				input1 = 'results/run'//fname_digits//'.traj'
 				open(traj,file = input1,status = 'old',form='unformatted')
-				!write(*,*) input1
 				do while (.true.)
+					
 					do k = 1,noptotal
-					read(traj,end=100) readposx(k), readposy(k), readposz(k)
-					!write(999,*) readposx(k), readposy(k), readposz(k)
+						read(traj,end=100) readposx(k), readposy(k), readposz(k)
+						write(999,*) readposx(k), readposy(k), readposz(k)
 					enddo
 					call writesf_xyz()
 				enddo
@@ -103,8 +106,10 @@
 				endif
 				do while (.true.)
 					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
-					realtemp = redtemp*2288.467-115.79
-					write(3878,'(f15.4,f24.4,f18.1,f20.2,2f14.2)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),realtemp,ered*12.47,tred*12.47,(ered-0.5*tred*3*noptotal)
+					realtemp = tred/12*2288.467-115.79
+					e_kin = tred*dble(noptotal)*3.d0*0.5d0
+					!!!!! Note: energies reported from PRIME20 is not in reduced unit
+					write(3878,'(f15.4,f24.4,f18.1,f20.4,2f14.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),realtemp,ered,e_kin,(ered-0.5*tred*3.0*noptotal)
 					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 101
 				enddo
 101				close(rune)
@@ -141,16 +146,151 @@
 				ttotal=ttotal+t
 				colltotal = colltotal+real(coll)/1000000000.0d0
 			enddo
+!!!!!!! Sidechain-sidechain interaction energy vs time: 
+		elseif (arg(1) .eq. 'scvst') then
+			call chdir(rundir)
+			initfile = arg(2)
+			endfile = arg(3)
+			izero = ichar('0')
+			read(initfile,*) start
+			read(endfile,*) end
+			round = 1
+			colltotal = 0.0
+			ttotal = 0
+			open(72, file='analysis/scvst'//initfile//'to'//endfile//'.txt',status='unknown',position='append')
+			write(72,'(a25,a20,a30,a30)') 'collisions(billions)','time(microsecond)','intrapeptide sc-sc (kJ/mol)','interpeptide sc-sc (kJ/mol)'
+			write(72,'(a111)') '==============================================================================================================='
+			do i = start, end
+				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
+				input1 = 'results/run'//fname_digits//'.energy'
+				open(rune,file = input1,status = 'old')
+				if (i.gt.1) then
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+				endif
+				do while (.true.)
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+					write(72,'(f15.4,2f24.4,f30.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),ehh_ii*12.47,ehh_ij*12.47
+					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 103
+				enddo
+103				close(rune)
+				ttotal=ttotal+t
+				colltotal = colltotal+real(coll)/1000000000.0d0
+			enddo
+
+!!!!!!! Intrapeptide interaction by residues: 
+		elseif (arg(1) .eq. 'scvst') then
+			call chdir(rundir)
+			initfile = arg(2)
+			endfile = arg(3)
+			izero = ichar('0')
+			read(initfile,*) start
+			read(endfile,*) end
+			round = 1
+			colltotal = 0.0
+			ttotal = 0
+			open(72, file='analysis/scvst'//initfile//'to'//endfile//'.txt',status='unknown',position='append')
+			write(72,'(a25,a20,a30,a30)') 'collisions(billions)','time(microsecond)','intrapeptide sc-sc (kJ/mol)','interpeptide sc-sc (kJ/mol)'
+			write(72,'(a111)') '==============================================================================================================='
+			do i = start, end
+				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
+				input1 = 'results/run'//fname_digits//'.energy'
+				open(rune,file = input1,status = 'old')
+				if (i.gt.1) then
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+				endif
+				do while (.true.)
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+					write(72,'(f15.4,2f24.4,f30.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),ehh_ii*12.47,ehh_ij*12.47
+					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 104
+				enddo
+104				close(rune)
+				ttotal=ttotal+t
+				colltotal = colltotal+real(coll)/1000000000.0d0
+			enddo
+
+!!!!!!! Create cluster list:
+		elseif (arg(1) .eq. 'cluster') then
+			initfile = arg(2)
+			endfile = arg(3)
+			izero = ichar('0')
+			read(initfile,*) start
+			read(endfile,*) end
+			call chdir(rundir)
+			
+			open(258, file='analysis/clustervst'//initfile//'to'//endfile//'.txt',status='unknown',position='append')
+			write(258,'(a25,a20,a11,a9,a11,a9)') 'collisions(billions)','time(microsecond)','Monomer','Dimer','Oligomer','Fibril'
+			write(258,'(a88)') '================================================================================================'
+			do i = start, end
+				call chdir(rundir)
+				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
+				input1 = 'results/run'//fname_digits//'.energy'
+				
+				open(rune,file = input1,status = 'old')
+				if (i.gt.1) then
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+				endif
+				do while (.true.)
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+					collinbill = colltotal+real(coll)/1000000000.0d0
+					write(collnum,'(f7.4)') collinbill
+					call readconfig
+					call readbptnr
+					call readparameters
+					call clustertrack
+					write(258,'(f15.4,f24.4,i14,3i10)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),coil,dimer,oligomer,fibril
+					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 107
+				enddo
+107				close(rune)
+				ttotal=ttotal+t
+				colltotal = colltotal+real(coll)/1000000000.0d0
+			enddo
+							
+		close(258)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		elseif (arg(1) .eq. 'aggregation') then
+			call chdir(rundir)
+			initfile = arg(2)
+			endfile = arg(3)
+			izero = ichar('0')
+			read(initfile,*) start
+			read(endfile,*) end
+			do i = start, end
+				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
+				input1 = 'results/run'//fname_digits//'.energy'
+				open(rune,file = input1,status = 'old')
+				if (i.gt.1) then
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+				endif
+				do while (.true.)
+					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
+					realtemp = redtemp*2288.467-115.79
+					write(3878,'(f15.4,f24.4,f18.1,f20.4,2f14.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),realtemp,ered*12.47,tred*12.47,(ered-0.5*tred*3.0*noptotal)*12.47
+					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 501
+				enddo
+501				close(rune)
+				ttotal=ttotal+t
+				colltotal = colltotal+real(coll)/1000000000.0d0
+			enddo
+
+
+
 		
-!!!!!!! Read time from config to compare with energy file:
+!!!!!!! Write pdb file at any collision:
 		elseif (arg(1) .eq. 'pdb') then
 			call chdir(rundir)
 			collnum = arg(2)
 			read(collnum,*) collinbill
 			call readparameters
 			call readconfig
-			call write_rasmol
-			
+			! Remove periodic boundary condition:
+
+			open(runpdb, file = 'analysis/'//collnum//'billioncollision.pdb',status = 'unknown')
+	do k=1,(noptotal)
+		sv(1,k) = old_rx(k)*boxl
+		sv(2,k) = old_ry(k)*boxl
+		sv(3,k) = old_rz(k)*boxl
+      	enddo				
+	call write_rasmol
 	endif	
 	end program
 #include "readinputs.f"
@@ -159,3 +299,5 @@
 #include "write_rasmol-YM.f"
 #include "readconfig.f"
 #include "readparameters.f"
+#include "readbptnr.f"
+#include "cluster.f"
