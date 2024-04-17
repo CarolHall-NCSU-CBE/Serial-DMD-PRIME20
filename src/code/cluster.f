@@ -6,12 +6,13 @@ subroutine clustertrack
 	!!!!!!! Variable for secondary structure identification:
 	integer connect
 	integer, allocatable :: hblist(:,:),hplist(:,:),link(:),linklayer(:)
-	INTEGER :: i,j,k,l,ii,jj,count,clustersize
+	INTEGER :: i,j,k,l,ii,jj,count,clustersize,m,nl,nm,bres,layersize
 	real*8 rxij,ryij,rzij,rijsq,wellsq
 
 
 	
 	allocate(hblist(nc+nc2,nc+nc2),hplist(nc+nc2,nc+nc2),link(nc+nc2),linklayer(nc+nc2))
+	call chdir(rundir)
 			hblist = 0
 			hplist = 0
 			cluster = 0
@@ -27,8 +28,8 @@ subroutine clustertrack
       			do k = 1, nop2
 	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
       			end do
-
-		!!!!!!! Counting Hydrogen bonds between peptides
+			
+			!!!!!!! Counting Hydrogen bonds between peptides
 			do i = 1, (noptotal-1)
 				do j = (i+1), noptotal
 					if ((bptnr(i) .eq. j) .and. (chnnum(i) .ne.chnnum(j))) then
@@ -67,18 +68,21 @@ subroutine clustertrack
 				enddo
 
 			enddo
+  
 			ii = 1
 			do i = 1,(nc+nc2)
 				jj = 1
+				ii = 1
 				cluster(i,jj) = i
 				layer(i,jj) = i
 				do j = 1,(nc+nc2)
-					if ((hblist(i,j).gt.3).or.(hplist(i,j).ge.3)) then
+					if ((hblist(i,j).ge.3).or.(hplist(i,j).ge.3)) then
 						jj = jj + 1
 						cluster(i,jj) = j
 					endif
-					if (hblist(i,j).gt.3) then
-						layer(i,j) = j
+					if (hblist(i,j).ge.3) then	
+						ii = ii + 1
+						layer(i,ii) = j
 					endif
 				enddo
 			enddo
@@ -105,35 +109,42 @@ subroutine clustertrack
 			linklayer = 0
 			count = 1
 			do i = 1,(nc+nc2)
-				!print*,size(pack(layer(i,:), layer(i,:)/= 0))
 				do j = 1, size(pack(layer(i,:), layer(i,:)/= 0))
-					!print*, i, j, layer(i,j)
-					if ((layer(i,j).ne.0).and.(linklayer(layer(i,j)) .eq. 0)) then
+					if (linklayer(layer(i,j)) .eq. 0) then
 						linklayer(layer(i,j)) = count
-					elseif ((layer(i,j).ne.0).and.(linklayer(layer(i,j)) .ne. 0)) then
-						connect = link(layer(i,j))
+					else
+						connect = linklayer(layer(i,j))
 						do ii = 1, (nc+nc2)
-							if (link(ii) .eq. connect) then
-								link(ii) = count
+							if (linklayer(ii) .eq. connect) then
+								linklayer(ii) = count
 							endif
 						enddo
 					endif
 				enddo
 			count = count + 1				
 			enddo
+			
 			layer = 0
 			do i = 1, (nc+nc2)
-				layer(link(i),i) = i
+				layer(linklayer(i),i) = i
 			enddo
 
 			do i = 1, (nc+nc2)
 				clustersize = size(pack(cluster(i,:), cluster(i,:)/= 0))
+				layersize = size(pack(layer(i,:), layer(i,:)/= 0))
 				if (clustersize .eq. 1) then
 					coil = coil + 1
-				elseif ((clustersize .gt. 2).and.(clustersize .lt.7)) then
+				elseif ((clustersize .gt. 2).and.(layersize.lt.6)) then
 					oligomer = oligomer + 1
-				elseif (clustersize .ge. 7) then
+					!write(8367,*) 'oligomer ', oligomer
+					!write(8367,*) pack(cluster(i,:), cluster(i,:)/= 0)
+				elseif ((clustersize .gt. 2).and.(layersize.ge.6)) then
 					fibril = fibril + 1
+					!write(8367,*) 'fibril ',fibril
+					!write(8367,*) 'cluster'
+					!write(8367,*) pack(cluster(i,:), cluster(i,:)/= 0)
+					!write(8367,*) 'layer'
+					!write(8367,*) pack(layer(i,:), layer(i,:)/= 0)
 				endif	
 			enddo
    	

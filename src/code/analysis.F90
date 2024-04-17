@@ -12,7 +12,7 @@
 	use inputreadin
 
       	implicit none
-	INTEGER :: i,j,argcount, k,l,round, io,annealid,count,ii,jj,n, sumlist, old,iiii
+	INTEGER :: i,j,argcount, k,l,round, io,annealid,count,ii,jj,n, sumlist, old,iiii,m,nl,nm
 	character (len = 20) :: arg(3)	
 	integer izero, start, end, ioerr
 	character*64 filename
@@ -23,7 +23,6 @@
 	character(len=2) :: itochar
 	integer ichar, len
 	character*64 input1,output1,input2
-	!real*4, allocatable :: readpos(:,:)
 	data zero/'0'/
 	integer numatoms,colltmp, collcount, collanneal
 	real colltotal,ttmp, annealtemp, sumanneal,presum
@@ -46,7 +45,6 @@
 	noptotal = nop1+nop2
 	boxl = boxlength
 	call allocatearrays()
-	allocate(readposx(noptotal),readposy(noptotal),readposz(noptotal))
 	argcount = 0
   	DO
     		CALL get_command_argument(argcount, arg(argcount))
@@ -61,6 +59,7 @@
 		if (arg(1) .eq. 'traj') then
 			initfile = arg(2)
 			endfile = arg(3)
+			allocate(readposx(noptotal),readposy(noptotal),readposz(noptotal))
 			call chdir(rundir)
 			izero = ichar('0')
 			read(initfile,*) start
@@ -169,7 +168,7 @@
 				endif
 				do while (.true.)
 					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
-					write(72,'(f15.4,2f24.4,f30.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),ehh_ii*12.47,ehh_ij*12.47
+					write(72,'(f15.4,2f24.4,f30.4)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),ehh_ii,ehh_ij
 					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 103
 				enddo
 103				close(rune)
@@ -218,7 +217,7 @@
 			call chdir(rundir)
 			
 			open(258, file='analysis/clustervst'//initfile//'to'//endfile//'.txt',status='unknown',position='append')
-			write(258,'(a25,a20,a11,a9,a11,a9)') 'collisions(billions)','time(microsecond)','Monomer','Dimer','Oligomer','Fibril'
+			write(258,'(a25,a20,a11,a11,a9)') 'collisions(billions)','time(microsecond)','Monomer','Oligomer','Fibril'
 			write(258,'(a88)') '================================================================================================'
 			do i = start, end
 				call chdir(rundir)
@@ -237,16 +236,39 @@
 					call readbptnr
 					call readparameters
 					call clustertrack
-					write(258,'(f15.4,f24.4,i14,3i10)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),coil,dimer,oligomer,fibril
+					write(258,'(f15.4,f24.4,i14,2i10)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),coil,oligomer,fibril
 					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 107
 				enddo
 107				close(rune)
 				ttotal=ttotal+t
 				colltotal = colltotal+real(coll)/1000000000.0d0
 			enddo
-							
+			do i = 1, (nc+nc2)
+				write(258,'(50i5)') pack(layer(i,:), layer(i,:)/= 0)
+			enddo
+					do i = 1,(nc+nc2)
+						res  = 0
+						call phipsianalysis(i)
+						do l=0,360
+         						do m=0,360
+	    							if (res(l,m) .ne. 0) then
+               								nl=l-180
+               								nm=m-180
+									!write(258,*) i,nl,nm
+	    							endif 
+        						enddo
+						enddo
+					enddo
+								
+			do i = 1, (noptotal-1)
+				do j = (i+1), noptotal
+					if ((bptnr(i) .eq. j) .and. (chnnum(i) .ne.chnnum(j))) then
+						!write(258,*) chnnum(i), chnnum(j), i,j
+					endif
+				enddo
+			enddo	
 		close(258)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
 		elseif (arg(1) .eq. 'aggregation') then
 			call chdir(rundir)
 			initfile = arg(2)
@@ -282,15 +304,88 @@
 			read(collnum,*) collinbill
 			call readparameters
 			call readconfig
+			call readbptnr
 			! Remove periodic boundary condition:
-
+			call clustertrack
+			open(21,file='analysis/test.txt',status='unknown')
 			open(runpdb, file = 'analysis/'//collnum//'billioncollision.pdb',status = 'unknown')
-	do k=1,(noptotal)
-		sv(1,k) = old_rx(k)*boxl
-		sv(2,k) = old_ry(k)*boxl
-		sv(3,k) = old_rz(k)*boxl
-      	enddo				
-	call write_rasmol
+			do k=1,(noptotal)
+				sv(1,k) = sv(1,k)*boxl
+				sv(2,k) = sv(2,k)*boxl
+				sv(3,k) = sv(3,k)*boxl
+      			enddo				
+			
+			write(21,*) 'bptnr: '
+			do k = 1, nop1
+	 			chnnum(k)=(k-1)/numbeads1+1
+      			end do
+      			do k = 1, nop2
+	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
+      			end do
+
+			do i = 1,noptotal
+				write(21,*) i,bptnr(i),chnnum(i),chnnum(bptnr(i))
+			enddo
+			write(21,*) 'Layer: '
+			do i = 1, (nc+nc2)
+				if (size(pack(layer(i,:), layer(i,:)/= 0)).ne.0) then
+					write(21,'(50i5)') pack(layer(i,:), layer(i,:)/= 0)
+				endif
+			enddo
+			write(21,*) 'Cluster: '
+			do i = 1, (nc+nc2)
+				if (size(pack(cluster(i,:), cluster(i,:)/= 0)).ne.0) then
+					write(21,'(50i5)') pack(cluster(i,:), cluster(i,:)/= 0)
+				endif
+			enddo
+			call removepbc
+			call write_rasmol
+
+!!!!!!! Test bptnr:
+		elseif (arg(1) .eq. 'test') then
+		call chdir(rundir)
+		open(333,file='analysis/test.txt',status = 'unknown',position = 'append')
+		open(unit=111,file='results/run0010.config',status = 'old',form='unformatted')
+		open(unit=11,file='results/run0010.bptnr',status = 'old',form='unformatted')
+		do while (.true.)
+			read(111) coll,t,old_rx,old_ry,old_rz
+			if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 222
+		enddo
+222	close(111)	
+		
+		do while (.true.)
+			read(11) coll,bptnr
+			if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 223
+		enddo
+223	close(11)
+		do k = 1, nop1
+	 			chnnum(k)=(k-1)/numbeads1+1
+      			end do
+      			do k = 1, nop2
+	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
+      			end do
+
+		do i = 1,noptotal
+			sv(1,i) = old_rx(i)
+			sv(2,i) = old_ry(i)
+			sv(3,i) = old_rz(i)
+			write(333,*) i,bptnr(i),chnnum(i),chnnum(bptnr(i))
+		enddo
+		
+		do j = 1,(nc+nc2)
+			res  = 0
+			call phipsianalysis(j)
+			do l=0,360
+         			do m=0,360
+	    				if (res(l,m) .ne. 0) then
+   						nl=l-180
+               					nm=m-180
+						write(333,*) j,nl,nm
+	    				endif 
+        			enddo
+			enddo
+		enddo
+
 	endif	
 	end program
 #include "readinputs.f"
@@ -301,3 +396,5 @@
 #include "readparameters.f"
 #include "readbptnr.f"
 #include "cluster.f"
+#include "phipsi_analysis.f"
+#include "removepbc.f"
