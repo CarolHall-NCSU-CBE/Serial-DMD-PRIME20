@@ -307,15 +307,13 @@
 			call readbptnr
 			! Remove periodic boundary condition:
 			call clustertrack
-			open(21,file='analysis/test.txt',status='unknown')
 			open(runpdb, file = 'analysis/'//collnum//'billioncollision.pdb',status = 'unknown')
 			do k=1,(noptotal)
 				sv(1,k) = sv(1,k)*boxl
 				sv(2,k) = sv(2,k)*boxl
 				sv(3,k) = sv(3,k)*boxl
       			enddo				
-			
-			write(21,*) 'bptnr: '
+
 			do k = 1, nop1
 	 			chnnum(k)=(k-1)/numbeads1+1
       			end do
@@ -323,21 +321,6 @@
 	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
       			end do
 
-			do i = 1,noptotal
-				write(21,*) i,bptnr(i),chnnum(i),chnnum(bptnr(i))
-			enddo
-			write(21,*) 'Layer: '
-			do i = 1, (nc+nc2)
-				if (size(pack(layer(i,:), layer(i,:)/= 0)).ne.0) then
-					write(21,'(50i5)') pack(layer(i,:), layer(i,:)/= 0)
-				endif
-			enddo
-			write(21,*) 'Cluster: '
-			do i = 1, (nc+nc2)
-				if (size(pack(cluster(i,:), cluster(i,:)/= 0)).ne.0) then
-					write(21,'(50i5)') pack(cluster(i,:), cluster(i,:)/= 0)
-				endif
-			enddo
 			call removepbc
 			call write_rasmol
 

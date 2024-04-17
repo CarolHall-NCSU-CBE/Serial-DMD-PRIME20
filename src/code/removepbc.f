@@ -16,7 +16,7 @@
 	integer atpbc(2), chnatpbc((nc+nc2),6), count,clustersize,pos,mainface,nummove,sumchain
 	integer face(6)
 	call chdir(rundir)
-	open(8367,file='analysis/temp.txt',status='unknown')
+	!open(8367,file='analysis/temp.txt',status='unknown')
 	atboundary = 0
 	chnatpbc = 0
 	clusteratpbc = 0
@@ -40,7 +40,7 @@
 	!!!!!!! Identify how many clusters being segmented by pbc
 	do i = 1,(nc+nc2)
 		do j = 1, (nc+nc2)
-			write(8367,*) i, j, cluster(i,j)
+			!write(8367,*) i, j, cluster(i,j)
 			if (cluster(i,j).ne.0) then
 				sumchain = sumchain + sum(chnatpbc(cluster(i,j),:))
 			endif
@@ -49,10 +49,9 @@
 			count = count + 1
 			clusteratpbc(count) = i
 		endif
-		write(8367,'(6i6)') chnatpbc(i,:)
+		!write(8367,'(6i6)') chnatpbc(i,:)
 	enddo
 	do i = 1,count
-		print*, count
 		pos = clusteratpbc(i)
 		clustersize = size(pack(cluster(pos,:), cluster(pos,:)/= 0))
 		do j = 1,(nc+nc2)
@@ -81,7 +80,6 @@
 		!!!!!!! Finding edges between nodes - shortest distance to move cluster
 		do n = 1,nummove
 			mainface = maxloc(face,dim=1)
-			print*, mainface
 			do j = 1,(nc+nc2)
 				if ((cluster(pos,j).ne.0).and.(cluster(pos,j) .le. nc)) then
 					do k = numbeads1*(cluster(pos,j)-1)+1, numbeads1*cluster(pos,j)
@@ -102,6 +100,6 @@
 		enddo			
 	enddo		
 							
-	close(8367)
+	!close(8367)
 	
 	end		
