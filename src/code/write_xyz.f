@@ -18,20 +18,20 @@
 	real*4 :: txyz
 
 	oxygen = chnln1*nc+chnln2*nc2
-	write(traj,*) noptotal+oxygen
-	txyz = t + tfalse
+	write(traj,*) noptotal		!+oxygen
+	!txyz = t + tfalse
 	write(traj,*) " "
 	   
-	do k = 1,(noptotal)
-		xtmp(k)=sv(1,k)+sv(4,k)*tfalse
-		ytmp(k)=sv(2,k)+sv(5,k)*tfalse
-		ztmp(k)=sv(3,k)+sv(6,k)*tfalse
-	enddo
+	!do k = 1,(noptotal)
+	!	xtmp(k)=sv(1,k)+sv(4,k)*tfalse
+	!!	ytmp(k)=sv(2,k)+sv(5,k)*tfalse
+	!	ztmp(k)=sv(3,k)+sv(6,k)*tfalse
+	!enddo
         	
 	do k=1,(noptotal)
-         	xtmp(k)=xtmp(k)*boxl_orig
-         	ytmp(k)=ytmp(k)*boxl_orig
-         	ytmp(k)=ztmp(k)*boxl_orig
+         	xtmp(k)=xtmp(k)*boxl
+         	ytmp(k)=ytmp(k)*boxl
+         	ytmp(k)=ztmp(k)*boxl
       	enddo
 
 	do k=1,nop1/numbeads1+nop2/numbeads2

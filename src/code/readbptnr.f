@@ -1,22 +1,20 @@
-subroutine readconfig
+subroutine readbptnr
 	use global
 	use inputreadin
 	implicit none
 	
-	integer(kind=k16) collcf
+	integer(kind=k16) collbptnr
 	integer :: i,j,argcount, k,l,round, io,annealid,count,ii,jj
 	integer izero, start, end, ioerr,collanneal
 	integer ichar, len
-	real sumanneal,annealtemp,presum,tcf
-	real*8 xtmp(noptotal),ytmp(noptotal),ztmp(noptotal)
-
+	real sumanneal,annealtemp,presum
 	logical exist_flag
 	character(len=2) :: itochar
 	character*64 input1
 	izero = ichar('0')
 	annealid = 0
 	sumanneal = 0
-	call chdir(rundir)
+	bptnr = 0
 	inquire(file = 'inputs/annealtemp_1', exist = exist_flag)
 	do annealid = 1,100
 		write(itochar,'(i1)') annealid
@@ -41,17 +39,13 @@ subroutine readconfig
 		i = 9 + int((collinbill-sumanneal)/(simcoll*1E-9))
 	endif
 	fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
-	open(runcf,file = 'results/run'//fname_digits//'.config',status = 'old',form='unformatted')
+	open(runpartner,file = 'results/run'//fname_digits//'.bptnr',status = 'old',form='unformatted')
 	do while (.true.)
-		read(runcf) collcf,tcf,xtmp, ytmp, ztmp
-		if (abs(collinbill- int((real(collcf)/(1E9)+presum)*10000.0)*1E-4) .le. 0.0005) go to 104
-		if((collcf.gt.0).and.(mod(collcf,10000000).eq.0)) goto 104
+		read(runpartner) collbptnr,bptnr
+		if (abs(collinbill- int((real(collbptnr)/(1E9)+presum)*10000.0)*1E-4) .le. 0.0005) go to 104
+		if((collbptnr.gt.0).and.(mod(collbptnr,10000000).eq.0)) goto 104
 	enddo
-104	close(runcf)
-	do k=1,(noptotal)
-		sv(1,k) = xtmp(k)
-		sv(2,k) = ytmp(k)
-		sv(3,k) = ztmp(k)
-      	enddo
+104	close(runpartner)
+
 
 end subroutine

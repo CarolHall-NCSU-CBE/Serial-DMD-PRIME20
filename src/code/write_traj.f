@@ -27,7 +27,7 @@
 	do k=1,(noptotal)
          	xtmp(k)=xtmp(k)*boxl_orig
          	ytmp(k)=ytmp(k)*boxl_orig
-         	ytmp(k)=ztmp(k)*boxl_orig
+         	ztmp(k)=ztmp(k)*boxl_orig
       	enddo
 
 	do k=1,nop1/numbeads1+nop2/numbeads2
