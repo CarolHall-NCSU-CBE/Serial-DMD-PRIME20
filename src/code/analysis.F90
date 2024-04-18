@@ -300,6 +300,7 @@
 !!!!!!! Write pdb file at any collision:
 		elseif (arg(1) .eq. 'pdb') then
 			call chdir(rundir)
+			!open(517,file='analysis/test.txt',status='unknown')
 			collnum = arg(2)
 			read(collnum,*) collinbill
 			call readparameters
@@ -320,6 +321,18 @@
       			do k = 1, nop2
 	 			chnnum(nop1+k)=(nop1/numbeads1)+(k-1)/numbeads2+1
       			end do
+			!write(517,*) 'Layer: '
+			!do i = 1, (nc+nc2)
+			!	if (size(pack(layer(i,:), layer(i,:)/= 0)).ne.0) then
+			!		write(517,'(50i5)') pack(layer(i,:), layer(i,:)/= 0)
+			!	endif
+			!enddo
+			!write(517,*) 'Cluster: '
+			!do i = 1, (nc+nc2)
+			!	if (size(pack(cluster(i,:), cluster(i,:)/= 0)).ne.0) then
+			!		write(517,'(50i5)') pack(cluster(i,:), cluster(i,:)/= 0)
+			!	endif
+			!enddo
 
 			call removepbc
 			call write_rasmol
