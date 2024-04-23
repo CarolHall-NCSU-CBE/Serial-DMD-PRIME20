@@ -1,4 +1,4 @@
-# Serial DMD/PRIME20 - Coarse-grained force field with discontinuous molecular dynamics simulations for peptide self-assembly modelling 
+# Serial DMD/PRIME20 - Coarse-grained force field for use with discontinuous molecular dynamics simulations to model peptide self-assembly 
 ## Table of contents
 * [Introduction](#introduction)
 * [Requirement and Installation](#requirement-and-installation)
