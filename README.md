@@ -75,6 +75,7 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**boxlength**            | length of the simulation box. DMD/PRIME20 uses cubic box with periodic boundary condition for all simulations. *boxlength* is calculated based on the number of peptide chains and concentration following Equation (1).| 
 
 **Equation (1):** boxlength calculation
+
 $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro's number * Concentration}})^\frac{1}{3}*10^9 $$
 
 where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
