@@ -63,14 +63,14 @@ Table 1: Units that are used in `input.txt` and result analysis
 
 ## Running simulation
 ### Getting Started:
-#### I. File and folder requirements
+#### File and folder requirements
 - All files and folders that are required for a complete simulation and data analysis can be found in directory **/example/** in the package. Names of files and folders need cannot be modified. The **input.txt**, **submission_script**. and required folders must be placed in the same directory for each individual simulation. 
 - Requirements for running simulation: **input.txt** and **submission_script**.
 > Format of **input.txt** must be followed exactly. **submission_script** should be written to suit the local device.
 - Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`. These folders must be created at the beginning of a new simulation.
 - Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
 
-#### II. Paramemters in `input.txtx` to start a simulation
+#### Paramemters in `input.txtx` to start a simulation
 **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter            | Description                                                              |
