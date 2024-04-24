@@ -7,6 +7,7 @@
 
  	[DMD Simulation](#dmd-simulation)
 * [Requirement and Installation](#requirement-and-installation)
+* [Units](#units)
 * [Running Simulation](#running-simulation)
 
   	[Getting Started](#getting-started)
@@ -29,13 +30,16 @@ Different types of events might occur including excluded-volume events, bond eve
 - Requirement: Fortran F90 and Intel Fortran Compiler ifort
 - The installation is through the terminal.
 - The source codes are in /src/. To compile, open a terminal and then navigate to the /src/ directory on your local device. Once in /src/ directory, create the executed files by enter the commands below.
-- To create initconfig for generating initial configuration
+- To create `initconfig` for generating initial configuration
 > make -f genconfig.mk
 
-- To create DMDPRIME20 for DMD simulations
+- To create `DMDPRIME20` for DMD simulations
 > make -f dmd.mk
 
-If there is no error return, check if initconfig andand DMDPRIME20 are succesfully created in src
+- To create `DMDanalysis` for data anylysis
+> make -f dmd_analysis.mk
+
+If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalysis` are succesfully created in src
 Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
@@ -43,7 +47,7 @@ Obtain the paths to these executable files to use in job submission.
 Table 1: Units that are used in `input.txt` and result analysis  
 |Quantity   |Unit                                                      |
 |-----------|----------------------------------------------------------|
-|boxlength  |Angstrom                                                  |
+|boxlength  | Angstrom                                                  |
 |collision  | collision in `input.txt` or billion collisions in results|
 |energy     | kJ/mol                                                   |
 |temperature|K                                                         |
