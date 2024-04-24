@@ -84,7 +84,7 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 
 >**Note:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the very end of **input.txt**: 
 >
->	**sidechainmove** = value that is larger than 3.0	
+> **<div align="center"> sidechainmove = value that is larger than 3.0 </div>** 
 >	
 >It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 
@@ -94,7 +94,7 @@ $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro
 
 where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 
-- An example of **input.txt** that include parameters for are use-defined annealing temperature is below. If running simulaiton with default annealing temperature, set annealing = 0 and delete all parameter below that line.
+- An example of **input.txt** that includes parameters for are use-defined annealing temperature is below. If running simulaiton with default annealing temperature, set annealing = 0 and delete all parameter below that line.
 >
 	Peptide sequence 1
 
@@ -140,36 +140,41 @@ where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 	
  	annealingcoll = 100000000
   
-2. **submitscript.csh** is an example of the tcsh script that is used to submit a job on an HPC system. This file will need to be modified according to users' computer system. Main content of the script is the three steps of a simulation.
+#### submission_script.sh
+The corresponding example of a bash script that is used to submit a job for the system above to a workstation without queuing system is as below. This file will need to be modified according to users' computer system.
 >
-	#Generate initial configuration for new simulation:
+	#!/bin/bash
+	# Create folders for data recording and data analysis
+	mkdir results
+	mkdir outputs
+	mkdir parameters
+	mkdir inputs
+	mkdir checks
+	mkdir analysis
 
+	# Generate initial configuration for new simulation:
 	/path_to_initconfig/initconfig
 
-	#Annealing:
+	# Annealing (the numbers in brace brackets indicate annealing cycles. DMD/PRIME20 needs to run 6 cycles to reduce temperature from 1000K to 375K with 		# the decrement of 125K after each cycle. If using default annealing temperatures, replace by {1..9}):	
+	for i in {1..6}
+	do /path_to_DMDPRIME20/DMDPRIME20 < inputs/annealtemp_$i > outputs/out_annealtemp_$i
+	done
 
-	foreach i (`seq 1 annealingrounds`)
+	# DMD simulations
+	for i in {1..300}
+	do /path_to_DMDPRIME20/DMDPRIME20 < inputs/simtemp > outputs/out_simtemp_$i
+	done
 
-		do /path_to_DMDPRIME20/DMDPRIME20 < inputs/annealtemp_$i > outputs/out_annealtemp_$i
-
-	end
-
-	#DMD simulations
-
-	foreach i (`seq start end`)
-
-		do /path_to_DMDPRIME20/DMDPRIME20 < inputs/simtemp > outputs/out_simtemp_$i
-
-	end
-
-- Generating initial configuration for new simulation: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with *0000*. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. Although, DMD/PRIME20 simulation is parallelized, this step is done in *serial*. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/Parallel-DMD-PRIME20` then the path to executable file will be `/home/user/Parallel-DMD-PRIME20/src/`. Your submission script will look like: `/home/user/Parallel-DMD-PRIME20/src**/initconfig`
-- Annealing: This step is to heat up the initial system to very high temperature and then slowly cool it down to near simulation temperature. This step is only required for simulation of a completely new system. The purpose of this step is to make sure all peptide chains are denatured and simulation starts with all random coils. There are two options for annealing:
-	- Default annealing (annealing = 0 in input.txt): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set **annealingrounds** in the parallelscript.sch to **9**. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
- 	- User-defined annealing (annealing = 1 in input.txt): The annealing process will be done with the temperature range and number of collision that are defined by user. If using this option, the **annealingrounds** is found as:
+- **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with *0000*. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
+- **Annealing**: This step is to heat up the initial system to very high temperature and then slowly cool it down to near simulation temperature. This step is only required for simulation of a completely new system. The purpose of this step is to make sure all peptide chains are denatured and simulation starts with all random coils. There are two options for annealing:
+	- **Default annealing** (annealing = 0 in **input.txt**): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set the loops to **{1..9}**. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
+ 	- **User-defined annealing** (annealing = 1 in **input.txt**): The annealing process will be done with the temperature range and number of collision that are defined by user. If using this option, the number of annealing cycle is found as:
 
 $$ \text{annealingrounds} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
 
-- DMD Simulation: This is the DMD simulation step. The number of simulation rounds must be specified. Each simulation round will be run for a number of **coll** specied in *input.txt*. 
+- **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. Each simulation round will be run for a number of **coll** specied in **input.txt**.
+
+**Complete formating till this point**
 	- Starting a new simulation: **start** = 1 and **end** = number of simulation rounds. The total simulation time is equal **coll** times **end**, so the value of **end** is dependent on how long user wants to run the simulation for and how often user wants to record outputs. It is recomended to run simulations for about 100 billion collisions first and then extending simulation times if aggregation has not happened. For example, if running for 100 simulation rounds then set ``foreach i (`seq 1 100`)``
  	- Continuing simulation or restarting crashed simulation: **start** = (the last completed simulation round + 1) and **end** = number of simulation rounds.
   		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions set ``foreach i (`seq 101 200`)``
