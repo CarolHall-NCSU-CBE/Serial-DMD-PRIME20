@@ -65,7 +65,8 @@ Table 1: Units that are used in `input.txt` and result analysis
 - Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
 
 #### Input Parameters:
-**input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
+- These are parameters that must be specified in **input.txt** file to run DMD/PRIME20 simulations. Please follow the format to enter all parameters that are required. Missing a parameter or incorrect format will cause error and simulation cannot be run. Explanation for each parameter is included in the file.
+
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter            | Description                                                              |
 |**pep1** and **pep2**| sequences of the peptides that are simulated. It must be in abbrevating alphabetical format (e.g. pep1=GVLYVGS).| 
