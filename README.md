@@ -7,14 +7,10 @@
 * [Requirement and Installation](#requirement-and-installation)
 * [Units](#units)
 * [Running Simulation](#running-simulation)
-
-  	[Getting Started](#getting-started)
-  
-  		[File and Folder Requirements](#file-and-folder-requirements)
-  
-  	[Input Parameters](#input-parameters)
-
-  	[Submit A Job](#submit-a-job)
+  	- [Getting Started](#getting-started)
+  		- [File and Folder Requirements](#file-and-folder-requirements)
+  	 	- [Input Parameters](#input-parameters)
+  	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
 * [Developing Status](#developing-status)
 ## Introduction
