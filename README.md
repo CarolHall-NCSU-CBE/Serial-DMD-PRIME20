@@ -77,7 +77,7 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**coll**                 | number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run and record data in complete separated rounds to avoid large data files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package. There is not a fix value in real time for a collision.|
 |**trajrecord**           | frequency in collision as when to record bead positions for making trajectory file| 
 |**annealing**            | the current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**). If **annealing = 0**, no extra parameter is needed; the number of annealing cycle is *9*. If **annealing = 1**, addition parameters are required as follows:|
-|**startingtemp**        :| starting temperature for the annealing process (in *Kelvin*)|
+|**startingtemp** :| starting temperature for the annealing process (in *Kelvin*)|
 |**endingtemp**           | ending temperature for the annealing process (in *Kelvin*)|
 |**tempstep**             | temperature drop after each annealing cycle (in *Kelvin*)|
 |**annealingcoll**        | number of collisions to complete each annealing cycle. Recommended value is from 100 million to 250 million collisions|
