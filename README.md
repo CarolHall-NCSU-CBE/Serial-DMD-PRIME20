@@ -35,10 +35,12 @@ Different types of events might occur including excluded-volume events, bond eve
 	make -f genconfig.mk
 
 - To create `DMDPRIME20` for DMD simulations
-> make -f dmd.mk
+>
+	make -f dmd.mk
 
 - To create `DMDanalysis` for data anylysis
-> make -f dmd_analysis.mk
+>
+	make -f dmd_analysis.mk
 
 If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalysis` are succesfully created in src
 Obtain the paths to these executable files to use in job submission.
