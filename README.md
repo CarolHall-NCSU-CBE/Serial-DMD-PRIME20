@@ -46,7 +46,7 @@ If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalys
 Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
-## Units:
+## Units
 Table 1: Units that are used in `input.txt` and result analysis  
 |Quantity   |Unit                                                      |
 |-----------|----------------------------------------------------------|
