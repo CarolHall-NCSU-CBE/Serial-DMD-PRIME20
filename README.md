@@ -70,7 +70,7 @@ Table 1: Units that are used in `input.txt` and result analysis
 - Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`. These folders must be created at the beginning of a new simulation.
 - Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
 
-#### Paramemters in `input.txtx` to start a simulation
+#### Paramemters in `input.txt` to start a simulation
 **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter            | Description                                                              |
