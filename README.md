@@ -14,63 +14,13 @@
   
   	[File and folder requirements](#file-and-folder-requirements)
   
-  	[Paramemters in input.txt to start a simulation](#paramemters-in-input.txt-to-run-a-simulation)
+  	[Paramemters in input.txt to run a simulation](#paramemters-in-input.txt-to-run-a-simulation)
 
   	[Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
 * [Developing Status](#developing-status)
 ## Introduction
-PRIME20 is a implicit-solvent and intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model is designed to use with discontinuous molecular dynamics (DMD) simulations to investigate self-assembly of short peptides from their random denatured states. PRIME20 contains pair-wise interaction parameters of all twenty natural amino acid. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/PRIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments[1][2], tau protein fragments[3], Aβ16-22 peptides[4][5][6], and  Aβ17-36 peptides[7]. DMD/PRIME20 is also used with PepAD - a peptide design software, to discover amyloid-forming peptides [8].
-
-## Methods
-### Coarse-grained model:
-PRIME20 is a four-bead CG model with three-bead to describe backbone and one-bead to describe sidechain. The three-bead backbone model is found to be a well balance between relatively realistic backbone geometry and model efficiency. Firstly, it can explicitly model hydrogen bonding in the backbone. Secondly, it allows modeling of secondary structure of polypeptide as dihedral angles can be described, calculated, and constrained in the sterically allowed spaced on the Ramachandran plot. The backbone beads are assigned different diameters and mass based on the realistic size of the groups they are presented in the model. The amine bead is positioned at the corresponding nitrogen atom, while carbon alpha and carbonyl bead are positioned at the respective carbon atom of that group. While the backbone is modeled with details, each sidechain is mapped into a single united bead that is positioned at the center of mass of the sidechain group. Sidechain masses are kept as realistic values, but the diameter of each sidechain is parameterized specifically for each sidechain-sidechain interaction. Cheon et al.[9] calculated radial distribution function histogram between each pair of sidechains from 711 pdb of natural proteins from Protein Data Bank and selected the first non-zero value of the radial distribution function to be the diameter of the pair. Cheon et al. tabulated a set of 171 bead diameters as glycine doesn’t have a sidechain. In summary, the diameter of the sidechain is not a constant value through the simulation but will be changed based on the interaction sidechain. Covalent and pseudo bonds are implemented in the models to secure modeled polypeptides in realistic geometry of natural proteins. Three covalent bonds connect NH, CO, and R to CαH, and one covalent bond describes peptide bond linking two peptides together. These bonds are shown as solid black bonds in Fig. 1. The lengths of these bonds follow the corresponding distances in real proteins. Instead of using a set of bond angles, six pseudo bonds are assigned for both inter- and intra-residues to manage the peptide conformations as L-isomer and dihedral bond angles in the realistic observed regions. The pseudo bond that connects CαH-CαH is set at 3.8 Angstroms to restrain the trans configuration of the polypeptide. Currently, PRIME20 doesn’t consider cis configurations, therefore PRIME20 cannot model proline as accurately as other amino acids. Numeric values of these bond lengths are listed by Voegler, Smith and Hall.
-### DMD Simulation:
-DMD is very fast compared to classical MD as DMD uses simple discontinuous potentials such as hard sphere or square-well potentials to describe the interaction between CG beads. DMD is event-driven as opposed to molecular dynamics which is time-driven. An event or also called a collision is said to occur whenever there is an abrupt change in the interaction potential between two beads. In this paper, we use the term collision as one of the time units beside reduced time and time SI unit. DMD simulations of polymers and other chain-like molecules were first introduced by Rapaport[10-12] and later modified by Bellemans et al.[13] DMD simulations are later used by man research groups to study protein aggregation. Each group uses DMD with different forcefields, including CG and all-atom.
-DMD speeds up simulation by both increasing timestep and reducing the cost of calculations. At each iteration, the algorithm assumes that all beads in the system move at their constant velocities meaning that there is no force applied on the beads during movement. Therefore, the DMD method reduces computational cost to numerically solve the Newton’s equation of motion at every small timestep (1-2fs). Instead, the program solves for collision time of each pair when the distance between them is at the discontinuity of the discontinuous interaction potential. Single-event scheduling is used to store the collision time. Therefore, the algorithm only stores the soonest-to-happen event for each bead. Bucket sorting algorithm is used to reduce the cost of searching for the soonest-to-happen event for the whole system, as only a small portion of collision times that are stored in the first bucket goes through bubble sorting. DMD then solves dynamic changes of the two collided beads using conservation of energy and momentum. The system is advanced to that soonest-to-happen collision time.
-Different types of events might occur including excluded-volume events, bond events, or square-well events based on types of collided beads and direction of their velocities. Excluded-volume events are observed when an infinite repulsion between adjacent beads occurs if they move too close to each other. Bond events occur when bonded beads move outward and try to break their assigned bonds. As a result, infinitely strong attractive forces are applied so that the beads move back and forth within permissible bond lengths. Square-well events include more than just one type of interaction between two beads. First is the well-capture event when a sphere enters the square well of another sphere. Another is well-bounce, when a sphere attempts to leave the potential well but, due to insufficient kinetic energy, it is unable to overcome the negative potential energy of the attractive square well and is reflected into the well. Well-dissociation occurs when the bead has sufficient kinetic energy to completely leave the square well of the other sphere, resulting in a decreased kinetic energy of the bead. 
-
-## Requirement and Installation
-- Requirement: Fortran F90 and Intel Fortran Compiler ifort
-- The installation is through the terminal.
-- The source codes are in /src/. To compile, open a terminal and then navigate to the /src/ directory on your local device. Once in /src/ directory, create the executed files by enter the commands below.
-- To create `initconfig` for generating initial configuration
->
-	make -f genconfig.mk
-
-- To create `DMDPRIME20` for DMD simulations
->
-	make -f dmd.mk
-
-- To create `DMDanalysis` for data anylysis
->
-	make -f dmd_analysis.mk
-
-If there is no error return, check if `initconfig`, `DMDPRIME20`, and `DMDanalysis` are succesfully created in src
-Obtain the paths to these executable files to use in job submission.
->**Note:** if redownload the package or update a new version, the previous steps need to be redo.
-
-## Units
-Table 1: Units that are used in `input.txt` and result analysis  
-|Quantity   |Unit                                                      |
-|-----------|----------------------------------------------------------|
-|boxlength  | Angstrom                                                 |
-|collision  | collision in `input.txt` or billion collisions in results|
-|energy     | kJ/mol                                                   |
-|temperature| K                                                        |
-|time       | microsecond                                              |
-
-
-## Running simulation
-### Getting Started:
-#### File and folder requirements
-- All files and folders that are required for a complete simulation and data analysis can be found in directory **/example/** in the package. Names of files and folders need cannot be modified. The **input.txt**, **submission_script**. and required folders must be placed in the same directory for each individual simulation. 
-- Requirements for running simulation: **input.txt** and **submission_script**.
-> Format of **input.txt** must be followed exactly. **submission_script** should be written to suit the local device.
-- Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`. These folders must be created at the beginning of a new simulation.
-- Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
-
-#### Paramemters in `input.txt` to start a simulation
+PRIME20 is a implicit-solvent and intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model is designed to use with discontinuous molecular dynamics (DMD) simulations to investigate self-assembly of short peptides from their random denatured states. PRIME20 contains pair-wise interaction parameters of all twenty natural amino acid. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/PRIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments[1][2], tau protrun a simulation
 **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter            | Description                                                              |
