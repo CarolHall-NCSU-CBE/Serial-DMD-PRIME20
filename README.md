@@ -74,8 +74,9 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**chain1** and **chain2**| number of peptide chains of each peptide component in the simulation box. If the peptide is long, *chain1* and *chain2* should be reduced to avoid overcrowding, overlapping and to reduce simulation time. The largest system has been simulated using DMD/PRIME20 contains 192 Aβ16-22 peptides[6].|
 |**boxlength**            | length of the simulation box. DMD/PRIME20 uses cubic box with periodic boundary condition for all simulations. *boxlength* is calculated based on the number of peptide chains and concentration following Equation (1).| 
 
+**Equation (1):** boxlength calculation
 $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro's number * Concentration}})^\frac{1}{3}*10^9 $$
-- where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
+where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 
 	- **T** is simulation temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.
  	- **coll** which is the number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run, complete and record in many rounds to avoid large result files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package (underdevelopment and will be updated soon). There is not a fix value in real time for a collision.
