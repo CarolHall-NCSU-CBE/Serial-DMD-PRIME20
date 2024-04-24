@@ -76,29 +76,23 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**T**                    | simulated temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.|
 |**coll**                 | number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run and record data in complete separated rounds to avoid large data files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package. There is not a fix value in real time for a collision.|
 |**trajrecord**           | frequency in collision as when to record bead positions for making trajectory file| 
-|**annealing**            | the current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**). If **annealing = 0**, no extra parameter is needed; the number of annealing cycle is *9*. If **annealing = 1**, addition parameters are required as follows:|
-|**startingtemp** :| starting temperature for the annealing process (in *Kelvin*)|
+|**annealing**            | the current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**). If **annealing = 0**, no extra parameter is needed; the number of annealing cycle is *9*. If **annealing = 1**, *four* additional parameters are required as follows:|
+|**startingtemp**         | starting temperature for the annealing process (in *Kelvin*)|
 |**endingtemp**           | ending temperature for the annealing process (in *Kelvin*)|
 |**tempstep**             | temperature drop after each annealing cycle (in *Kelvin*)|
 |**annealingcoll**        | number of collisions to complete each annealing cycle. Recommended value is from 100 million to 250 million collisions|
+
+>**Note:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the very end of **input.txt**: 
+>
+>	**sidechainmove** = value that is larger than 3.0	
+>	
+>It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 
 **Equation (1):** *boxlength* calculation
 
 $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro's number * Concentration}})^\frac{1}{3}*10^9 $$
 
 where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
-
-	
- 	
-  		
-
-	   
-
->**Note:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the very end of **input.txt**: 
->
->	*sidechainmove* = value that is larger than 3.0	
->	
->It is recommended to increase only 0.5 at a time starting from 3.0. A very large number will make the initial configuration generation very slow`
 
 - An example of **input.txt** that include parameters for are use-defined annealing temperature is below. If running simulaiton with default annealing temperature, set annealing = 0 and delete all parameter below that line.
 >
