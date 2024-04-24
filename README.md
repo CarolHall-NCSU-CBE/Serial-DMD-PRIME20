@@ -76,6 +76,7 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 
 **Equation (1):** boxlength calculation
 $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro's number * Concentration}})^\frac{1}{3}*10^9 $$
+
 where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 
 	- **T** is simulation temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.
