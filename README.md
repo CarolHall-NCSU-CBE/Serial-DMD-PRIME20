@@ -10,6 +10,7 @@
   	- [Getting Started](#getting-started)
   		- [File and Folder Requirements](#file-and-folder-requirements)
   	 	- [Input Parameters](#input-parameters)
+  	  	- [Submission Script](#submission-script)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
 * [Developing Status](#developing-status)
@@ -140,7 +141,7 @@ where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 	
  	annealingcoll = 100000000
   
-#### submission_script.sh
+#### Submission Script
 The corresponding example of a bash script that is used to submit a job for the system above to a workstation without queuing system is as below. This file will need to be modified according to users' computer system.
 >
 	#!/bin/bash
