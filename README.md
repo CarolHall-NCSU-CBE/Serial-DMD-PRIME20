@@ -76,11 +76,13 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**T**                    | simulated temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.|
 |**coll**                 | number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run and record data in complete separated rounds to avoid large data files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package. There is not a fix value in real time for a collision.|
 |**trajrecord**           | frequency in collision as when to record bead positions for making trajectory file| 
-|**Annealing**            | The current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**). If using user-defined temperature, include addtional parameters below the annealing line:
- 		- **startingtemp**: starting temperature for the annealing process (in *Kelvin*)
-		- **endingtemp**: ending temperature for the annealing process (in *Kelvin*)
-		- **tempstep**: temperature drop for each annealing cycle (in *Kelvin*)
-  		- **annealingcoll**: number of collisions to complete each annealing cycle. Recommended value is from 100 million to 250 million collisions|
+|**annealing**            | the current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**)|
+|If **annealing = 0**, no extra parameter is needed. The number of annealing cycle is *9*.|
+|If **annealing = 1**, addition parameters are required as follows:|
+|**startingtemp**         | starting temperature for the annealing process (in *Kelvin*)|
+|**endingtemp**           | ending temperature for the annealing process (in *Kelvin*)|
+|**tempstep**             | temperature drop after each annealing cycle (in *Kelvin*)|
+|**annealingcoll**        | number of collisions to complete each annealing cycle. Recommended value is from 100 million to 250 million collisions|
 
 **Equation (1):** *boxlength* calculation
 
