@@ -25,7 +25,18 @@ DMD is very fast compared to classical MD as DMD uses simple discontinuous poten
 DMD speeds up simulation by both increasing timestep and reducing the cost of calculations. At each iteration, the algorithm assumes that all beads in the system move at their constant velocities meaning that there is no force applied on the beads during movement. Therefore, the DMD method reduces computational cost to numerically solve the Newton’s equation of motion at every small timestep (1-2fs). Instead, the program solves for collision time of each pair when the distance between them is at the discontinuity of the discontinuous interaction potential. Single-event scheduling is used to store the collision time. Therefore, the algorithm only stores the soonest-to-happen event for each bead. Bucket sorting algorithm is used to reduce the cost of searching for the soonest-to-happen event for the whole system, as only a small portion of collision times that are stored in the first bucket goes through bubble sorting. DMD then solves dynamic changes of the two collided beads using conservation of energy and momentum. The system is advanced to that soonest-to-happen collision time.
 Different types of events might occur including excluded-volume events, bond events, or square-well events based on types of collided beads and direction of their velocities. Excluded-volume events are observed when an infinite repulsion between adjacent beads occurs if they move too close to each other. Bond events occur when bonded beads move outward and try to break their assigned bonds. As a result, infinitely strong attractive forces are applied so that the beads move back and forth within permissible bond lengths. Square-well events include more than just one type of interaction between two beads. First is the well-capture event when a sphere enters the square well of another sphere. Another is well-bounce, when a sphere attempts to leave the potential well but, due to insufficient kinetic energy, it is unable to overcome the negative potential energy of the attractive square well and is reflected into the well. Well-dissociation occurs when the bead has sufficient kinetic energy to completely leave the square well of the other sphere, resulting in a decreased kinetic energy of the bead. 
 
+## Requirement and Installation
+- Requirement: Fortran F90 and Intel Fortran Compiler ifort
+- The installation is through the terminal.
+- The source codes are in /src/. To compile, open a terminal and then navigate to the /src/ directory on your local device. Once in /src/ directory, create the executed files by enter the commands below.
+- To create initconfig for generating initial configuration
+> make -f genconfig.mk
 
+- To create DMDPRIME20 for DMD simulations
+> make -f dmd.mk
+
+If there is no error return, check if initconfig andand DMDPRIME20 are succesfully created in src
+Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
 ## Units:
