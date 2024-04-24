@@ -2,10 +2,8 @@
 ## Table of contents
 * [Introduction](#introduction)
 * [Methods](#methods)
-
-	[Coarse-grained Model](#coarse-grained-model)
-
- 	[DMD Simulation](#dmd-simulation)
+	- [Coarse-grained Model](#coarse-grained-model)
+  	- [DMD Simulation](#dmd-simulation)
 * [Requirement and Installation](#requirement-and-installation)
 * [Units](#units)
 * [Running Simulation](#running-simulation)
