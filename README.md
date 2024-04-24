@@ -69,6 +69,7 @@ Table 1: Units that are used in `input.txt` and result analysis
 
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter            | Description                                                              |
+|---------------------|--------------------------------------------------------------------------|
 |**pep1** and **pep2**| sequences of the peptides that are simulated. It must be in abbrevating alphabetical format (e.g. pep1=GVLYVGS).| 
 |		      |The current version can run simulations for system with single or double components; each with maximum length of |
 |		      |30 residues. If system contains single peptide sequence, then *pep1* and *pep2* are the same in the 'input.txt'  |
