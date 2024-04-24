@@ -50,10 +50,10 @@ Obtain the paths to these executable files to use in job submission.
 Table 1: Units that are used in `input.txt` and result analysis  
 |Quantity   |Unit                                                      |
 |-----------|----------------------------------------------------------|
-|boxlength  | Angstrom                                                  |
+|boxlength  | Angstrom                                                 |
 |collision  | collision in `input.txt` or billion collisions in results|
 |energy     | kJ/mol                                                   |
-|temperature|K                                                         |
+|temperature| K                                                        |
 |time       | microsecond                                              |
 
 
