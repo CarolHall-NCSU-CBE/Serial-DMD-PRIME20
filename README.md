@@ -12,9 +12,9 @@
 
   	[Getting Started](#getting-started)
   
-  		[I. File and folder requirements](#I.-file-and-folder-requirements)
+  		[I.File and folder requirements](#I.-file-and-folder-requirements)
   
-  		[II. Paramemters in `input.txtx` to start a simulation](#II.-Paramemters-in-input.txtx-to-run-a-simulation)
+  		[II.Paramemters in `input.txtx` to start a simulation](#II.-Paramemters-in-input.txtx-to-run-a-simulation)
 
   	[Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
