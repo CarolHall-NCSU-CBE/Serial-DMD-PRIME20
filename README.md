@@ -12,7 +12,7 @@
 
   	[Getting Started](#getting-started)
   
-  	[File and Folder Requirements](#file-and-folder-requirements)
+  		[File and Folder Requirements](#file-and-folder-requirements)
   
   	[Input Parameters](#input-parameters)
 
