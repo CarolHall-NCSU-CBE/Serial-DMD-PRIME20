@@ -12,7 +12,7 @@
 
   	[Getting Started](#getting-started)
   
-  	[I. File and folder requirements](#i.-file-and-folder-requirements)
+  	[I. File and folder requirements](#file-and-folder-requirements)
   
   	[Paramemters in input.txtx to start a simulation](#paramemters-in-input.txtx-to-run-a-simulation)
 
