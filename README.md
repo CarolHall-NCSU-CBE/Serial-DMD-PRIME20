@@ -19,8 +19,8 @@ PRIME20 is a implicit-solvent and intermediate-resolution protein model that was
 
 ## Methods
 ### Coarse-grained model:
-PRIME20 is a four-bead CG model with three-bead to describe backbone and one-bead to describe sidechain. The three-bead backbone model is found to be a well balance between relatively realistic backbone geometry and model efficiency. Firstly, it can explicitly model hydrogen bonding in the backbone. Secondly, it allows modeling of secondary structure of polypeptide as dihedral angles can be described, calculated, and constrained in the sterically allowed spaced on the Ramachandran plot. The backbone beads are assigned different diameters and mass based on the realistic size of the groups they are presented in the model. The amine bead is positioned at the corresponding nitrogen atom, while carbon alpha and carbonyl bead are positioned at the respective carbon atom of that group. While the backbone is modeled with details, each sidechain is mapped into a single united bead that is positioned at the center of mass of the sidechain group. Sidechain masses are kept as realistic values, but the diameter of each sidechain is parameterized specifically for each sidechain-sidechain interaction. Cheon et al.[9] calculated radial distribution function histogram between each pair of sidechains from 711 pdb of natural proteins from Protein Data Bank and selected the first non-zero value of the radial distribution function to be the diameter of the pair. Cheon et al. tabulated a set of 171 bead diameters as glycine doesn’t have a sidechain. In summary, the diameter of the sidechain is not a constant value through the simulation but will be changed based on the interaction sidechain. 
-Covalent and pseudo bonds are implemented in the models to secure modeled polypeptides in realistic geometry of natural proteins. Three covalent bonds connect NH, CO, and R to CαH, and one covalent bond describes peptide bond linking two peptides together. These bonds are shown as solid black bonds in Fig. 1. The lengths of these bonds follow the corresponding distances in real proteins. Instead of using a set of bond angles, six pseudo bonds are assigned for both inter- and intra-residues to manage the peptide conformations as L-isomer and dihedral bond angles in the realistic observed regions. The pseudo bond that connects CαH-CαH is set at 3.8 Angstroms to restrain the trans configuration of the polypeptide. Currently, PRIME20 doesn’t consider cis configurations, therefore PRIME20 cannot model proline as accurately as other amino acids. Numeric values of these bond lengths are listed by Voegler, Smith and Hall.
+PRIME20 is a four-bead CG model with three-bead to describe backanalysis
+>**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
 ## Units:
 Table 1: Units that are used in `input.txt` and result analysis  
@@ -32,21 +32,6 @@ Table 1: Units that are used in `input.txt` and result analysis
 |temperature|K                                                         |
 |time       | microsecond                                              |
 
-## Requirement and Installation
-- The package has been developed since 2001 using Fortran90
-- The installation is through the terminal.
-- The source codes are in `/src/`. To compile, open a terminal and then navigate to the `/src/` directory on your local device. Once in `/src/` directory, create the executed files by enter the commands below.
-1. To create `initconfig` for generating initial configuration
->
- 	make -f genconfig.mk
-
-2. To create `DMDPRIME20` for DMD simulations
->
-	make -f dmd.mk
-
-- If there is no error return, check if `initconfig` andand `DMDPRIME20` are succesfully created in *src*
-- Obtain the paths to these executable files to use in job submission.
->**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
 ## Running simulation
 ### Getting Started   
@@ -186,9 +171,7 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 ## Analysis Package
 DMD-PRIME20 allows running simulations for hundred of microseconds. A simulation can take a month to complete and generates a big set of data as results. Therefore, most of data is written in binary and require extra step to extract data for specific analysis. The analysis package is included implemented to allow user to allow user access data of their choices. It's currently developed, new functions will be added based on user feedback.
 
-To create `DMDanalysis` to obtain results in readable format for data analysis, on your terminal, navigate to the DMD/PRIME20 source code and then execute the following command.
->
-	make -f dmd_analysis.mk
+
 
 After executable `DMDAnalysis` is created, the package can be used from running directory in the same location at input.txt file. Although analysis package can be run on the interactive termital, it is recommended to submit analysis job in the background or using a queuing system. It's can take from few seconds to few minutes to complete the task depending on how big result data set is. For a long simulation that take approximatly a month, result data set can be very big and required extra time for the analysis package to extract requested data.
 
