@@ -12,7 +12,7 @@
 
   	[Getting Started](#getting-started)
   
-  	[File and folder requirements](#file-and-folder-requirements)
+  	[I. File and folder requirements](#I.-file-and-folder-requirements)
   
   	[Paramemters in input.txtx to start a simulation](#paramemters-in-input.txtx-to-run-a-simulation)
 
@@ -63,7 +63,7 @@ Table 1: Units that are used in `input.txt` and result analysis
 
 ## Running simulation
 ### Getting Started:
-#### File and folder requirements
+#### I. File and folder requirements
 - All files and folders that are required for a complete simulation and data analysis can be found in directory **/example/** in the package. Names of files and folders need cannot be modified. The **input.txt**, **submission_script**. and required folders must be placed in the same directory for each individual simulation. 
 - Requirements for running simulation: **input.txt** and **submission_script**.
 > Format of **input.txt** must be followed exactly. **submission_script** should be written to suit the local device.
