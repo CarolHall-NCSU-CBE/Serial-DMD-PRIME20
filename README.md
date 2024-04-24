@@ -58,9 +58,13 @@ Table 1: Units that are used in `input.txt` and result analysis
 
 
 ## Running simulation
-### Getting Started   
-**/example/**: this directory contains an example of required file and subdirectories for a simulation using DMD/PRIME20.
-Requirements to start a simulation including **input.txt** and **parallelscript.csh** and 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`.
+### Getting Started:
+I. **Example:**
+**/example/**: this directory contains an example of required files for running a simulation using DMD/PRIME20, required folders for data recording, and all data from an example simulation
+- Requirements for running simulation: **input.txt** and **submission_script**.
+> Format of **input.txt** must be followed. **submission_script** should be written to suit the local device.
+
+- Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`.
 1. **input.txt**: Please follow the format to enter all parameters that are required for a simulation. The explanation for each parameters are also included in the file.
 	- **pep1** and **pep2** are sequences of the peptides that are simulated. It must be in abbrevating alphabetical format (e.g. pep1=GVLYVGS) . The current version can run simulations for system with single or double components; each with maximum length of 30 residues. If system contains single peptide sequence, then *pep1* and *pep2* must be the same in the 'input.txt'
 
