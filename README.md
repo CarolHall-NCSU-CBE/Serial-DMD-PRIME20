@@ -176,14 +176,7 @@ Table 3: Folders that are required for each simulation
 |`/inputs/`    | saving files to record residue id (`identity.inp` and `identity2.inp`), positions for each peptide sequence (`chninfo-n1.data` and `chninfo-n2.data`), reduced annealing temperatures (`annealtemp_*`), and reduced simulation temperature (`simtemp`)|   
 |`/outputs/`   | saving output files for each simulation round|
 |`/parameters/`| saving sidechain parameters generated from the inital configuration step that are required for simulation steps|
-|`/results/`   | saving simulation results including
-		 `*.bptnr`: collision, bond partner of each particle
-		 `*.config`: collision, time, particle coordinates
-		 `*.energy`: collision, time, kinetic energy, total energy, etc.
-		 `*.lastvel`: collision, velocities 
-		 `*.pdb`: pdb file
-		 `*.xyz`: trajectory files
-		 `*.rca:` distance from sidechain to each particle in the backbone of a residue|
+|`/results/`   | saving simulation results including: (1) `*.bptnr`: collision, bond partner of each particle; (2) *.config`: collision, time, particle coordinates; (3) `*.energy`: collision, time, kinetic energy, total energy, etc.; (4) `*.lastvel`: collision, velocities; (5) `*.pdb`: pdb file; (6) `*.xyz`: trajectory files; (7) `*.rca:` distance from sidechain to each particle in the backbone of a residue|
 |`/analysis/`  | saving all file outputs from using data analysis commands.|
 
 >**Note:** These files in the `/example/` directory contains results from a short simulation for your reference. When running a new simulation, these folders must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. `nohup.out` is an example of a logfile for the process of inital configuration generation. If your logfile looks similar to our example and no error is showed, the initial configuration is successulffy generated. This *nohup.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
