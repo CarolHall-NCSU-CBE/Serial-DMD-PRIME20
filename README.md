@@ -29,8 +29,8 @@ Different types of events might occur including excluded-volume events, bond eve
 ## Requirement and Installation
 - Requirement: Fortran F90 and Intel Fortran Compiler ifort
 - The installation is through the terminal.
-- The source codes are in /src/. To compile, open a terminal and then navigate to the /src/ directory on your local device. Once in /src/ directory, create the executed files by enter the commands below.
-- To create `initconfig` for generating initial configuration
+- The source codes are in ``/src/``. To compile, open a terminal and then navigate to the ``/src/`` directory on your local device. Once in ``/src/`` directory, create the executed files by enter the commands below.
+- To create ``initconfig`` for generating initial configuration
 >
 	make -f genconfig.mk
 
@@ -174,13 +174,13 @@ The corresponding example of a bash script that is used to submit a job for the 
 	- **Default annealing** (annealing = 0 in **input.txt**): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set the loops to **{1..9}**. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
  	- **User-defined annealing** (annealing = 1 in **input.txt**): The annealing process will be done with the temperature range and number of collision that are defined by user. If using this option, the number of annealing cycle is found as:
 
-$$ \text{annealingrounds} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
+$$ \text{annealing cycles} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
 
 - **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. The numbers of simulation rounds is specfied by the number in the brace brakets.
-	- If starting a new simulation: The **first number** in the brace brackets is **1**, and the **last number** in the brace brackets is the number of the simulation rounds to be run. For example, the submission script above will run simulation for 300 rounds. The total simulation time is determined by **rounds x coll**. For example, the number of collision for each round is 1 billion collisions. Simulation is requested to run for 300 rounds. Thus, the total simulation time is 300 billion collisions. It is recomended to run a simulation for about 100 billion collisions first and then extending simulation time if aggregation has not happened.
- 	- Continuing simulation or restarting crashed simulation: **start** = (the last completed simulation round + 1) and **end** = number of simulation rounds.
-  		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions set ``foreach i (`seq 101 200`)``
-		- For crashed or incomplete simulation: if the previous simulation was set for 100 simulation rounds, but for some reasons the simulation partilly finishes at 80 simulation rounds. User must delete all the output files relating to the incomplete simulation in */results/* and */outputs/* meaning that the last complete simulation is at the round 79. Then simultion can be restart by setting ``foreach i (`seq 80 100`)``. When restarting a simulation, generating initial configuration and annealing must be skipped.
+	- If starting a new simulation: The **first number** in the brace brackets is **1**, and the **last number** in the brace brackets is the number of the simulation rounds to be run. For example, the submission script above will run simulation for 300 rounds as the loop is specified {1..300}. The total simulation time is determined by **rounds x coll**. For example, the number of collision for each round is 1 billion collisions. Simulation is requested to run for 300 rounds. Thus, the total simulation time is 300 billion collisions. It is recomended to run a simulation for about 100 billion collisions first and then extending simulation time if aggregation has not happened.
+ 	- Continuing simulation or restarting crashed simulation: **first number** = (the last completed simulation round + 1) and **last number** = number of simulation rounds.
+  		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions by seting **{101 200}**
+		- For crashed or incomplete simulation: if the previous simulation was set for 100 simulation rounds, but for some reasons the simulation partially finishes at 80 simulation rounds. User must delete all the output files relating to the incomplete simulation in */results/* and */outputs/* meaning that the last complete simulation is at the round 79. Then simultion can be restart by setting **{80..100}**. When restarting a simulation, generating initial configuration and annealing must be skipped.
 - Both Annealing and DMD simulation are designed to utilize the benefit of parallel performance. Therefore, both commands are executed using `mpirun`. Both steps are computed using the executable file `DMDPRIME20`, so the path to this file is required to be specified similar to the example for `initconfig` Temperatures and number of collisions at each temperatures must be access from `/inputs/` directory and the output files will be saved in `/outputs/` directory. The names and locations of these files are designated and cannot be changed. 
  
 3. 5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
