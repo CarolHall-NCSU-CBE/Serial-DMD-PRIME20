@@ -7,10 +7,10 @@
 * [Requirement and Installation](#requirement-and-installation)
 * [Units](#units)
 * [Running Simulation](#running-simulation)
-  	- [Getting Started](#getting-started)
-  	 	- [Folders](#folders)	
+  	- [Getting Started](#getting-started)	
   	 	- [Input Parameters](#input-parameters)
   	  	- [Submission Script](#submission-script)
+  	  	- [Folders](#folders)
   	- [Simulation Procedure](#simulation-procedure)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
@@ -64,23 +64,6 @@ Table 1: Units that are used in `input.txt` and result analysis
 > Format of `input.txt` must be followed exactly. `submission_script` should be written to suit the local device.
 - Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`. These folders must be created at the beginning of a new simulation.
 - Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
-
-#### Folders:
-5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
-	- `/checks/`: files for checking if the initial configuration is created correctly
-	- `/inputs/`: files to record residue id (identity.inp and identity2.inp), positions for each peptide sequence (chninfo-n1.data and chninfo-n2.data), reduced annealing temperatures (annealtemp_*), and reduced simulation temperature (simtemp)   
-	- `/outputs/`: output files for each simulation round
-	- `/parameters/`: sidechain parameters generated from the inital configuration step that are required for simulation steps
-	- `/results/`:  simulation results for data analysis
-		a. .bptnr: collision, bond partner of each particle
-		b. .config: collision, time, particle coordinates
-		c. .energy: collision, time, kinetic energy, total energy, etc.
-		d. .lastvel: collision, velocities 
-		e. .pdb: pdb file
-		g. .xyz: trajectory files
-		f. .rca: distance from sidechain to each particle in the backbone of a residue
-
->Note: These subdirectories in the **/example/** directory contains results from a short simulation for your reference. When running a new simulation, these subdirectories must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. The **.out** file shows an example of successful initial configuration generation. If your screen-written output look like this and no error showed, the initial configuration is successulffy generated. This *.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
 
 #### Input Parameters:
 - These are parameters that must be specified in `input.txt` file to run DMD/PRIME20 simulations. Please follow the format to enter all parameters that are required. Missing a parameter or incorrect format will cause error and simulation cannot be run. Explanation for each parameter is included in the file.
@@ -183,6 +166,27 @@ The corresponding example of a bash script that is used to submit a job for the 
 	for i in {1..300}
 	do /path_to_DMDPRIME20/DMDPRIME20 < inputs/simtemp > outputs/out_simtemp_$i
 	done
+
+#### Folders:
+6 empty directories for data recording and data analysis must be created before submitting a job. The names of these directories must be exact.
+Table 3: Folders that are required for each simulation
+|Folder        | Description|
+|--------------|------------|
+|`/checks/`    | saving files for checking if the initial configuration is created correctly|
+|`/inputs/`    | saving files to record residue id (`identity.inp` and `identity2.inp`), positions for each peptide sequence (`chninfo-n1.data` and `chninfo-n2.data`), reduced annealing temperatures (`annealtemp_*`), and reduced simulation temperature (`simtemp`)|   
+|`/outputs/`   | saving output files for each simulation round|
+|`/parameters/`| saving sidechain parameters generated from the inital configuration step that are required for simulation steps|
+|`/results/`   | saving simulation results including
+		 `*.bptnr`: collision, bond partner of each particle
+		 `*.config`: collision, time, particle coordinates
+		 `*.energy`: collision, time, kinetic energy, total energy, etc.
+		 `*.lastvel`: collision, velocities 
+		 `*.pdb`: pdb file
+		 `*.xyz`: trajectory files
+		 `*.rca:` distance from sidechain to each particle in the backbone of a residue|
+|`/analysis/`  | saving all file outputs from using data analysis commands.|
+
+>**Note:** These files in the `/example/` directory contains results from a short simulation for your reference. When running a new simulation, these folders must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. `nohup.out` is an example of a logfile for the process of inital configuration generation. If your logfile looks similar to our example and no error is showed, the initial configuration is successulffy generated. This *nohup.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
 
 ### Simulation Procedure:
 - **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with `0000`. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
