@@ -9,6 +9,7 @@
 * [Running Simulation](#running-simulation)
   	- [Getting Started](#getting-started)
   		- [File and Folder Requirements](#file-and-folder-requirements)
+  	 	- [Folders](#folders)	
   	 	- [Input Parameters](#input-parameters)
   	  	- [Submission Script](#submission-script)
   	- [Simulation Procedure](#simulation-procedure)
@@ -60,14 +61,31 @@ Table 1: Units that are used in `input.txt` and result analysis
 ## Running simulation
 ### Getting Started:
 #### File and Folder Requirements:
-- All files and folders that are required for a complete simulation and data analysis can be found in directory **/example/** in the package. Names of files and folders need cannot be modified. The **input.txt**, **submission_script**. and required folders must be placed in the same directory for each individual simulation. 
-- Requirements for running simulation: **input.txt** and **submission_script**.
-> Format of **input.txt** must be followed exactly. **submission_script** should be written to suit the local device.
+- All files and folders that are required for a complete simulation and data analysis can be found in directory `/example/` in the package. Names of files and folders need cannot be modified. The `input.txt`, `submission_script`. and required folders must be placed in the same directory for each individual simulation. 
+- Requirements for running simulation: `input.txt` and `submission_script`.
+> Format of `input.txt` must be followed exactly. `submission_script` should be written to suit the local device.
 - Requirements for data recording: 5 empty directories to record simulation ouputs - `/checks/`, `/inputs/`, `/outputs/`, `/parameters/`, and `/results/`. These folders must be created at the beginning of a new simulation.
 - Requirement for data analysis: 1 empty directory to record data collected from using data analysis package - `analysis`
 
+#### Folders:
+5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
+	- `/checks/`: files for checking if the initial configuration is created correctly
+	- `/inputs/`: files to record residue id (identity.inp and identity2.inp), positions for each peptide sequence (chninfo-n1.data and chninfo-n2.data), reduced annealing temperatures (annealtemp_*), and reduced simulation temperature (simtemp)   
+	- `/outputs/`: output files for each simulation round
+	- `/parameters/`: sidechain parameters generated from the inital configuration step that are required for simulation steps
+	- `/results/`:  simulation results for data analysis
+		a. .bptnr: collision, bond partner of each particle
+		b. .config: collision, time, particle coordinates
+		c. .energy: collision, time, kinetic energy, total energy, etc.
+		d. .lastvel: collision, velocities 
+		e. .pdb: pdb file
+		g. .xyz: trajectory files
+		f. .rca: distance from sidechain to each particle in the backbone of a residue
+
+>Note: These subdirectories in the **/example/** directory contains results from a short simulation for your reference. When running a new simulation, these subdirectories must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. The **.out** file shows an example of successful initial configuration generation. If your screen-written output look like this and no error showed, the initial configuration is successulffy generated. This *.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
+
 #### Input Parameters:
-- These are parameters that must be specified in **input.txt** file to run DMD/PRIME20 simulations. Please follow the format to enter all parameters that are required. Missing a parameter or incorrect format will cause error and simulation cannot be run. Explanation for each parameter is included in the file.
+- These are parameters that must be specified in `input.txt` file to run DMD/PRIME20 simulations. Please follow the format to enter all parameters that are required. Missing a parameter or incorrect format will cause error and simulation cannot be run. Explanation for each parameter is included in the file.
 
 Table 2: Paremeters for DMD/PRIME20 simulation
 |Parameter                | Description                                                              |
@@ -78,13 +96,13 @@ Table 2: Paremeters for DMD/PRIME20 simulation
 |**T**                    | simulated temperature in *Kelvin*. When start simulations for a new system, it is recommended to run multiple simulations of the same system at different temperatures. Check the simulation results to select the temperature that predict high order peptide aggregation. The simulation might get stuck in local miminima if the temperature is too low, but there is no aggregation if the temperature is too low.|
 |**coll**                 | number of collisions for DMD/PRIME20 to finish a *round* and record simulation results. DMD/PRIME20 is designed to run and record data in complete separated rounds to avoid large data files and to allow the simulation to restart if it is crashed midway. As DMD is discontinous molecular dynamics simulation, collsion (coll) is used instead of timestep. Collision will be converted to real time when running data analysis package. There is not a fix value in real time for a collision.|
 |**trajrecord**           | frequency in collision as when to record bead positions for making trajectory file| 
-|**annealing**            | the current version allows annealing simulation with a default set of temperatures (**annealing = 0**) or a user-defined temperatures (**annealing = 1**). If **annealing = 0**, no extra parameter is needed; the number of annealing cycle is *9*. If **annealing = 1**, *four* additional parameters are required as follows:|
+|**annealing**            | the current version allows annealing simulation with a default set of temperatures (`annealing = 0`) or a user-defined temperatures (`annealing = 1`). If `annealing = 0`, no extra parameter is needed; the number of annealing cycle is **9**. If `annealing = 1`, **four** additional parameters are required as follows:|
 |**startingtemp**         | starting temperature for the annealing process (in *Kelvin*)|
 |**endingtemp**           | ending temperature for the annealing process (in *Kelvin*)|
 |**tempstep**             | temperature drop after each annealing cycle (in *Kelvin*)|
 |**annealingcoll**        | number of collisions to complete each annealing cycle. Recommended value is from 100 million to 250 million collisions|
 
->**Note:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the very end of **input.txt**: 
+>**Note:** If an error is returned and the simulation is terminated during the generating of initital configuration. Adding another parameter to the very end of `input.txt`: 
 >
 > **<div align="center"> sidechainmove = value that is larger than 3.0 </div>** 
 >	
@@ -96,7 +114,7 @@ $$ boxlength = (\frac{\text{Total number of peptide chains}*1000}{\text{Avogadro
 
 where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 
-- An example of **input.txt** that includes parameters for are use-defined annealing temperature is below. If running simulaiton with default annealing temperature, set annealing = 0 and delete all parameter below that line.
+- An example of `input.txt` that includes parameters for are use-defined annealing temperature is below. If running simulaiton with default annealing temperature, set `annealing = 0` and delete all parameter below that line.
 >
 	Peptide sequence 1
 
@@ -142,7 +160,7 @@ where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 	
  	annealingcoll = 100000000
   
-#### Submission Script 
+#### Submission Script: 
 The corresponding example of a bash script that is used to submit a job for the system above to a workstation without queuing system is as below. This file will need to be modified according to users' computer system.
 >
 	#!/bin/bash
@@ -169,35 +187,19 @@ The corresponding example of a bash script that is used to submit a job for the 
 	done
 
 ### Simulation Procedure:
-- **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with *0000*. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
+- **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with `0000`. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
 - **Annealing**: This step is to heat up the initial system to very high temperature and then slowly cool it down to near simulation temperature. This step is only required for simulation of a completely new system. The purpose of this step is to make sure all peptide chains are denatured and simulation starts with all random coils. There are two options for annealing:
-	- **Default annealing** (annealing = 0 in **input.txt**): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set the loops to **{1..9}**. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
- 	- **User-defined annealing** (annealing = 1 in **input.txt**): The annealing process will be done with the temperature range and number of collision that are defined by user. If using this option, the number of annealing cycle is found as:
+	- **Default annealing** (`annealing = 0` in `input.txt`): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set the loops to `{1..9}`. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
+ 	- **User-defined annealing** (`annealing = 1` in `input.txt`): The annealing process will be done with the temperature range and number of collision that are defined by user. If using this option, the number of annealing cycle is found as:
 
 $$ \text{annealing cycles} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
 
 - **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. The numbers of simulation rounds is specfied by the number in the brace brakets.
-	- If starting a new simulation: The **first number** in the brace brackets is **1**, and the **last number** in the brace brackets is the number of the simulation rounds to be run. For example, the submission script above will run simulation for 300 rounds as the loop is specified {1..300}. The total simulation time is determined by **rounds x coll**. For example, the number of collision for each round is 1 billion collisions. Simulation is requested to run for 300 rounds. Thus, the total simulation time is 300 billion collisions. It is recomended to run a simulation for about 100 billion collisions first and then extending simulation time if aggregation has not happened.
- 	- Continuing simulation or restarting crashed simulation: **first number** = (the last completed simulation round + 1) and **last number** = number of simulation rounds.
-  		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions by seting **{101 200}**
-		- For crashed or incomplete simulation: if the previous simulation was set for 100 simulation rounds, but for some reasons the simulation partially finishes at 80 simulation rounds. User must delete all the output files relating to the incomplete simulation in */results/* and */outputs/* meaning that the last complete simulation is at the round 79. Then simultion can be restart by setting **{80..100}**. When restarting a simulation, generating initial configuration and annealing must be skipped.
-- Both Annealing and DMD simulation are designed to utilize the benefit of parallel performance. Therefore, both commands are executed using `mpirun`. Both steps are computed using the executable file `DMDPRIME20`, so the path to this file is required to be specified similar to the example for `initconfig` Temperatures and number of collisions at each temperatures must be access from `/inputs/` directory and the output files will be saved in `/outputs/` directory. The names and locations of these files are designated and cannot be changed. 
- 
-3. 5 empty directories for data recording must be created before submitting a job. The names of these directories must be exact.
-	- `/checks/`: files for checking if the initial configuration is created correctly
-	- `/inputs/`: files to record residue id (identity.inp and identity2.inp), positions for each peptide sequence (chninfo-n1.data and chninfo-n2.data), reduced annealing temperatures (annealtemp_*), and reduced simulation temperature (simtemp)   
-	- `/outputs/`: output files for each simulation round
-	- `/parameters/`: sidechain parameters generated from the inital configuration step that are required for simulation steps
-	- `/results/`:  simulation results for data analysis
-		a. .bptnr: collision, bond partner of each particle
-		b. .config: collision, time, particle coordinates
-		c. .energy: collision, time, kinetic energy, total energy, etc.
-		d. .lastvel: collision, velocities 
-		e. .pdb: pdb file
-		g. .xyz: trajectory files
-		f. .rca: distance from sidechain to each particle in the backbone of a residue
-
->Note: These subdirectories in the **/example/** directory contains results from a short simulation for your reference. When running a new simulation, these subdirectories must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. The **.out** file shows an example of successful initial configuration generation. If your screen-written output look like this and no error showed, the initial configuration is successulffy generated. This *.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
+	- If starting a new simulation: The `first number` in the brace brackets is `1`, and the `last number` in the brace brackets is `the number of the simulation rounds to be run`. For example, the submission script above will run simulation for 300 rounds as the loop is specified {1..300}. The total simulation time is determined by `rounds x coll`. For example, the number of collision for each round is 1 billion collisions. Simulation is requested to run for 300 rounds. Thus, the total simulation time is 300 billion collisions. It is recomended to run a simulation for about 100 billion collisions first and then extending simulation time if aggregation has not happened.
+ 	- Continuing simulation or restarting crashed simulation: `first number = (the last completed simulation round + 1)` and `last number = number of simulation rounds`.
+  		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions by seting `{101 200}`
+		- For crashed or incomplete simulation: if the previous simulation was set for 100 simulation rounds, but for some reasons the simulation partially finishes at 80 simulation rounds. User must delete all the output files relating to the incomplete simulation in */results/* and */outputs/* meaning that the last complete simulation is at the round 79. Then simultion can be restart by setting `{80..100}`.
+> **Note:** When restarting a simulation, generating initial configuration and annealing must be skipped. The commands for these steps must be deleted or commented out from the submission script.
 
 ### Submit a job:
 Steps to submit a simulation is as follow. These steps are after the package is succesfully installed on your device and *the path to executable file is obtained*.
