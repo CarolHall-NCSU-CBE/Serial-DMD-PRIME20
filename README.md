@@ -157,7 +157,8 @@ The corresponding example of a bash script that is used to submit a job for the 
 	# Generate initial configuration for new simulation:
 	/path_to_initconfig/initconfig
 
-	# Annealing (the numbers in brace brackets indicate annealing cycles. DMD/PRIME20 needs to run 6 cycles to reduce temperature from 1000K to 375K with 		# the decrement of 125K after each cycle. If using default annealing temperatures, replace by {1..9}):	
+	# Annealing (the numbers in brace brackets indicate annealing cycles. DMD/PRIME20 needs to run 6 cycles to reduce temperature from 1000K to 375K with the decrement of 125K after each cycle. 		
+	# If using default annealing temperatures, replace by {1..9}):	
 	for i in {1..6}
 	do /path_to_DMDPRIME20/DMDPRIME20 < inputs/annealtemp_$i > outputs/out_annealtemp_$i
 	done
@@ -175,8 +176,8 @@ The corresponding example of a bash script that is used to submit a job for the 
 
 $$ \text{annealingrounds} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
 
-- **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. Each simulation round will be run for a number of **coll** specied in **input.txt**.
-	- Starting a new simulation: **start** = 1 and **end** = number of simulation rounds. The total simulation time is equal **coll** times **end**, so the value of **end** is dependent on how long user wants to run the simulation for and how often user wants to record outputs. It is recomended to run simulations for about 100 billion collisions first and then extending simulation times if aggregation has not happened. For example, if running for 100 simulation rounds then set ``foreach i (`seq 1 100`)``
+- **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. The numbers of simulation rounds is specfied by the number in the brace brakets.
+	- If starting a new simulation: The **first number** in the brace brackets is **1**, and the **last number** in the brace brackets is the number of the simulation rounds to be run. For example, the submission script above will run simulation for 300 rounds. The total simulation time is determined by **rounds x coll**. For example, the number of collision for each round is 1 billion collisions. Simulation is requested to run for 300 rounds. Thus, the total simulation time is 300 billion collisions. It is recomended to run a simulation for about 100 billion collisions first and then extending simulation time if aggregation has not happened.
  	- Continuing simulation or restarting crashed simulation: **start** = (the last completed simulation round + 1) and **end** = number of simulation rounds.
   		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions set ``foreach i (`seq 101 200`)``
 		- For crashed or incomplete simulation: if the previous simulation was set for 100 simulation rounds, but for some reasons the simulation partilly finishes at 80 simulation rounds. User must delete all the output files relating to the incomplete simulation in */results/* and */outputs/* meaning that the last complete simulation is at the round 79. Then simultion can be restart by setting ``foreach i (`seq 80 100`)``. When restarting a simulation, generating initial configuration and annealing must be skipped.
