@@ -11,6 +11,7 @@
   		- [File and Folder Requirements](#file-and-folder-requirements)
   	 	- [Input Parameters](#input-parameters)
   	  	- [Submission Script](#submission-script)
+  	- [Simulation Procedure](#simulation-procedure)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#Analysis-Package)
 * [Developing Status](#developing-status)
@@ -141,7 +142,7 @@ where *Concentration* is in *mM* and *boxlength* is in *Angstrom*|
 	
  	annealingcoll = 100000000
   
-#### Submission Script
+#### Submission Script 
 The corresponding example of a bash script that is used to submit a job for the system above to a workstation without queuing system is as below. This file will need to be modified according to users' computer system.
 >
 	#!/bin/bash
@@ -166,6 +167,7 @@ The corresponding example of a bash script that is used to submit a job for the 
 	do /path_to_DMDPRIME20/DMDPRIME20 < inputs/simtemp > outputs/out_simtemp_$i
 	done
 
+### Simulation Procedure:
 - **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with *0000*. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
 - **Annealing**: This step is to heat up the initial system to very high temperature and then slowly cool it down to near simulation temperature. This step is only required for simulation of a completely new system. The purpose of this step is to make sure all peptide chains are denatured and simulation starts with all random coils. There are two options for annealing:
 	- **Default annealing** (annealing = 0 in **input.txt**): The annealing process will be done with a default set of temperatures. These temperatures are used in many simulations since the software was developed. If using default annealing, set the loops to **{1..9}**. This means the anneanling process runs at 9 different temperatures. The temperatures and number of collision at each temperature can be found in */inputs/* directory.
@@ -174,8 +176,6 @@ The corresponding example of a bash script that is used to submit a job for the 
 $$ \text{annealingrounds} = \frac{\text{startingtemp - endingtemp}}{\text{tempstep}} + 1 $$
 
 - **DMD Simulation**: This is the DMD simulation step. The number of simulation rounds must be specified. Each simulation round will be run for a number of **coll** specied in **input.txt**.
-
-**Complete formating till this point**
 	- Starting a new simulation: **start** = 1 and **end** = number of simulation rounds. The total simulation time is equal **coll** times **end**, so the value of **end** is dependent on how long user wants to run the simulation for and how often user wants to record outputs. It is recomended to run simulations for about 100 billion collisions first and then extending simulation times if aggregation has not happened. For example, if running for 100 simulation rounds then set ``foreach i (`seq 1 100`)``
  	- Continuing simulation or restarting crashed simulation: **start** = (the last completed simulation round + 1) and **end** = number of simulation rounds.
   		- For countinuing simulation: if the previous simulation ends after 100 simulation rounds, then to countinue the simulation to 200 simulation collisions set ``foreach i (`seq 101 200`)``
