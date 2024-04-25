@@ -47,7 +47,7 @@ Obtain the paths to these executable files to use in job submission.
 >**Note:** if redownload the package or update a new version, the previous steps need to be redo.
 
 ## Units
-Table 1: Units that are used in `input.txt` and result analysis  
+**Table 1:** Units that are used in `input.txt` and result analysis  
 |Quantity   |Unit                                                      |
 |-----------|----------------------------------------------------------|
 |boxlength  | Angstrom                                                 |
@@ -68,7 +68,7 @@ Table 1: Units that are used in `input.txt` and result analysis
 #### Input Parameters:
 - These are parameters that must be specified in `input.txt` file to run DMD/PRIME20 simulations. Please follow the format to enter all parameters that are required. Missing a parameter or incorrect format will cause error and simulation cannot be run. Explanation for each parameter is included in the file.
 
-Table 2: Paremeters for DMD/PRIME20 simulation
+**Table 2:** Paremeters for DMD/PRIME20 simulation
 |Parameter                | Description                                                              |
 |-------------------------|--------------------------------------------------------------------------|
 |**pep1** and **pep2**    | sequences of the peptides that are simulated. It must be in abbrevating alphabetical format (e.g. pep1=GVLYVGS). The current version can run simulations for system with single or double components; each has maximum length of 30 residues. If system contains single peptide sequence, then *pep1* and *pep2* are the same in the 'input.txt'|
@@ -169,14 +169,15 @@ The corresponding example of a bash script that is used to submit a job for the 
 
 #### Folders:
 6 empty directories for data recording and data analysis must be created before submitting a job. The names of these directories must be exact.
-Table 3: Folders that are required for each simulation
+
+**Table 3:** Folders that are required for each simulation
 |Folder        | Description|
 |--------------|------------|
 |`/checks/`    | saving files for checking if the initial configuration is created correctly|
 |`/inputs/`    | saving files to record residue id (`identity.inp` and `identity2.inp`), positions for each peptide sequence (`chninfo-n1.data` and `chninfo-n2.data`), reduced annealing temperatures (`annealtemp_*`), and reduced simulation temperature (`simtemp`)|   
 |`/outputs/`   | saving output files for each simulation round|
 |`/parameters/`| saving sidechain parameters generated from the inital configuration step that are required for simulation steps|
-|`/results/`   | saving simulation results including: (1) `*.bptnr`: collision, bond partner of each particle; (2) *.config`: collision, time, particle coordinates; (3) `*.energy`: collision, time, kinetic energy, total energy, etc.; (4) `*.lastvel`: collision, velocities; (5) `*.pdb`: pdb file; (6) `*.xyz`: trajectory files; (7) `*.rca:` distance from sidechain to each particle in the backbone of a residue|
+|`/results/`   | saving simulation results including: (1) `*.bptnr`: collision, bond partner of each particle; (2) `*.config`: collision, time, particle coordinates; (3) `*.energy`: collision, time, kinetic energy, total energy, etc.; (4) `*.lastvel`: collision, velocities; (5) `*.pdb`: pdb file; (6) `*.xyz`: trajectory files; (7) `*.rca:` distance from sidechain to each particle in the backbone of a residue|
 |`/analysis/`  | saving all file outputs from using data analysis commands.|
 
 >**Note:** These files in the `/example/` directory contains results from a short simulation for your reference. When running a new simulation, these folders must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. `nohup.out` is an example of a logfile for the process of inital configuration generation. If your logfile looks similar to our example and no error is showed, the initial configuration is successulffy generated. This *nohup.out* file must be deleted before any simulation if it exists to avoid being confused by old data.
