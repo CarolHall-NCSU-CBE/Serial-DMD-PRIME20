@@ -11,6 +11,8 @@
   	 	- [Input Parameters](#input-parameters)
   	  	- [Submission Script](#submission-script)
   	  	- [Folders](#folders)
+  	  	- [Files in /results/ Folder](#files-in-/results/-folder)
+  	  	- [Files in `/outputs/` Folder](#files-in-/outputs/-folder)
   	- [Simulation Procedure](#simulation-procedure)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#analysis-package)
@@ -177,11 +179,30 @@ The corresponding example of a bash script that is used to submit a job for the 
 |`/inputs/`    | saving files to record residue id (`identity.inp` and `identity2.inp`), positions for each peptide sequence (`chninfo-n1.data` and `chninfo-n2.data`), reduced annealing temperatures (`annealtemp_*`), and reduced simulation temperature (`simtemp`)|   
 |`/outputs/`   | saving output files for each simulation round|
 |`/parameters/`| saving sidechain parameters generated from the inital configuration step that are required for simulation steps|
-|`/results/`   | saving simulation results including: (1) `*.bptnr`: collision, bond partner of each particle; (2) `*.config`: collision, time, particle coordinates; (3) `*.energy`: collision, time, kinetic energy, total energy, etc.; (4) `*.lastvel`: collision, velocities; (5) `*.pdb`: pdb file; (6) `*.xyz`: trajectory files; (7) `*.rca:` distance from sidechain to each particle in the backbone of a residue|
+|`/results/`   | saving simulation results. Details are listed in Table 4|
 |`/analysis/`  | saving all file outputs from using data analysis commands.|
 
 >**Note:** These files in the `/example/` directory contains results from a short simulation for your reference. When running a new simulation, these folders must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. `nohup.out` is an example of a logfile for the process of inital configuration generation. If your logfile looks similar to our example and no error is showed, the initial configuration is successulffy generated. This `nohup.out` file must be deleted before any simulation if it exists to avoid being confused by old data.
 
+#### Files in `/results/` FFolder:
+- All results from simulation are saved in the folder '/results/'. There are 7 types of result data
+**Table 4:** Result file extensions
+|File extension| Description|
+|--------------|------------|
+|`*.bptnr`     | saving collision, bond partner of each particle|
+|`*.config`    | saving collision, time, particle coordinates|
+|`*.energy`    | saving collision, time, kinetic energy, total energy, etc.|
+|`*.lastvel`   | saving collision, velocities|
+|`*.pdb`       | pdb file at the end of each simulation round|
+|`*.xyz`       | saving position for trajectory|
+|`*.rca`       | distance from sidechain to each particle in the backbone of a residue|
+
+**File numbering**
+- Files with same extension are numbered in ascending order. Data that is generated from initial configuration generation is numbered 0000. Data from annealing process is numbered starting from 1 till the last annealing cycle. In the above example, 6 annealing cycles are run so the data for annealing is saved from 0001 to 0006 corresponding to short DMD simulations at different temperatures. Results from production simulation are numbered continuously from annealing cycle. In the example above, DMD simulation is run for 300 rounds, so the files are numbered from 0007 to 0306.
+
+#### Files in `/outputs/` Folder:
+- output logs are numbered different from results. There is currently no log for the initial configuration generation. The annealing process is named in the format *out_annealtemp_#* while the simulation prcess is named as *out_simtemp_#* where the # side is the corresponding simulation round.
+  
 ### Simulation Procedure:
 - **Generate initial configuration for new simulation**: This step is to create a cubic box that contents the number of peptide chains defined by users, position and velocity of each particles. Outputs of this step are saved in `/inputs/`, `/parameters/`, and `/results/` directories. In `/results/`, output files from generating inital configuration are named with `0000`. These files are required for any DMD/PRIME20 simulation and need to be available in their designated locations. If restarting or resuming a simulation, this step is skipped as long as the initial configuration files are available. The path to the executable file `initconfig` must be specifed. For example: If you save the package to `/home/user/DMD-PRIME20` then the path to executable file will be `/home/user/DMD-PRIME20/src/`. Your submission script will look like: `/home/user/DMD-PRIME20/src**/initconfig`
 - **Annealing**: This step is to heat up the initial system to very high temperature and then slowly cool it down to near simulation temperature. This step is only required for simulation of a completely new system. The purpose of this step is to make sure all peptide chains are denatured and simulation starts with all random coils. There are two options for annealing:
@@ -205,14 +226,12 @@ Steps to submit a simulation is as follow. These steps are after the package is 
 4. Submit job. It is not recommended to run DMD/PRIME20 on a login node as a job can take days to finish. Use a submission script to submit job to background or to a queuing system.
 
 ## Analysis Package
-DMD-PRIME20 allows running simulations for hundred of microseconds. A simulation can take a month to complete and generates a big set of data as results. Therefore, most of data is written in binary and require extra step to extract data for specific analysis. The analysis package is included implemented to allow user to allow user access data of their choices. It's currently developed, new functions will be added based on user feedback.
+DMD/PRIME20 allows running simulations for hundred of microseconds. A simulation can take a month to complete and generates a big set of data as results. Therefore, most of data is written in binary and require extra step to extract data for specific analysis. The analysis package is included to allow users to access data of their choices. It's currently being developed, new functions will be added based on users' feedbacks.
 
-
-
-After executable `DMDAnalysis` is created, the package can be used from running directory in the same location at input.txt file. Although analysis package can be run on the interactive termital, it is recommended to submit analysis job in the background or using a queuing system. It's can take from few seconds to few minutes to complete the task depending on how big result data set is. For a long simulation that take approximatly a month, result data set can be very big and required extra time for the analysis package to extract requested data.
+After executable `DMDAnalysis` is created, the package can be used from running directory in the same location at input.txt file. Although analysis package can be run on the interactive termital, it is recommended to submit analysis job in the background or using a queuing system. It's can take from few seconds to few minutes to complete the task depending on how big result data set is. For a long simulation that take approximatly a month, result data set can be very big and requires extra time for the analysis to complete.
 
 ### Using analysis package:
-Directory `analysis` must be created in the running directory (same location as the `results` and `output` directories) to store result files. Except the trajectory file that is in `.xyz` format (`.xtc` in future), all other data will be imported in `.txt` files and can be read by any tools of your choice. 
+Directory `analysis` must be created in the running directory (same location as the `results`, `output`, etc. directories) to store result files. Except the trajectory file that is in `.xyz` format, and PDB files, all other data will be imported in `.txt` files and can be read by any tools of your choice. 
 ### Energy vs time:
 >
 	path_to_DMDanalysis/DMDanalysis evst start_file end_file
