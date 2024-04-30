@@ -6,11 +6,11 @@
  Number of residues in peptide 2:   7
  Number of Glycines in peptide 2:   2
  Number of peptide 2 chains in the system:  24
- Box length in Angstrom:   159.0
+ Box length in Angstrom:   200.0
  Simulation temperature in Kelvin:   310.0
  Simulation temperature in reduced unit:   0.186
+ Result recording frequency in collisions:        1000000000
  Result recording frequency in collisions:         100000000
- Result recording frequency in collisions:            100000
  Annealing process is run with default temperature from 1028K to 388K.
  
 first value should be less than the 0.01 tolerance
@@ -33,9 +33,9 @@ if not, adjust d1 d2 d3 values in sidechain adjustment section
   6  0.0015   0.0150   0.1750   0.3750   0.6535   1.9071   1.9671
   7  0.0012   0.2750   0.2150   0.3300   1.9678   2.6501   2.8003
  Maximum Sigma   4.00000000000000     
- These should be less than   159.000000000000     
- X-direction   158.782297777224     
- Y-direction   158.755522246179     
- Z-direction   158.645957265924     
+ These should be less than   200.000000000000     
+ X-direction   199.491326852506     
+ Y-direction   199.881258686261     
+ Z-direction   198.847661042684     
  Desired reduced temperature  0.500000000000000     
  New reduced temperature  0.499999999999999     
