@@ -104,6 +104,7 @@
 					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
 				endif
 				do while (.true.)
+					hb_alpha = 0
 					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
 					realtemp = tred/12*2288.467-115.79
 					e_kin = tred*dble(noptotal)*3.d0*0.5d0
@@ -127,8 +128,9 @@
 			colltotal = 0.0
 			ttotal = 0
 			open(428, file='analysis/hbvst'//initfile//'to'//endfile//'.txt',status='unknown',position='append')
-			write(428,'(a25,a20,a11,a19)') 'collisions(billions)','time(microsecond)','total hb','interpeptide hb'
-			write(428,'(a77)') '============================================================================'
+			!open(426, file='analysis/test.txt',status='unknown',position='append')
+			write(428,'(a25,a20,a11,a19,a11)') 'collisions(billions)','time(microsecond)','total hb','interpeptide hb','hb_alpha'
+			write(428,'(a90)') '========================================================================================'
 			do i = start, end
 				fname_digits = char(i/1000+izero)//char(mod(i,1000)/100+izero)//char(mod(i,100)/10+izero)//char(mod(i,10)+izero)
 				input1 = 'results/run'//fname_digits//'.energy'
@@ -138,12 +140,18 @@
 				endif
 				do while (.true.)
 					read(rune,'(i15,4f12.4,3i8,4f12.4)') coll,t,redtemp,ered,tred,hb_alpha,hb_ii,hb_ij,ehh_ii,ehh_ij,rg_avg,e2e_avg
-					write(428,'(f15.4,f24.4,2i15)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),(hb_ii+hb_ij),hb_ij
+					write(428,'(f15.4,f24.4,3i15)') (colltotal+real(coll)/1000000000.0d0),(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12),(hb_ii+hb_ij),hb_ij,hb_alpha
+					collinbill = (colltotal+real(coll)/1000000000.0d0)
+					call readbptnr
+					call hb_dssp(hb_alpha)
+					!write(426,*) collinbill,(ttotal+t)*0.96*0.001*3.3/sqrt(redtemp*12), hb_alpha
 					if((coll.gt.0).and.(mod(coll,10000000).eq.0)) goto 102
 				enddo
 102				close(rune)
 				ttotal=ttotal+t
 				colltotal = colltotal+real(coll)/1000000000.0d0
+			
+			
 			enddo
 !!!!!!! Sidechain-sidechain interaction energy vs time: 
 		elseif (arg(1) .eq. 'scvst') then
@@ -394,3 +402,4 @@
 #include "cluster.f"
 #include "phipsi_analysis.f"
 #include "removepbc.f"
+#include "hb_dssp.f"
