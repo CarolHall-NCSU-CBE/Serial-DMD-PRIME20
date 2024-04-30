@@ -16,6 +16,11 @@
   	- [Simulation Procedure](#simulation-procedure)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#analysis-package)
+  	- [Energy vs Time](#energy-vs-time)
+  	- [Hydrogen Bonding vs Time](#hydrogen-bonding-vs-time)
+  	- [Cluster Formation vs Time](#cluster-formation-vs-time)
+  	- [Trajectory](#trajectory)
+  	- [PDB Files](#pdb-files)
 * [Developing Status](#developing-status)
 ## Introduction
 PRIME20 is a implicit-solvent and intermediate-resolution protein model that was developed by the Hall group at North Carolina State University. The model is designed to use with discontinuous molecular dynamics (DMD) simulations to investigate self-assembly of short peptides from their random denatured states. PRIME20 contains pair-wise interaction parameters of all twenty natural amino acid. In PRIME20, each amino acid is represented by four beads: one for the amino group (NH), one for the alpha carbon (CαH), one for the carbonyl group (CO), and one for the side chain (R). DMD/PRIME20 simulation systems are canonical ensemble (NVT) with constant number of molecules (N), simulation box volume (V) and simulation temperature (T). Temperature is maintaned by using Anderson thermostat. Neutral pH water solvent is described implicitly within the force-field. Peptides that are built and simulated by PRIME20 are capped at both terminus. DMD/PRIME20 has been used successfully to simulate spontaneous α-helix, β-sheet, and amyloid fibril formation starting from the denatured conformations of peptides such as prion proteins fragments[1][2], tau protein fragments[3], Aβ16-22 peptides[4-7], and  Aβ17-36 peptides[8]. DMD/PRIME20 is also used with PepAD - a peptide design software, to discover amyloid-forming peptides [9].
@@ -231,29 +236,43 @@ DMD/PRIME20 allows running simulations for hundred of microseconds. A simulation
 
 After executable `DMDAnalysis` is created, the package can be used from running directory in the same location at input.txt file. Although analysis package can be run on the interactive termital, it is recommended to submit analysis job in the background or using a queuing system. It's can take from few seconds to few minutes to complete the task depending on how big result data set is. For a long simulation that take approximatly a month, result data set can be very big and requires extra time for the analysis to complete.
 
-### Using analysis package:
+**Using analysis package:**
 Directory `analysis` must be created in the running directory (same location as the `results`, `output`, etc. directories) to store result files. Except the trajectory file that is in `.xyz` format, and PDB files, all other data will be imported in `.txt` files and can be read by any tools of your choice. 
-### Energy vs time:
+
+### Energy vs Time:
 >
 	path_to_DMDanalysis/DMDanalysis evst start_file end_file
 
-A file that is named in the format of `evst//start_file//to//end_file//.txt` is created in the `analysis` directory. The file has 6 collumns in the order of: collisions, time, temperature, total energy (Etotal), kinectic energy (KE) and interaction potential enerrgy (PE). As PRIME20 simulation process includes 2 steps - anneanling and simulation, users have choice to include or exclude the annealing process in the report. In the bash script used for job submition, users have defined the number of annealing rounds so they can choose the value for start_file the analysis from `0001` to include annealing or from `annealinground+1` to exclude the annealing process. The end_file can be anyfile that user wish to stop the analysis at. 
+A file that is named in the format of `evst//start_file//to//end_file//.txt` is created in the `analysis` directory. The file has 6 collumns in the order of: collisions, time, temperature, total energy (Etotal), kinectic energy (KE) and interaction potential enerrgy (PE). As PRIME20 simulation process includes 2 steps - anneanling and simulation, users have choice to include or exclude the annealing process in the report. In the bash script used for job submition, users have defined the number of annealing cycles so they can choose the value for start_file from `0001` to include annealing or from `annealingcycle+1` to exclude the annealing process. The end_file can be anyfile that user wish to stop the analysis at. 
 
 
-### Hydrogen bonding vs time:
+### Hydrogen Bonding vs Time:
 >
 	path_to_DMDanalysis/DMDanalysis hbvst start_file end_file
 
 A file that is named in the format of `hbvst//start_file//to//end_file//.txt` is created in the `analysis` directory. The file has 4 columns in the order of: collisions, time, total hydrogen bonds and interpeptide hydrogen bonds formed during the simulations. Choice of start_file and end_file is similar to energy vs time.
 
-### Pdb file at any recorded time:
+### Cluster Formation vs TTime:
+>
+	path_to_DMDanalysis/DMDanalysis cluster start_file end_file
+
+Return the number of monomer, oligomers, and fibrils form during the simulation. This sesstion is been revised and will be updated in the near future. 
+
+### Trajectory:
+>
+	path_to_DMDanalysis/DMDanalysis traj start_file end_file
+
+Currently, our trajectory is recorded in the xyz format. Therefore, the file size is very large comparing to other binary format. We recommend that small trajectory should be done for the considered time-range instead of generating a whole trajectory for the entire simulation. We will update method for generating trajectory with different format in the near future. 
+
+### PDB Files:
 >
 	path_to_DMDanalysis/DMDanalysis pdb number_of_collisions_in_billions
 
-DMD/PRIME20 allows simulation of hundered of microseconds, therfore, the results would be very large if we recorded data at every steps. In addition, bond vibrations happen more often than the main events, therefore, there is not much to observed if recorded too often. PRIME20 records coordinate of the whole system corresponding to the recording of energy and hydrogen bonding. Therefore, it is required that the input of `number_of_collisions_in_billions` must be exactly the same as the collision that is recorded in either `evst` or `hbvst` 
+Generating PDB file at any recorded point in the simulation. The number_of_collision_in_billions can be get from energy or hydrogen bonding file.
+
 
 ## Developing Status
-The software is being developed and updated. An result analysis package will be updated soon.
+The analysis package is being developed and updated.
 
 ## References:
 [1] Wang, Y., Shao, Q., and Hall, C. K. N-terminal Prion Protein Peptides (PrP(120–144)) Form Parallel In-register β-Sheets via Multiple Nucleation-dependent Pathways. Journal of Biological Chemistry. Vol. 292, Issue 50. (2016). https://doi.org/10.1074/jbc.M116.744573
