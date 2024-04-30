@@ -11,8 +11,8 @@
   	 	- [Input Parameters](#input-parameters)
   	  	- [Submission Script](#submission-script)
   	  	- [Folders](#folders)
-  	  	- [Files in /results/ Folder](#files-in-/results/-folder)
-  	  	- [Files in /outputs/ Folder](#files-in-/outputs/-folder)
+  	  	- [Result Files](#results-files)
+  	  	- [Output Logs](#output-logs)
   	- [Simulation Procedure](#simulation-procedure)
   	- [Submit A Job](#submit-a-job)
 * [Analysis Package](#analysis-package)
@@ -184,8 +184,9 @@ The corresponding example of a bash script that is used to submit a job for the 
 
 >**Note:** These files in the `/example/` directory contains results from a short simulation for your reference. When running a new simulation, these folders must be empty to avoid incorrectly data appending. When running a continuing simulation, keep all results from previous simulation in these directories. `nohup.out` is an example of a logfile for the process of inital configuration generation. If your logfile looks similar to our example and no error is showed, the initial configuration is successulffy generated. This `nohup.out` file must be deleted before any simulation if it exists to avoid being confused by old data.
 
-#### Files in /results/ Folder:
+#### Results Files:
 - All results from simulation are saved in the folder '/results/'. There are 7 types of result data
+
 **Table 4:** Result file extensions
 |File extension| Description|
 |--------------|------------|
@@ -200,7 +201,7 @@ The corresponding example of a bash script that is used to submit a job for the 
 **File numbering**
 - Files with same extension are numbered in ascending order. Data that is generated from initial configuration generation is numbered 0000. Data from annealing process is numbered starting from 1 till the last annealing cycle. In the above example, 6 annealing cycles are run so the data for annealing is saved from 0001 to 0006 corresponding to short DMD simulations at different temperatures. Results from production simulation are numbered continuously from annealing cycle. In the example above, DMD simulation is run for 300 rounds, so the files are numbered from 0007 to 0306.
 
-#### Files in /outputs/ Folder:
+#### Output Logs:
 - output logs are numbered different from results. There is currently no log for the initial configuration generation. The annealing process is named in the format *out_annealtemp_#* while the simulation prcess is named as *out_simtemp_#* where the # side is the corresponding simulation round.
   
 ### Simulation Procedure:
